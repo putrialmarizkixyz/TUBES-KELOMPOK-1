@@ -1,6 +1,3 @@
--- Database Sistem Informasi Manajemen Laundry (sesuai rancangan Tugas 3)
--- Cara pakai: phpMyAdmin > Import, atau: mysql -u root < db_laundry.sql
-
 CREATE DATABASE IF NOT EXISTS db_laundry CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE db_laundry;
 
@@ -70,8 +67,6 @@ CREATE TABLE tb_laporan (
   FOREIGN KEY (dibuat_oleh) REFERENCES tb_pengguna(id_pengguna)
 );
 
--- ===== DATA AWAL =====
--- Semua akun contoh memakai password: password
 INSERT INTO tb_pengguna (nama,email,password,no_telepon,alamat,role) VALUES
 ('Admin Laundry','admin@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081200000001','Palu','admin'),
 ('Petugas Satu','petugas@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081200000002','Palu','petugas'),

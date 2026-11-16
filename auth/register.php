@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Email sudah terdaftar.';
         } else {
             $hash = password_hash($pw, PASSWORD_DEFAULT);
-            // Registrasi publik SELALU berperan pelanggan. Petugas/admin dibuat oleh admin.
             $ins = mysqli_prepare($conn, "INSERT INTO tb_pengguna (nama,email,password,no_telepon,alamat,role) VALUES (?,?,?,?,?,'pelanggan')");
             mysqli_stmt_bind_param($ins, 'sssss', $nama, $email, $hash, $telp, $alamat);
             mysqli_stmt_execute($ins);

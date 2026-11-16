@@ -1,5 +1,4 @@
 <?php
-// Proses form DULU (sebelum ada output HTML) supaya redirect header() bisa jalan.
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['pelanggan']);
 $judul = 'Buat Pesanan';
@@ -12,7 +11,7 @@ while ($row = mysqli_fetch_assoc($r)) $layanan[(int)$row['id_layanan']] = $row;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $berat   = $_POST['berat'] ?? [];
     $catatan = $_POST['catatan'] ?? [];
-    $pilih = [];   // id_layanan => [berat, catatan]
+    $pilih = [];   
 
     foreach ($layanan as $idl => $l) {
         $b = str_replace(',', '.', trim($berat[$idl] ?? ''));
@@ -32,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $total = 0; $jam_max = 0;
             foreach ($pilih as $idl => [$b, $c]) {
-                $total += $b * $layanan[$idl]['harga_per_kg'];   // harga dihitung di server, bukan dari form
+                $total += $b * $layanan[$idl]['harga_per_kg'];   
                 $jam_max = max($jam_max, (int)$layanan[$idl]['estimasi_selesai']);
             }
             $estimasi = date('Y-m-d H:i:s', strtotime("+$jam_max hours"));

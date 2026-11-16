@@ -5,7 +5,6 @@ require __DIR__ . '/_header.php';
 $id_pesanan = (int)($_GET['id'] ?? 0);
 $idp = (int)$_SESSION['id_pengguna'];
 
-// Hanya boleh melihat pesanan milik sendiri
 $q = mysqli_prepare($conn, 'SELECT * FROM tb_pesanan WHERE id_pesanan = ? AND id_pengguna = ?');
 mysqli_stmt_bind_param($q, 'ii', $id_pesanan, $idp);
 mysqli_stmt_execute($q);

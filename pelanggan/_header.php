@@ -1,5 +1,4 @@
 <?php
-// Kerangka atas halaman pelanggan. Pakai: $judul = '...'; require '_header.php';
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['pelanggan']);
 ?>

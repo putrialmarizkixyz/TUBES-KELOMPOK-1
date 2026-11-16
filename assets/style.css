@@ -1,0 +1,41 @@
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f3f6fa;color:#222}
+body.auth{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
+.card{background:#fff;padding:28px;border-radius:12px;width:100%;max-width:380px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.card h1{margin:0 0 4px}
+.sub{color:#667;font-size:14px;margin:0 0 14px}
+label{display:block;margin:10px 0 4px;font-size:14px}
+label.cek{font-size:13px;color:#555}
+input,textarea{width:100%;padding:10px;border:1px solid #ccd;border-radius:8px;font:inherit}
+button{width:100%;margin-top:16px;padding:11px;border:0;border-radius:8px;background:#1b6ef3;color:#fff;font-size:15px;cursor:pointer}
+button:hover{background:#1558c4}
+.alert{background:#fde8e8;color:#a11;padding:10px;border-radius:8px;font-size:14px;margin-bottom:6px}
+.alert.ok{background:#e6f7ea;color:#14662b}
+.foot{text-align:center;font-size:14px;margin-top:14px}
+.top{background:#1b6ef3;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.top a{color:#fff}
+main{padding:20px;max-width:900px;margin:auto}
+.menu{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.menu li{background:#fff;padding:18px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+/* ---- Modul pelanggan ---- */
+.top nav{display:flex;gap:14px;flex-wrap:wrap}
+.menu a{color:inherit;text-decoration:none;display:block;font-weight:bold}
+.menu li:hover{box-shadow:0 4px 12px rgba(27,110,243,.25)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:14px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #eef}
+th{background:#eaf1fe}
+.tbl-wrap{overflow-x:auto}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;background:#e8eefc;color:#1b4fb8}
+.badge.menunggu{background:#fff3d6;color:#8a5a00}
+.badge.selesai,.badge.siap_diambil,.badge.lunas{background:#e6f7ea;color:#14662b}
+.badge.belum_bayar{background:#fde8e8;color:#a11}
+.btn{display:inline-block;padding:9px 16px;border-radius:8px;background:#1b6ef3;color:#fff;text-decoration:none;font-size:14px}
+.btn:hover{background:#1558c4}
+.panel{background:#fff;padding:18px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
+.row-layanan{display:grid;grid-template-columns:2fr 1fr 2fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #eef}
+.row-layanan small{color:#667;display:block}
+@media(max-width:640px){.row-layanan{grid-template-columns:1fr}}
+.total{font-size:18px;font-weight:bold;margin-top:12px}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.steps span{padding:5px 12px;border-radius:20px;background:#e8eaf0;color:#667;font-size:13px}
+.steps span.done{background:#1b6ef3;color:#fff}

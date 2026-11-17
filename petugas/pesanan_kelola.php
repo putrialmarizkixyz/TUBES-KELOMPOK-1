@@ -20,6 +20,13 @@ function ambil_detail($conn, $id_pesanan) {
     return mysqli_fetch_all(mysqli_stmt_get_result($q), MYSQLI_ASSOC);
 }
 
+function sudah_lunas($conn, $id_pesanan) {
+    $q = mysqli_prepare($conn, "SELECT 1 FROM tb_pembayaran WHERE id_pesanan = ? AND status_bayar = 'lunas' LIMIT 1");
+    mysqli_stmt_bind_param($q, 'i', $id_pesanan);
+    mysqli_stmt_execute($q);
+    return (bool)mysqli_fetch_row(mysqli_stmt_get_result($q));
+}
+
 $p = ambil_pesanan($conn, $id_pesanan, $idpt);
 if (!$p) { http_response_code(404); die('Pesanan tidak ditemukan atau bukan pesanan Anda.'); }
 $detail = ambil_detail($conn, $id_pesanan);
@@ -33,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($aksi === 'timbang') {
         if ($p['status'] !== 'diterima') {
             $error = 'Berat hanya dapat diubah saat status "Diterima" (sebelum proses pencucian).';
+        } elseif (sudah_lunas($conn, $id_pesanan)) {
+            $error = 'Pesanan sudah dibayar lunas, sehingga berat dan harga tidak dapat diubah lagi.';
         } else {
             $berat = $_POST['berat'] ?? [];
             $baru = [];
@@ -51,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $u = mysqli_prepare($conn, 'UPDATE tb_detail_laundry SET berat_aktual = ?, subtotal = ? WHERE id_detail = ? AND id_pesanan = ?');
                     foreach ($detail as $d) {
                         $b = $baru[$d['id_detail']];
-                        $sub = $b * $d['harga_per_kg'];          // harga pasti = berat aktual x harga per kg
+                        $sub = round($b * $d['harga_per_kg'], 2);   // harga pasti = berat aktual x harga per kg
                         $total += $sub;
                         $jam_max = max($jam_max, hitung_estimasi_jam($d['jam_dasar'], $b)); // estimasi otomatis
                         mysqli_stmt_bind_param($u, 'ddii', $b, $sub, $d['id_detail'], $id_pesanan);
@@ -83,7 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $u = mysqli_prepare($conn, 'UPDATE tb_pesanan SET status = ? WHERE id_pesanan = ? AND id_petugas = ? AND status = ?');
             mysqli_stmt_bind_param($u, 'siis', $berikut, $id_pesanan, $idpt, $p['status']);
             mysqli_stmt_execute($u);
-            $ok = 'Status diperbarui menjadi: ' . label_status($berikut) . '.';
+            if (mysqli_stmt_affected_rows($u) > 0) {
+                $ok = 'Status diperbarui menjadi: ' . label_status($berikut) . '.';
+            } else {
+                $error = 'Status tidak berubah karena pesanan sudah diperbarui sebelumnya. Data dimuat ulang.';
+            }
         }
     }
 
@@ -96,7 +109,7 @@ $posisi = array_search($p['status'], $tahap, true);
 $berikut = $tahap[$posisi + 1] ?? null;
 $sudah_timbang = true;
 foreach ($detail as $d) if ($d['berat_aktual'] === null) $sudah_timbang = false;
-$bisa_timbang = ($p['status'] === 'diterima');
+$bisa_timbang = ($p['status'] === 'diterima' && !sudah_lunas($conn, $id_pesanan));
 
 require __DIR__ . '/_header.php';
 ?>

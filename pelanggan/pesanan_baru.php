@@ -114,7 +114,7 @@ require __DIR__ . '/_header.php';
                 </div>
 
                 <p class="order-description">
-                    <?= e($l['keterangan']) ?>
+                    <?= e(trim(explode(',', $l['keterangan'])[0])) ?>
                 </p>
 
                 <div class="order-input">

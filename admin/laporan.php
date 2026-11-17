@@ -17,10 +17,23 @@ $ok = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $r = rekap($conn, $bulan);            // dihitung ulang dari database, bukan dari input form
     $n = (int)$r['n']; $total = (float)$r['total']; $admin = (int)$_SESSION['id_pengguna'];
-    $s = mysqli_prepare($conn, 'INSERT INTO tb_laporan (periode, total_transaksi, total_pendapatan, dibuat_oleh) VALUES (?,?,?,?)');
-    mysqli_stmt_bind_param($s, 'sidi', $bulan, $n, $total, $admin);
-    mysqli_stmt_execute($s);
-    $ok = 'Laporan periode ' . $bulan . ' berhasil disimpan.';
+    // Satu laporan per periode: jika sudah ada, diperbarui dengan angka terbaru (bukan ditambah baris baru)
+    $c = mysqli_prepare($conn, 'SELECT id_laporan FROM tb_laporan WHERE periode = ? ORDER BY id_laporan DESC LIMIT 1');
+    mysqli_stmt_bind_param($c, 's', $bulan);
+    mysqli_stmt_execute($c);
+    $ada = mysqli_fetch_assoc(mysqli_stmt_get_result($c));
+    if ($ada) {
+        $idl = (int)$ada['id_laporan'];
+        $s = mysqli_prepare($conn, 'UPDATE tb_laporan SET total_transaksi = ?, total_pendapatan = ?, dibuat_oleh = ?, tanggal_dibuat = NOW() WHERE id_laporan = ?');
+        mysqli_stmt_bind_param($s, 'idii', $n, $total, $admin, $idl);
+        mysqli_stmt_execute($s);
+        $ok = 'Laporan periode ' . $bulan . ' sudah ada dan diperbarui dengan data terbaru.';
+    } else {
+        $s = mysqli_prepare($conn, 'INSERT INTO tb_laporan (periode, total_transaksi, total_pendapatan, dibuat_oleh) VALUES (?,?,?,?)');
+        mysqli_stmt_bind_param($s, 'sidi', $bulan, $n, $total, $admin);
+        mysqli_stmt_execute($s);
+        $ok = 'Laporan periode ' . $bulan . ' berhasil disimpan.';
+    }
 }
 
 $rekap = rekap($conn, $bulan);

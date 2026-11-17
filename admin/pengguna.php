@@ -43,6 +43,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ok = 'Peran akun diperbarui.';
         }
     }
+
+    if ($aksi === 'ubah') {
+        $id = (int)($_POST['id_pengguna'] ?? 0);
+        $nama = trim($_POST['nama'] ?? ''); $email = trim($_POST['email'] ?? '');
+        $telp = trim($_POST['no_telepon'] ?? ''); $alamat = trim($_POST['alamat'] ?? '');
+        if ($id <= 0 || $nama === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = 'Nama dan email yang valid wajib diisi.';
+        } else {
+            $c = mysqli_prepare($conn, 'SELECT 1 FROM tb_pengguna WHERE email = ? AND id_pengguna <> ?');
+            mysqli_stmt_bind_param($c, 'si', $email, $id);
+            mysqli_stmt_execute($c);
+            if (mysqli_fetch_row(mysqli_stmt_get_result($c))) {
+                $error = 'Email tersebut sudah dipakai akun lain.';
+            } else {
+                $s = mysqli_prepare($conn, 'UPDATE tb_pengguna SET nama = ?, email = ?, no_telepon = ?, alamat = ? WHERE id_pengguna = ?');
+                mysqli_stmt_bind_param($s, 'ssssi', $nama, $email, $telp, $alamat, $id);
+                mysqli_stmt_execute($s);
+                $ok = 'Data akun diperbarui.';
+            }
+        }
+    }
+
+    if ($aksi === 'reset') {
+        $id = (int)($_POST['id_pengguna'] ?? 0); $pw = $_POST['password_baru'] ?? '';
+        if (strlen($pw) < 6) {
+            $error = 'Password baru minimal 6 karakter.';
+        } else {
+            $hash = password_hash($pw, PASSWORD_DEFAULT);
+            $s = mysqli_prepare($conn, 'UPDATE tb_pengguna SET password = ? WHERE id_pengguna = ?');
+            mysqli_stmt_bind_param($s, 'si', $hash, $id);
+            mysqli_stmt_execute($s);
+            $ok = 'Password akun berhasil direset.';
+        }
+    }
+
+    if ($aksi === 'hapus') {
+        $id = (int)($_POST['id_pengguna'] ?? 0);
+        if ($id === $saya) {
+            $error = 'Anda tidak dapat menghapus akun Anda sendiri.';
+        } else {
+            try {
+                $s = mysqli_prepare($conn, 'DELETE FROM tb_pengguna WHERE id_pengguna = ?');
+                mysqli_stmt_bind_param($s, 'i', $id);
+                if (mysqli_stmt_execute($s)) $ok = 'Akun dihapus.';
+                else $error = 'Akun ini sudah memiliki riwayat pesanan atau laporan sehingga tidak dapat dihapus.';
+            } catch (Throwable $ex) {
+                $error = 'Akun ini sudah memiliki riwayat pesanan atau laporan sehingga tidak dapat dihapus.';
+            }
+        }
+    }
+}
+
+$edit = null;
+if (isset($_GET['edit'])) {
+    $s = mysqli_prepare($conn, 'SELECT * FROM tb_pengguna WHERE id_pengguna = ?');
+    $ide = (int)$_GET['edit'];
+    mysqli_stmt_bind_param($s, 'i', $ide);
+    mysqli_stmt_execute($s);
+    $edit = mysqli_fetch_assoc(mysqli_stmt_get_result($s));
 }
 
 $filter = $_GET['role'] ?? '';
@@ -59,6 +118,20 @@ require __DIR__ . '/_header.php';
 <h2>Pengguna &amp; Hak Akses</h2>
 <?php if ($error): ?><div class="alert"><?= e($error) ?></div><?php endif; ?>
 <?php if ($ok): ?><div class="alert ok"><?= e($ok) ?></div><?php endif; ?>
+
+<?php if ($edit): ?>
+<form method="post" class="panel">
+  <h3>Ubah Data Akun</h3>
+  <input type="hidden" name="aksi" value="ubah">
+  <input type="hidden" name="id_pengguna" value="<?= (int)$edit['id_pengguna'] ?>">
+  <label>Nama</label><input name="nama" required value="<?= e($edit['nama']) ?>">
+  <label>Email</label><input type="email" name="email" required value="<?= e($edit['email']) ?>">
+  <label>No. telepon</label><input name="no_telepon" maxlength="15" value="<?= e($edit['no_telepon']) ?>">
+  <label>Alamat</label><textarea name="alamat" rows="2"><?= e($edit['alamat']) ?></textarea>
+  <button type="submit">Simpan Perubahan</button>
+  <p><a href="pengguna.php">Batal ubah</a></p>
+</form>
+<?php endif; ?>
 
 <form method="post" class="panel">
   <h3>Tambah Akun</h3>
@@ -79,7 +152,7 @@ require __DIR__ . '/_header.php';
 </p>
 <div class="tbl-wrap">
 <table>
-  <tr><th>Nama</th><th>Email</th><th>Telepon</th><th>Peran</th><th>Ubah peran</th></tr>
+  <tr><th>Nama</th><th>Email</th><th>Telepon</th><th>Peran</th><th>Ubah peran</th><th>Aksi</th></tr>
   <?php while ($u = mysqli_fetch_assoc($daftar)): ?>
   <tr>
     <td><?= e($u['nama']) ?></td>
@@ -94,6 +167,22 @@ require __DIR__ . '/_header.php';
         <input type="hidden" name="id_pengguna" value="<?= (int)$u['id_pengguna'] ?>">
         <select name="role" style="width:auto"><?php foreach ($roles as $r): ?><option value="<?= $r ?>" <?= $u['role'] === $r ? 'selected' : '' ?>><?= ucfirst($r) ?></option><?php endforeach; ?></select>
         <button type="submit" style="width:auto;margin:0 0 0 6px;padding:4px 10px">Simpan</button>
+      </form>
+      <?php endif; ?>
+    </td>
+    <td>
+      <a href="pengguna.php?edit=<?= (int)$u['id_pengguna'] ?>">Ubah data</a>
+      <form method="post" style="margin:6px 0 0">
+        <input type="hidden" name="aksi" value="reset">
+        <input type="hidden" name="id_pengguna" value="<?= (int)$u['id_pengguna'] ?>">
+        <input type="password" name="password_baru" placeholder="Password baru" minlength="6" required style="width:auto">
+        <button type="submit" style="width:auto;margin:0 0 0 6px;padding:4px 10px">Reset</button>
+      </form>
+      <?php if ((int)$u['id_pengguna'] !== $saya): ?>
+      <form method="post" style="margin:6px 0 0" onsubmit="return confirm('Hapus akun ini?')">
+        <input type="hidden" name="aksi" value="hapus">
+        <input type="hidden" name="id_pengguna" value="<?= (int)$u['id_pengguna'] ?>">
+        <button type="submit" style="width:auto;margin:0;padding:4px 10px">Hapus</button>
       </form>
       <?php endif; ?>
     </td>

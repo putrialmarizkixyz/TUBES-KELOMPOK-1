@@ -23,6 +23,8 @@ wajib_login(['petugas']);
 
     <nav class="app-nav">
         <a href="<?= BASE_URL ?>/petugas/dashboard.php">Beranda</a>
+        <a href="<?= BASE_URL ?>/petugas/pesanan_masuk.php">Pesanan Masuk</a>
+        <a href="<?= BASE_URL ?>/petugas/pesanan_aktif.php">Pesanan Saya</a>
     </nav>
 
     <div class="app-user">
@@ -51,39 +53,39 @@ wajib_login(['petugas']);
 
         <div class="dashboard-menu">
 
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pesanan_masuk.php'">
                 <div class="dashboard-icon blue">📥</div>
                 <div>
                     <h3>Pesanan Masuk</h3>
                     <p>Melihat daftar pesanan dari pelanggan.</p>
-                    <span class="menu-status">Segera tersedia</span>
+                    <a class="menu-status" href="pesanan_masuk.php">Buka &rarr;</a>
                 </div>
             </div>
 
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pesanan_aktif.php'">
                 <div class="dashboard-icon purple">⚖️</div>
                 <div>
                     <h3>Input Berat Aktual</h3>
                     <p>Mencatat berat cucian setelah ditimbang.</p>
-                    <span class="menu-status">Segera tersedia</span>
+                    <a class="menu-status" href="pesanan_aktif.php">Buka &rarr;</a>
                 </div>
             </div>
 
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pesanan_aktif.php'">
                 <div class="dashboard-icon orange">🔄</div>
                 <div>
                     <h3>Update Status Pengerjaan</h3>
                     <p>Memperbarui tahapan proses laundry.</p>
-                    <span class="menu-status">Segera tersedia</span>
+                    <a class="menu-status" href="pesanan_aktif.php">Buka &rarr;</a>
                 </div>
             </div>
 
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pesanan_aktif.php'">
                 <div class="dashboard-icon green">📦</div>
                 <div>
                     <h3>Konfirmasi Siap Diambil</h3>
                     <p>Menandai pesanan yang sudah siap diambil.</p>
-                    <span class="menu-status">Segera tersedia</span>
+                    <a class="menu-status" href="pesanan_aktif.php">Buka &rarr;</a>
                 </div>
             </div>
 

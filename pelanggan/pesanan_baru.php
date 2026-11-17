@@ -58,37 +58,141 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 require __DIR__ . '/_header.php';
 ?>
-<h2>Buat Pesanan</h2>
-<p class="sub">Isi perkiraan berat pada layanan yang diinginkan. Harga pasti ditentukan setelah petugas menimbang cucian.</p>
-<?php if ($error): ?><div class="alert"><?= e($error) ?></div><?php endif; ?>
 
-<form method="post" class="panel">
-  <?php foreach ($layanan as $idl => $l): ?>
-  <div class="row-layanan">
-    <div>
-      <strong><?= e($l['nama_layanan']) ?></strong>
-      <small><?= rupiah($l['harga_per_kg']) ?>/kg &middot; estimasi <?= (int)$l['estimasi_selesai'] ?> jam</small>
-      <small><?= e($l['keterangan']) ?></small>
+<section class="order-page">
+
+    <div class="order-heading">
+        <div>
+            <span class="order-label">PEMESANAN LAUNDRY</span>
+            <h1>Buat Pesanan Baru</h1>
+            <p>Pilih layanan laundry sesuai kebutuhan Anda dan masukkan perkiraan berat pakaian.</p>
+        </div>
+        <div class="order-heading-icon">🧺</div>
     </div>
-    <input type="number" name="berat[<?= $idl ?>]" step="0.1" min="0" max="100" placeholder="Berat (kg)"
-           data-harga="<?= (float)$l['harga_per_kg'] ?>" value="<?= e($_POST['berat'][$idl] ?? '') ?>">
-    <input type="text" name="catatan[<?= $idl ?>]" maxlength="200" placeholder="Catatan (opsional)" value="<?= e($_POST['catatan'][$idl] ?? '') ?>">
-  </div>
-  <?php endforeach; ?>
-  <div class="total">Perkiraan total: <span id="total">Rp 0</span></div>
-  <button type="submit">Kirim Pesanan</button>
-</form>
+
+    <?php if ($error): ?>
+        <div class="alert"><?= e($error) ?></div>
+    <?php endif; ?>
+
+    <form method="post" class="order-form">
+
+        <div class="order-section-title">
+            <div>
+                <h2>Pilih Layanan Laundry</h2>
+                <p>Isi berat pakaian pada layanan yang ingin digunakan.</p>
+            </div>
+            <span class="order-count"><?= count($layanan) ?> Layanan</span>
+        </div>
+
+        <div class="order-grid">
+
+            <?php foreach ($layanan as $idl => $l): ?>
+
+            <div class="order-card">
+
+                <div class="order-card-top">
+                    <div class="order-icon">🧼</div>
+                    <span class="order-tag">Tersedia</span>
+                </div>
+
+                <h3><?= e($l['nama_layanan']) ?></h3>
+
+                <div class="order-price">
+                    <strong><?= rupiah($l['harga_per_kg']) ?></strong>
+                    <span>/ kg</span>
+                </div>
+
+                <div class="order-estimate">
+                    <span>⏱️</span>
+                    <div>
+                        <small>Estimasi selesai</small>
+                        <strong><?= (int)$l['estimasi_selesai'] ?> jam</strong>
+                    </div>
+                </div>
+
+                <p class="order-description">
+                    <?= e($l['keterangan']) ?>
+                </p>
+
+                <div class="order-input">
+                    <label>Perkiraan berat pakaian (kg)</label>
+                    <input
+                        type="number"
+                        name="berat[<?= $idl ?>]"
+                        step="0.1"
+                        min="0"
+                        max="100"
+                        placeholder="Contoh: 3"
+                        data-harga="<?= (float)$l['harga_per_kg'] ?>"
+                        value="<?= e($_POST['berat'][$idl] ?? '') ?>"
+                    >
+                </div>
+
+                <div class="order-input">
+                    <label>Catatan tambahan</label>
+                    <input
+                        type="text"
+                        name="catatan[<?= $idl ?>]"
+                        maxlength="200"
+                        placeholder="Catatan (opsional)"
+                        value="<?= e($_POST['catatan'][$idl] ?? '') ?>"
+                    >
+                </div>
+
+            </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+        <div class="order-summary">
+            <div>
+                <span class="order-summary-label">TOTAL PERKIRAAN BIAYA</span>
+                <div class="total">
+                    <span id="total">Rp 0</span>
+                </div>
+                <p>Harga akhir ditentukan setelah petugas menimbang pakaian.</p>
+            </div>
+
+            <button type="submit" class="order-submit">
+                Kirim Pesanan <span>→</span>
+            </button>
+        </div>
+
+    </form>
+
+    <div class="order-note">
+        <strong>Informasi:</strong>
+        Berat yang dimasukkan merupakan perkiraan. Total pembayaran dapat berubah
+        setelah petugas melakukan penimbangan berat aktual.
+    </div>
+
+</section>
 
 <script>
 const inputs = document.querySelectorAll('input[data-harga]');
+
 function hitung() {
-  let t = 0;
-  inputs.forEach(i => { const b = parseFloat(String(i.value).replace(',', '.')); if (b > 0) t += b * parseFloat(i.dataset.harga); });
-  document.getElementById('total').textContent = 'Rp ' + Math.round(t).toLocaleString('id-ID');
+    let t = 0;
+
+    inputs.forEach(i => {
+        const b = parseFloat(String(i.value).replace(',', '.'));
+
+        if (b > 0) {
+            t += b * parseFloat(i.dataset.harga);
+        }
+    });
+
+    document.getElementById('total').textContent =
+        'Rp ' + Math.round(t).toLocaleString('id-ID');
 }
+
 inputs.forEach(i => i.addEventListener('input', hitung));
+
 hitung();
 </script>
+
 <?php require __DIR__ . '/_footer.php'; ?>

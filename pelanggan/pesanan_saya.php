@@ -8,21 +8,129 @@ mysqli_stmt_bind_param($q, 'i', $id);
 mysqli_stmt_execute($q);
 $hasil = mysqli_stmt_get_result($q);
 ?>
-<h2>Pesanan Saya</h2>
-<div class="tbl-wrap">
-<table>
-  <tr><th>No.</th><th>Tanggal</th><th>Status</th><th>Estimasi Selesai</th><th>Total</th><th></th></tr>
-  <?php $ada = false; while ($p = mysqli_fetch_assoc($hasil)): $ada = true; ?>
-  <tr>
-    <td>#<?= (int)$p['id_pesanan'] ?></td>
-    <td><?= e(date('d/m/Y H:i', strtotime($p['tanggal_pesan']))) ?></td>
-    <td><span class="badge <?= e($p['status']) ?>"><?= e(label_status($p['status'])) ?></span></td>
-    <td><?= $p['estimasi_selesai'] ? e(date('d/m/Y H:i', strtotime($p['estimasi_selesai']))) : '-' ?></td>
-    <td><?= rupiah($p['total_harga']) ?></td>
-    <td><a href="pesanan_detail.php?id=<?= (int)$p['id_pesanan'] ?>">Detail</a></td>
-  </tr>
-  <?php endwhile; ?>
-  <?php if (!$ada): ?><tr><td colspan="6">Belum ada pesanan. <a href="pesanan_baru.php">Buat pesanan pertama</a>.</td></tr><?php endif; ?>
-</table>
+
+<section class="history-heading">
+    <span class="welcome-label">RIWAYAT TRANSAKSI</span>
+    <h1>Pesanan Saya</h1>
+    <p>Pantau status dan lihat riwayat pesanan laundry Anda.</p>
+</section>
+
+<?php
+$total_pesanan = 0;
+$pesanan_aktif = 0;
+$pesanan_selesai = 0;
+?>
+
+<?php
+// Data pesanan akan dihitung saat ditampilkan di bawah.
+?>
+
+<div class="history-summary">
+    <div class="history-stat">
+        <span class="history-stat-icon">📋</span>
+        <div>
+            <small>Total Pesanan</small>
+            <strong id="jumlah-total">0</strong>
+        </div>
+    </div>
+    <div class="history-stat">
+        <span class="history-stat-icon">⏳</span>
+        <div>
+            <small>Pesanan Aktif</small>
+            <strong id="jumlah-aktif">0</strong>
+        </div>
+    </div>
+    <div class="history-stat">
+        <span class="history-stat-icon">✓</span>
+        <div>
+            <small>Pesanan Selesai</small>
+            <strong id="jumlah-selesai">0</strong>
+        </div>
+    </div>
 </div>
+
+<section class="history-section">
+    <div class="history-section-heading">
+        <div>
+            <h2>Daftar Pesanan</h2>
+            <p>Informasi seluruh transaksi laundry Anda.</p>
+        </div>
+        <a href="pesanan_baru.php" class="history-add-button">+ Buat Pesanan</a>
+    </div>
+
+    <div class="history-list">
+        <?php
+        $ada = false;
+        while ($p = mysqli_fetch_assoc($hasil)):
+            $ada = true;
+            $total_pesanan++;
+
+            if (in_array($p['status'], ['selesai', 'siap_diambil'])) {
+                $pesanan_selesai++;
+            } else {
+                $pesanan_aktif++;
+            }
+        ?>
+
+        <div class="history-card">
+            <div class="history-card-top">
+                <div>
+                    <span class="history-order-label">NOMOR PESANAN</span>
+                    <h3>#<?= (int)$p['id_pesanan'] ?></h3>
+                </div>
+
+                <span class="badge <?= e($p['status']) ?>">
+                    <?= e(label_status($p['status'])) ?>
+                </span>
+            </div>
+
+            <div class="history-card-info">
+                <div>
+                    <small>Tanggal Pesanan</small>
+                    <strong><?= e(date('d/m/Y H:i', strtotime($p['tanggal_pesan']))) ?></strong>
+                </div>
+
+                <div>
+                    <small>Estimasi Selesai</small>
+                    <strong>
+                        <?= $p['estimasi_selesai']
+                            ? e(date('d/m/Y H:i', strtotime($p['estimasi_selesai'])))
+                            : '-' ?>
+                    </strong>
+                </div>
+
+                <div>
+                    <small>Total Biaya</small>
+                    <strong class="history-price"><?= rupiah($p['total_harga']) ?></strong>
+                </div>
+            </div>
+
+            <div class="history-card-bottom">
+                <span>Detail transaksi dan proses laundry</span>
+                <a href="pesanan_detail.php?id=<?= (int)$p['id_pesanan'] ?>">
+                    Lihat Detail →
+                </a>
+            </div>
+        </div>
+
+        <?php endwhile; ?>
+
+        <?php if (!$ada): ?>
+        <div class="history-empty">
+            <div class="empty-icon">📦</div>
+            <h3>Belum Ada Pesanan</h3>
+            <p>Anda belum memiliki transaksi laundry. Silakan buat pesanan pertama Anda.</p>
+            <a href="pesanan_baru.php" class="history-add-button">Buat Pesanan Sekarang</a>
+        </div>
+        <?php endif; ?>
+    </div>
+</section>
+
+<script>
+document.getElementById('jumlah-total').textContent = <?= $total_pesanan ?>;
+document.getElementById('jumlah-aktif').textContent = <?= $pesanan_aktif ?>;
+document.getElementById('jumlah-selesai').textContent = <?= $pesanan_selesai ?>;
+</script>
+
 <?php require __DIR__ . '/_footer.php'; ?>
+

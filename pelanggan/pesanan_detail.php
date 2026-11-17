@@ -20,37 +20,124 @@ $tahap = ['menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','si
 $posisi = array_search($p['status'], $tahap, true);
 $sudah_timbang = false;
 ?>
-<?php if (!empty($_GET['baru'])): ?>
-  <div class="alert ok">Pesanan berhasil dibuat. Nomor pesanan Anda: <strong>#<?= $id_pesanan ?></strong>. Menunggu konfirmasi petugas.</div>
-<?php endif; ?>
 
-<h2>Pesanan #<?= $id_pesanan ?></h2>
-<div class="panel">
-  <div class="steps">
-    <?php foreach ($tahap as $i => $t): ?>
-      <span class="<?= $i <= $posisi ? 'done' : '' ?>"><?= e(label_status($t)) ?></span>
-    <?php endforeach; ?>
-  </div>
-  <p>Dipesan: <?= e(date('d/m/Y H:i', strtotime($p['tanggal_pesan']))) ?><br>
-     Estimasi selesai: <?= $p['estimasi_selesai'] ? e(date('d/m/Y H:i', strtotime($p['estimasi_selesai']))) : '-' ?></p>
-</div>
+<section class="detail-page">
 
-<div class="tbl-wrap">
-<table>
-  <tr><th>Layanan</th><th>Harga/kg</th><th>Berat perkiraan</th><th>Berat aktual</th><th>Subtotal</th><th>Catatan</th></tr>
-  <?php while ($d = mysqli_fetch_assoc($detail)): if ($d['berat_aktual'] !== null) $sudah_timbang = true; ?>
-  <tr>
-    <td><?= e($d['nama_layanan']) ?></td>
-    <td><?= rupiah($d['harga_per_kg']) ?></td>
-    <td><?= e(rtrim(rtrim($d['berat_perkiraan'], '0'), '.')) ?> kg</td>
-    <td><?= $d['berat_aktual'] !== null ? e(rtrim(rtrim($d['berat_aktual'], '0'), '.')) . ' kg' : 'Belum ditimbang' ?></td>
-    <td><?= rupiah($d['subtotal']) ?></td>
-    <td><?= e($d['catatan']) ?></td>
-  </tr>
-  <?php endwhile; ?>
-</table>
-</div>
-<p class="total"><?= $sudah_timbang ? 'Harga pasti' : 'Perkiraan total' ?>: <?= rupiah($p['total_harga']) ?></p>
-<?php if (!$sudah_timbang): ?><p class="sub">Harga pasti dihitung setelah petugas menimbang cucian Anda.</p><?php endif; ?>
-<p><a href="pesanan_saya.php">&larr; Kembali ke Pesanan Saya</a></p>
+    <?php if (!empty($_GET['baru'])): ?>
+        <div class="alert ok">
+            Pesanan berhasil dibuat. Nomor pesanan Anda:
+            <strong>#<?= $id_pesanan ?></strong>.
+            Menunggu konfirmasi petugas.
+        </div>
+    <?php endif; ?>
+
+    <div class="detail-heading">
+        <div>
+            <span class="detail-label">INFORMASI PESANAN</span>
+            <h1>Detail Pesanan #<?= $id_pesanan ?></h1>
+            <p>Pantau perkembangan dan rincian laundry Anda.</p>
+        </div>
+        <div class="detail-icon">🧺</div>
+    </div>
+
+    <div class="detail-panel">
+
+        <div class="detail-section-heading">
+            <h2>Status Pesanan</h2>
+            <span class="badge <?= e($p['status']) ?>">
+                <?= e(label_status($p['status'])) ?>
+            </span>
+        </div>
+
+        <div class="detail-steps">
+            <?php foreach ($tahap as $i => $t): ?>
+                <div class="detail-step">
+                    <div class="step-circle <?= $i <= $posisi ? 'active' : '' ?>">
+                        <?= $i <= $posisi ? '✓' : ($i + 1) ?>
+                    </div>
+                    <span class="<?= $i <= $posisi ? 'step-active' : '' ?>">
+                        <?= e(label_status($t)) ?>
+                    </span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="detail-dates">
+            <div>
+                <small>Tanggal pemesanan</small>
+                <strong>
+                    <?= e(date('d/m/Y H:i', strtotime($p['tanggal_pesan']))) ?>
+                </strong>
+            </div>
+
+            <div>
+                <small>Estimasi selesai</small>
+                <strong>
+                    <?= $p['estimasi_selesai']
+                        ? e(date('d/m/Y H:i', strtotime($p['estimasi_selesai'])))
+                        : 'Belum ditentukan' ?>
+                </strong>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="detail-panel">
+        <div class="detail-section-heading">
+            <div>
+                <h2>Rincian Layanan</h2>
+                <p>Daftar layanan dalam pesanan Anda.</p>
+            </div>
+        </div>
+
+        <div class="tbl-wrap">
+            <table>
+                <tr>
+                    <th>Layanan</th>
+                    <th>Harga/kg</th>
+                    <th>Berat perkiraan</th>
+                    <th>Berat aktual</th>
+                    <th>Subtotal</th>
+                    <th>Catatan</th>
+                </tr>
+
+                <?php while ($d = mysqli_fetch_assoc($detail)): 
+                    if ($d['berat_aktual'] !== null) $sudah_timbang = true;
+                ?>
+                <tr>
+                    <td><strong><?= e($d['nama_layanan']) ?></strong></td>
+                    <td><?= rupiah($d['harga_per_kg']) ?></td>
+                    <td><?= e(rtrim(rtrim($d['berat_perkiraan'], '0'), '.')) ?> kg</td>
+                    <td>
+                        <?= $d['berat_aktual'] !== null
+                            ? e(rtrim(rtrim($d['berat_aktual'], '0'), '.')) . ' kg'
+                            : 'Belum ditimbang' ?>
+                    </td>
+                    <td><?= rupiah($d['subtotal']) ?></td>
+                    <td><?= e($d['catatan'] ?: '-') ?></td>
+                </tr>
+                <?php endwhile; ?>
+            </table>
+        </div>
+    </div>
+
+    <div class="detail-total-panel">
+        <div>
+            <span class="detail-label">TOTAL <?= $sudah_timbang ? 'HARGA PASTI' : 'PERKIRAAN BIAYA' ?></span>
+            <h2><?= rupiah($p['total_harga']) ?></h2>
+
+            <?php if (!$sudah_timbang): ?>
+                <p>Harga pasti dihitung setelah petugas menimbang cucian Anda.</p>
+            <?php else: ?>
+                <p>Berat aktual sudah dicatat oleh petugas.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <a href="pesanan_saya.php" class="detail-back">
+        ← Kembali ke Pesanan Saya
+    </a>
+
+</section>
+
 <?php require __DIR__ . '/_footer.php'; ?>

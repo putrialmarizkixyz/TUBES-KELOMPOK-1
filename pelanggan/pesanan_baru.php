@@ -127,6 +127,7 @@ require __DIR__ . '/_header.php';
                         max="100"
                         placeholder="Contoh: 3"
                         data-harga="<?= (float)$l['harga_per_kg'] ?>"
+                        data-jam="<?= (int)$l['estimasi_selesai'] ?>"
                         value="<?= e($_POST['berat'][$idl] ?? '') ?>"
                     >
                 </div>
@@ -155,6 +156,12 @@ require __DIR__ . '/_header.php';
                     <span id="total">Rp 0</span>
                 </div>
                 <p>Harga akhir ditentukan setelah petugas menimbang pakaian.</p>
+
+                <span class="order-summary-label" style="display:block;margin-top:14px">ESTIMASI WAKTU SELESAI</span>
+                <div class="total">
+                    <span id="estimasi">-</span>
+                </div>
+                <p>Ditentukan oleh jenis layanan yang dipilih, tidak dipengaruhi berat cucian.</p>
             </div>
 
             <button type="submit" class="order-submit">
@@ -177,17 +184,29 @@ const inputs = document.querySelectorAll('input[data-harga]');
 
 function hitung() {
     let t = 0;
+    let jam = 0;
 
     inputs.forEach(i => {
         const b = parseFloat(String(i.value).replace(',', '.'));
 
         if (b > 0) {
             t += b * parseFloat(i.dataset.harga);
+            jam = Math.max(jam, parseInt(i.dataset.jam, 10));
         }
     });
 
     document.getElementById('total').textContent =
         'Rp ' + Math.round(t).toLocaleString('id-ID');
+
+    let teks = '-';
+    if (jam > 0) {
+        teks = jam + ' jam';
+        if (jam >= 24) {
+            const hari = Math.round(jam / 24 * 10) / 10;
+            teks += ' (\u2248 ' + String(hari).replace('.', ',') + ' hari)';
+        }
+    }
+    document.getElementById('estimasi').textContent = teks;
 }
 
 inputs.forEach(i => i.addEventListener('input', hitung));

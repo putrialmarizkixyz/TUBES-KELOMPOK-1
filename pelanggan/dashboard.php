@@ -3,7 +3,7 @@ $judul = 'Dashboard Pelanggan';
 require __DIR__ . '/_header.php';
 
 $id = (int)$_SESSION['id_pengguna'];
-$q = mysqli_prepare($conn, "SELECT COUNT(*) AS total, SUM(status NOT IN ('selesai','siap_diambil')) AS aktif FROM tb_pesanan WHERE id_pengguna = ?");
+$q = mysqli_prepare($conn, "SELECT COUNT(*) AS total, SUM(status NOT IN ('selesai','siap_diambil','ditolak')) AS aktif FROM tb_pesanan WHERE id_pengguna = ?");
 mysqli_stmt_bind_param($q, 'i', $id);
 mysqli_stmt_execute($q);
 $ringkas = mysqli_fetch_assoc(mysqli_stmt_get_result($q));

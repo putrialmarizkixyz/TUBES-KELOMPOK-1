@@ -67,7 +67,7 @@ $pesanan_selesai = 0;
 
             if (in_array($p['status'], ['selesai', 'siap_diambil'])) {
                 $pesanan_selesai++;
-            } else {
+            } elseif ($p['status'] !== 'ditolak') {
                 $pesanan_aktif++;
             }
         ?>

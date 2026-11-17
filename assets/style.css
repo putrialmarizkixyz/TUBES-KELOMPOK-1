@@ -305,6 +305,11 @@ th {
     color: #14662b;
 }
 
+.badge.ditolak {
+    background: #fde8e8;
+    color: #a11;
+}
+
 .badge.belum_bayar {
     background: #fde8e8;
     color: #a11;

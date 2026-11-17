@@ -29,7 +29,7 @@ $bayar = ambil_bayar($conn, $id_pesanan);
 $lunas = ($bayar && $bayar['status_bayar'] === 'lunas');
 
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && $sudah_timbang) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && $sudah_timbang && $p['status'] !== 'ditolak') {
     $metode = $_POST['metode'] ?? '';
     $path = null;
 
@@ -70,6 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && $sudah_timbang) {
 require __DIR__ . '/_header.php';
 ?>
 <h2>Pembayaran Pesanan #<?= $id_pesanan ?></h2>
+<?php if ($p['status'] === 'ditolak'): ?>
+  <div class="alert">Pesanan ini telah ditolak petugas, sehingga tidak perlu dibayar.</div>
+  <p><a href="pesanan_detail.php?id=<?= $id_pesanan ?>">&larr; Kembali ke detail pesanan</a></p>
+<?php require __DIR__ . '/_footer.php'; exit; endif; ?>
 <?php if (!empty($_GET['ok'])): ?><div class="alert ok">Pembayaran berhasil dicatat. Terima kasih!</div><?php endif; ?>
 <?php if ($error): ?><div class="alert"><?= e($error) ?></div><?php endif; ?>
 

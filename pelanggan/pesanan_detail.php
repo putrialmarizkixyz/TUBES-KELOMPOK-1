@@ -17,6 +17,7 @@ mysqli_stmt_execute($q);
 $detail = mysqli_stmt_get_result($q);
 
 $tahap = ['menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil'];
+$ditolak = ($p['status'] === 'ditolak');
 $posisi = array_search($p['status'], $tahap, true);
 $sudah_timbang = false;
 ?>
@@ -49,6 +50,14 @@ $sudah_timbang = false;
             </span>
         </div>
 
+        <?php if ($ditolak): ?>
+            <div class="alert">
+                Mohon maaf, pesanan ini ditolak oleh petugas.
+                <?php if (!empty($p['alasan_penolakan'])): ?>
+                    <br>Alasan: <strong><?= e($p['alasan_penolakan']) ?></strong>
+                <?php endif; ?>
+            </div>
+        <?php else: ?>
         <div class="detail-steps">
             <?php foreach ($tahap as $i => $t): ?>
                 <div class="detail-step">
@@ -61,6 +70,7 @@ $sudah_timbang = false;
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php endif; ?>
 
         <div class="detail-dates">
             <div>

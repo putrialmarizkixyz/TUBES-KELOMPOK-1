@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/auth.php';
 wajib_login(['admin']);
 $judul = 'Monitoring Transaksi';
 
-$tahap = ['menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil'];
+$tahap = ['menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil','ditolak'];
 $filter = $_GET['status'] ?? '';
 
 $sql = "SELECT p.*, u.nama AS pelanggan, t.nama AS petugas,

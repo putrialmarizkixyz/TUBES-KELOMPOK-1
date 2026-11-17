@@ -12,7 +12,7 @@ function e($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 function rupiah($n) { return 'Rp ' . number_format((float)$n, 0, ',', '.'); }
 function label_status($s) {
     $m = ['menunggu'=>'Menunggu','diterima'=>'Diterima','dicuci'=>'Dicuci','dikeringkan'=>'Dikeringkan',
-          'disetrika'=>'Disetrika','selesai'=>'Selesai','siap_diambil'=>'Siap Diambil'];
+          'disetrika'=>'Disetrika','selesai'=>'Selesai','siap_diambil'=>'Siap Diambil','ditolak'=>'Ditolak'];
     return $m[$s] ?? $s;
 }
 function hitung_estimasi_jam($jam_dasar, $berat_kg) {

@@ -12,7 +12,7 @@ $pend  = (float)mysqli_fetch_row(mysqli_query($conn, "SELECT COALESCE(SUM(jumlah
         <h1>Selamat Datang, <?= e($_SESSION['nama']) ?>!</h1>
         <p>Pelanggan: <strong><?= $n_pel ?></strong> &nbsp;|&nbsp; Total pesanan: <strong><?= $n_pes ?></strong> &nbsp;|&nbsp; Pendapatan (lunas): <strong><?= rupiah($pend) ?></strong></p>
     </div>
-    <div class="welcome-icon">🛠️</div>
+    <div class="welcome-icon">👨‍💼</div>
 </section>
 
 <section class="dashboard-section">
@@ -22,7 +22,7 @@ $pend  = (float)mysqli_fetch_row(mysqli_query($conn, "SELECT COALESCE(SUM(jumlah
     </div>
     <div class="dashboard-menu">
         <div class="dashboard-card" style="cursor:pointer" onclick="location.href='layanan.php'">
-            <div class="dashboard-icon blue">🧼</div>
+            <div class="dashboard-icon blue">🧺</div>
             <div><h3>Layanan &amp; Harga</h3><p>Tambah, ubah, dan hapus jenis layanan.</p><a class="menu-status" href="layanan.php">Buka &rarr;</a></div>
         </div>
         <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pengguna.php'">

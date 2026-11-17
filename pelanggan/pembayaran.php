@@ -1,4 +1,3 @@
-
 <?php
 $judul = 'Pembayaran';
 require __DIR__ . '/_header.php';
@@ -113,6 +112,21 @@ $hasil = mysqli_stmt_get_result($q);
                     <strong><?= rupiah($b['total_harga']) ?></strong>
                 </div>
 
+                <div class="payment-card-action">
+                    <?php if (
+                        !$b['id_pembayaran'] ||
+                        $b['status_bayar'] !== 'lunas'
+                    ): ?>
+                        <a href="bayar.php?id=<?= (int)$b['id_pesanan'] ?>"
+                        class="btn-bayar">
+                            💳 Bayar Sekarang
+                        </a>
+                    <?php else: ?>
+                        <span class="payment-paid">
+                            ✓ Pembayaran Lunas
+                        </span>
+                    <?php endif; ?>
+                </div>
             </div>
 
         <?php endwhile; ?>

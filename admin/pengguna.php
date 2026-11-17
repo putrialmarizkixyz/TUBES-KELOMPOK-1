@@ -115,6 +115,7 @@ if (in_array($filter, $roles, true)) {
 }
 require __DIR__ . '/_header.php';
 ?>
+<div class="admin-user-page">
 <h2>Pengguna &amp; Hak Akses</h2>
 <?php if ($error): ?><div class="alert"><?= e($error) ?></div><?php endif; ?>
 <?php if ($ok): ?><div class="alert ok"><?= e($ok) ?></div><?php endif; ?>
@@ -189,5 +190,6 @@ require __DIR__ . '/_header.php';
   </tr>
   <?php endwhile; ?>
 </table>
+</div>
 </div>
 <?php require __DIR__ . '/_footer.php'; ?>

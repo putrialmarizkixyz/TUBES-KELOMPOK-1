@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['admin']);
+$halaman_aktif = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -22,11 +23,30 @@ wajib_login(['admin']);
     </a>
 
     <nav class="app-nav">
-        <a href="<?= BASE_URL ?>/admin/dashboard.php">Beranda</a>
-        <a href="<?= BASE_URL ?>/admin/layanan.php">Layanan</a>
-        <a href="<?= BASE_URL ?>/admin/pengguna.php">Pengguna</a>
-        <a href="<?= BASE_URL ?>/admin/transaksi.php">Transaksi</a>
-        <a href="<?= BASE_URL ?>/admin/laporan.php">Laporan</a>
+        <a href="<?= BASE_URL ?>/admin/dashboard.php"
+        class="<?= $halaman_aktif === 'dashboard.php' ? 'active' : '' ?>">
+            Beranda
+        </a>
+
+        <a href="<?= BASE_URL ?>/admin/layanan.php"
+        class="<?= $halaman_aktif === 'layanan.php' ? 'active' : '' ?>">
+            Layanan
+        </a>
+
+        <a href="<?= BASE_URL ?>/admin/pengguna.php"
+        class="<?= $halaman_aktif === 'pengguna.php' ? 'active' : '' ?>">
+            Pengguna
+        </a>
+
+        <a href="<?= BASE_URL ?>/admin/transaksi.php"
+        class="<?= $halaman_aktif === 'transaksi.php' ? 'active' : '' ?>">
+            Transaksi
+        </a>
+
+        <a href="<?= BASE_URL ?>/admin/laporan.php"
+        class="<?= $halaman_aktif === 'laporan.php' ? 'active' : '' ?>">
+            Laporan
+        </a>
     </nav>
 
     <div class="app-user">

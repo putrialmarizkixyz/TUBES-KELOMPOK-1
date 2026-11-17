@@ -2112,3 +2112,3145 @@ a.dashboard-card:hover {
         font-size: 25px;
     }
 }
+
+/* Tombol Kirim Pesanan */
+.order-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 190px;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.order-submit:not(:disabled):hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(37, 99, 235, 0.22);
+}
+
+.order-submit:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.order-submit span {
+    font-size: 19px;
+    transition: transform 0.2s ease;
+}
+
+.order-submit:not(:disabled):hover span {
+    transform: translateX(3px);
+}
+
+/* Navigasi halaman aktif */
+.app-nav a {
+    position: relative;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: #475569;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.app-nav a:hover {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.app-nav a.active {
+    color: #2563eb;
+    background: #eff6ff;
+    font-weight: 700;
+}
+
+.app-nav a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 15px;
+    right: 15px;
+    height: 3px;
+    border-radius: 5px;
+    background: #2563eb;
+}
+
+
+/* ==============================
+   FORM EDIT PROFIL PELANGGAN
+============================== */
+
+.profile-card {
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #dbeafe;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#placeholderFoto {
+    font-size: 55px;
+}
+
+.profile-card form > label {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.profile-card input[type="file"] {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.profile-hint {
+    margin: 8px 0 25px;
+    text-align: center;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.profile-form-group {
+    margin-bottom: 18px;
+}
+
+.profile-form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.profile-form-group input,
+.profile-form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font: inherit;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.profile-form-group input:focus,
+.profile-form-group textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.profile-form-group input[readonly] {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.profile-form-group textarea {
+    resize: vertical;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.profile-save-btn,
+.profile-cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.profile-save-btn {
+    flex: 1;
+    background: #2563eb;
+    color: white;
+}
+
+.profile-save-btn:hover {
+    background: #1d4ed8;
+}
+
+.profile-cancel-btn {
+    background: #e5e7eb;
+    color: #334155;
+}
+
+.profile-cancel-btn:hover {
+    background: #d1d5db;
+}
+
+.profile-success,
+.profile-error {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.profile-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.profile-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+@media (max-width: 600px) {
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-save-btn,
+    .profile-cancel-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* TAMPILAN PROFIL */
+.profile-view {
+    text-align: center;
+}
+
+.profile-view .profile-photo {
+    margin: 0 auto 15px;
+}
+
+.profile-view .profile-photo span {
+    font-size: 55px;
+}
+
+.profile-view h2 {
+    margin: 10px 0 5px;
+    color: #1e293b;
+}
+
+.profile-role {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.profile-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 25px 0;
+}
+
+.profile-view .profile-info {
+    text-align: left;
+}
+
+.profile-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+    padding: 12px 24px;
+    border-radius: 9px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.profile-edit-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* FORM EDIT */
+.profile-edit-card {
+    text-align: left;
+}
+
+.edit-profile-heading {
+    margin-bottom: 25px;
+}
+
+.edit-profile-heading h2 {
+    margin-bottom: 5px;
+    color: #1e293b;
+}
+
+.edit-profile-heading p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.photo-edit-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.photo-edit-section .profile-photo {
+    margin: 0 auto 15px;
+}
+
+.profile-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid #2563eb;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.profile-upload-btn:hover {
+    background: #dbeafe;
+}
+
+.profile-hint {
+    margin-top: 10px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.profile-save-btn,
+.profile-cancel-btn {
+    flex: 1;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.profile-save-btn {
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.profile-save-btn:hover {
+    background: #1d4ed8;
+}
+
+.profile-cancel-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.profile-cancel-btn:hover {
+    background: #e2e8f0;
+}
+
+@media (max-width: 600px) {
+    .profile-actions {
+        flex-direction: column;
+    }
+}
+
+/* Sembunyikan input file bawaan browser */
+#foto_profil[hidden] {
+    display: none !important;
+}
+
+/* ==============================
+   HALAMAN PESANAN MASUK PETUGAS
+============================== */
+
+.petugas-content-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+    margin-top: 22px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.petugas-card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.petugas-card-heading h3 {
+    margin: 0 0 6px;
+    color: #1e293b;
+    font-size: 18px;
+}
+
+.petugas-card-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.petugas-count {
+    padding: 8px 13px;
+    border-radius: 20px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.petugas-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.petugas-table th {
+    padding: 14px 12px;
+    background: #f8fafc;
+    color: #475569;
+    text-align: left;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.petugas-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.petugas-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.petugas-action-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 190px;
+}
+
+.petugas-action-group form {
+    margin: 0;
+}
+
+.petugas-btn-accept,
+.petugas-btn-reject {
+    padding: 9px 13px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.petugas-btn-accept {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.petugas-btn-accept:hover {
+    background: #1d4ed8;
+}
+
+.petugas-reject-form {
+    display: flex;
+    gap: 6px;
+}
+
+.petugas-reject-form input {
+    width: 130px;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 11px;
+}
+
+.petugas-btn-reject {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.petugas-btn-reject:hover {
+    background: #fecaca;
+}
+
+.petugas-alert {
+    padding: 13px 16px;
+    margin-top: 18px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.alert-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.petugas-empty {
+    padding: 40px 15px !important;
+    text-align: center !important;
+}
+
+.petugas-empty span {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+.petugas-empty strong {
+    display: block;
+    color: #334155;
+    font-size: 14px;
+}
+
+.petugas-empty p {
+    margin: 7px 0 0;
+    color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+    .petugas-content-card {
+        padding: 15px;
+    }
+
+    .petugas-card-heading {
+        align-items: flex-start;
+    }
+
+    .tbl-wrap {
+        overflow-x: auto;
+    }
+
+    .petugas-table {
+        min-width: 850px;
+    }
+}
+
+
+/* TOMBOL KELOLA PESANAN PETUGAS */
+.petugas-btn-manage {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 15px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.petugas-btn-manage:hover {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.petugas-empty .petugas-btn-manage {
+    margin-top: 16px;
+}
+
+/* BADGE STATUS PESANAN */
+.petugas-table .badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.petugas-table .badge.menunggu {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.petugas-table .badge.diterima {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.petugas-table .badge.dicuci,
+.petugas-table .badge.dikeringkan,
+.petugas-table .badge.disetrika {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.petugas-table .badge.selesai,
+.petugas-table .badge.siap_diambil {
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* NAVIGASI PELANGGAN DAN PETUGAS */
+.app-header .app-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.app-header .app-nav a {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding: 10px 0;
+    color: #555;
+    background: transparent;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+/* MENU YANG SEDANG AKTIF */
+.app-header .app-nav a.active {
+    color: #2563eb !important;
+    font-weight: 700;
+    background: transparent !important;
+}
+
+/* GARIS BIRU DI BAWAH MENU AKTIF */
+.app-header .app-nav a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: #2563eb;
+    border-radius: 3px;
+}
+
+.app-header .app-nav a:hover {
+    color: #2563eb;
+}
+
+
+/* ==============================
+   KELOLA PESANAN PETUGAS
+============================== */
+
+.petugas-back-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.petugas-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.petugas-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.petugas-info-item span {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.petugas-info-item strong {
+    color: #334155;
+    font-size: 14px;
+}
+
+/* PROGRESS */
+.petugas-progress {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 2px;
+}
+
+.petugas-progress-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    flex: 1;
+    min-width: 85px;
+    text-align: center;
+}
+
+.petugas-progress-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.petugas-progress-step.done .petugas-progress-circle {
+    background: #2563eb;
+    color: white;
+}
+
+.petugas-progress-step span {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.petugas-progress-step.done span {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+/* INPUT BERAT */
+.petugas-weight-input {
+    width: 100px !important;
+    min-width: 85px;
+    padding: 9px 10px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 7px !important;
+    font-size: 13px !important;
+    background: white;
+}
+
+.petugas-weight-input:focus {
+    outline: none;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.petugas-detail-table {
+    min-width: 850px;
+}
+
+/* TOTAL HARGA */
+.petugas-total-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 22px;
+}
+
+.petugas-total-box > div {
+    min-width: 220px;
+    padding: 16px 20px;
+    background: #eff6ff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.petugas-total-box span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.petugas-total-box strong {
+    color: #2563eb;
+    font-size: 21px;
+}
+
+/* TOMBOL */
+.petugas-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+
+.petugas-btn-save,
+.petugas-btn-next {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    background: #2563eb;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.petugas-btn-save:hover,
+.petugas-btn-next:hover {
+    background: #1d4ed8;
+}
+
+.petugas-next-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 22px;
+    margin-top: 22px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+}
+
+.petugas-next-box h3 {
+    margin: 0 0 7px;
+    font-size: 16px;
+    color: #1e293b;
+}
+
+.petugas-next-box p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.petugas-bottom-link {
+    margin-top: 22px;
+}
+
+.petugas-bottom-link a {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .petugas-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .petugas-next-box {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .petugas-btn-next {
+        width: 100%;
+    }
+
+    .petugas-progress-step {
+        min-width: 95px;
+    }
+}
+
+/* FOOTER */
+.app-footer {
+    width: 100%;
+    padding: 20px;
+    margin-top: 40px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.app-footer p {
+    margin: 0;
+}
+
+/* WARNA BADGE STATUS PESANAN */
+.badge.ditolak {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.badge.diterima {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+/* STATUS PESANAN PELANGGAN */
+.history-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.badge.ditolak {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.badge.diterima {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+.alasan-penolakan {
+    max-width: 280px;
+    margin: 0;
+    padding: 10px 12px;
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* STATUS PESANAN DITOLAK */
+.badge.ditolak {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+/* STATUS PESANAN DITERIMA */
+.badge.diterima {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+/* NOTIFIKASI PENOLAKAN */
+.detail-rejected-alert {
+    margin-top: 20px;
+    padding: 18px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #dc2626;
+    border-radius: 10px;
+    color: #991b1b;
+}
+
+.detail-rejected-alert > strong {
+    font-size: 16px;
+}
+
+.detail-rejected-alert > p {
+    margin: 8px 0 0;
+    font-size: 14px;
+}
+
+.detail-rejected-reason {
+    margin-top: 14px;
+    padding: 12px;
+    background: #fee2e2;
+    border-radius: 8px;
+}
+
+.detail-rejected-reason p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.badge.ditolak {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.badge.diterima {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+/* IKON NOTIFIKASI HEADER */
+.notification-bell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+    text-decoration: none;
+    border-radius: 50%;
+    background: #f3f4f6;
+}
+
+.notification-count {
+    position: absolute;
+    top: -4px;
+    right: -5px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dc2626;
+    color: white;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* DAFTAR NOTIFIKASI */
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notification-card {
+    display: flex;
+    gap: 14px;
+    padding: 18px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.notification-card.unread {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.notification-icon {
+    font-size: 23px;
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.notification-content p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.notification-content small {
+    display: block;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.notification-content a {
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.notification-dot {
+    width: 8px;
+    height: 8px;
+    background: #2563eb;
+    border-radius: 50%;
+}
+
+.btn-tandai-semua {
+    padding: 10px 16px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-tandai-semua:hover {
+    background: #1d4ed8;
+}
+
+@media (max-width: 600px) {
+    .history-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-tandai-semua {
+        width: 100%;
+    }
+}
+
+/* Tombol aksi pembayaran */
+.payment-card-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-bayar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    background: #2563eb;
+    color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.btn-bayar:hover {
+    background: #1d4ed8;
+}
+
+.payment-paid {
+    color: #16a34a;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ===== HALAMAN PEMBAYARAN ===== */
+
+.payment-page {
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+.payment-heading {
+    background: linear-gradient(120deg, #1769d2, #438ff0);
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(23, 105, 210, 0.15);
+}
+
+.payment-heading .detail-label {
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    opacity: .9;
+}
+
+.payment-heading h1 {
+    margin: 10px 0 8px;
+    font-size: 26px;
+}
+
+.payment-heading p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: .9;
+}
+
+.payment-heading-icon {
+    width: 75px;
+    height: 75px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 18px;
+    background: rgba(255,255,255,.18);
+    font-size: 38px;
+}
+
+.payment-panel {
+    background: #ffffff;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #edf0f5;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(25,55,100,.05);
+}
+
+.payment-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-section-heading h2 {
+    margin: 0 0 6px;
+    color: #243247;
+    font-size: 19px;
+}
+
+.payment-section-heading p {
+    margin: 0;
+    color: #8290a4;
+    font-size: 13px;
+}
+
+.payment-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 15px 0;
+}
+
+.payment-info small,
+.payment-info strong {
+    display: block;
+}
+
+.payment-info small {
+    color: #8290a4;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.payment-info strong {
+    color: #344258;
+    font-size: 14px;
+}
+
+.payment-info-detail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.payment-total {
+    margin-top: 12px;
+    padding: 22px;
+    background: #f0f6ff;
+    border: 1px solid #dceaff;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-total small {
+    color: #52677f;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .8px;
+}
+
+.payment-total h2 {
+    margin: 8px 0;
+    color: #1769d2;
+    font-size: 27px;
+}
+
+.payment-total p {
+    margin: 0;
+    color: #8290a4;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.payment-total-icon {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: #ffffff;
+    border-radius: 13px;
+    font-size: 27px;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+}
+
+.payment-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #344258;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.payment-field select,
+.payment-field input[type="file"] {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid #dce3ed;
+    border-radius: 9px;
+    background: #fbfdff;
+    color: #344258;
+    font: inherit;
+    font-size: 13px;
+}
+
+.payment-field select:focus,
+.payment-field input:focus {
+    outline: none;
+    border-color: #438ff0;
+    box-shadow: 0 0 0 3px rgba(67,143,240,.12);
+}
+
+.payment-field small {
+    display: block;
+    margin-top: 8px;
+    color: #8290a4;
+    font-size: 11px;
+}
+
+.payment-confirmation {
+    padding: 17px 19px;
+    background: #f7f9fc;
+    border: 1px solid #edf0f5;
+    border-radius: 10px;
+}
+
+.payment-confirmation small,
+.payment-confirmation strong {
+    display: block;
+}
+
+.payment-confirmation small {
+    color: #8290a4;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.payment-confirmation strong {
+    color: #1769d2;
+    font-size: 21px;
+}
+
+.payment-submit {
+    width: 100%;
+    min-height: 47px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 9px;
+    background: #1769d2;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: background .2s;
+}
+
+.payment-submit:hover {
+    background: #1056b4;
+}
+
+.payment-submit span {
+    font-size: 19px;
+}
+
+.payment-proof-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #1769d2;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.payment-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    border-radius: 11px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.payment-alert > span {
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.payment-alert strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.payment-alert p {
+    margin: 0;
+}
+
+.payment-alert.success {
+    background: #e6f7ea;
+    color: #14662b;
+}
+
+.payment-alert.success > span {
+    background: #c7efd0;
+}
+
+.payment-alert.error {
+    background: #fde8e8;
+    color: #a11;
+}
+
+.payment-alert.error > span {
+    background: #f8cccc;
+}
+
+.payment-alert.info {
+    background: #eaf3ff;
+    color: #52677f;
+}
+
+.payment-alert.info > span {
+    background: #d4e7ff;
+    color: #1769d2;
+}
+
+.payment-rejected {
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.payment-status-icon {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #fde8e8;
+    color: #c62828;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.payment-rejected h2 {
+    margin: 0 0 8px;
+    color: #243247;
+    font-size: 20px;
+}
+
+.payment-rejected p {
+    max-width: 450px;
+    margin: 0 auto;
+    color: #8290a4;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.payment-back {
+    display: inline-block;
+    margin: 5px 0 15px;
+    color: #1769d2;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.payment-back:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .payment-heading {
+        padding: 22px 18px;
+    }
+
+    .payment-heading h1 {
+        font-size: 21px;
+    }
+
+    .payment-heading-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 28px;
+    }
+
+    .payment-panel {
+        padding: 19px;
+    }
+
+    .payment-info,
+    .payment-info-detail {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .payment-total {
+        padding: 17px;
+    }
+
+    .payment-total h2 {
+        font-size: 23px;
+    }
+
+    .payment-section-heading {
+        align-items: flex-start;
+    }
+}
+
+
+/* ==============================
+   PENYESUAIAN TATA LETAK PEMBAYARAN
+============================== */
+
+.payment-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.payment-heading h2 {
+    margin: 0;
+}
+
+.payment-order-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 11px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* Jarak dan ukuran pilihan metode pembayaran */
+.panel select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 42px 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    background-position: right 16px center;
+}
+
+/* Jarak elemen form */
+.panel label {
+    display: block;
+    margin: 18px 0 9px;
+}
+
+.panel input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.panel button {
+    margin-top: 20px;
+}
+
+/* Penyesuaian layar kecil */
+@media (max-width: 600px) {
+    .payment-heading {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .panel select {
+        padding-right: 38px;
+        background-position: right 13px center;
+    }
+}
+
+
+/* PERBAIKAN TAMPILAN HALAMAN PEMBAYARAN */
+
+.payment-heading {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 0 24px !important;
+}
+
+.payment-heading h2 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.payment-order-number {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+/* Posisi ikon panah pada pilihan metode */
+#metode {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px 45px 12px 14px !important;
+    background-position: right 18px center !important;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+
+/* Jarak elemen form */
+#boxBukti {
+    margin-top: 18px;
+}
+
+#boxBukti label {
+    display: block;
+    margin-bottom: 9px;
+}
+
+#boxBukti input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* ==============================
+   PERBAIKAN LAYOUT BAYAR.PHP
+============================== */
+
+.payment-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.payment-title h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.payment-title span {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.payment-select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 45px 12px 14px !important;
+    background-position: right 18px center !important;
+    background-origin: content-box;
+    cursor: pointer;
+}
+
+/* PROFIL PETUGAS */
+.petugas-profile-card {
+    max-width: 750px;
+}
+
+.petugas-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.petugas-profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.petugas-profile-field label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #263449;
+}
+
+.petugas-profile-field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.petugas-profile-field input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.petugas-profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+/* RINGKASAN LAPORAN TRANSAKSI */
+.petugas-report-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.petugas-report-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.petugas-report-item span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.petugas-report-item strong {
+    color: #263449;
+    font-size: 22px;
+}
+
+@media (max-width: 700px) {
+    .petugas-report-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* LAPORAN TRANSAKSI */
+.laporan-print-header {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 15mm;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .app-header,
+    .app-footer,
+    .laporan-print-btn {
+        display: none !important;
+    }
+
+    .app-main {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+    }
+
+    .page-heading {
+        display: none !important;
+    }
+
+    .laporan-print-header {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .laporan-print-header h1 {
+        margin: 0 0 5px;
+        font-size: 23px;
+    }
+
+    .laporan-print-header h2 {
+        margin: 0 0 5px;
+        font-size: 17px;
+    }
+
+    .laporan-print-header p {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    .laporan-print-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+        font-size: 12px;
+    }
+
+    .petugas-content-card {
+        box-shadow: none !important;
+        border: 1px solid #999 !important;
+        margin-bottom: 15px !important;
+        break-inside: avoid;
+    }
+
+    .petugas-report-summary {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .petugas-report-item {
+        background: white !important;
+        border: 1px solid #aaa !important;
+    }
+
+    .petugas-report-item span,
+    .petugas-report-item strong,
+    .petugas-card-heading h3,
+    .petugas-card-heading p,
+    .petugas-table th,
+    .petugas-table td {
+        color: black !important;
+    }
+
+    .tbl-wrap {
+        overflow: visible !important;
+    }
+
+    .petugas-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+
+    .petugas-table th,
+    .petugas-table td {
+        border: 1px solid #999 !important;
+        padding: 8px !important;
+        font-size: 11px !important;
+    }
+
+    .petugas-table th {
+        background: #eee !important;
+    }
+
+    .petugas-count {
+        color: black !important;
+        background: white !important;
+        border: 1px solid #999 !important;
+    }
+}
+
+/* TOMBOL CETAK LAPORAN */
+.laporan-print-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 19px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.16);
+    transition: all 0.2s ease;
+}
+
+.laporan-print-btn span {
+    font-size: 16px;
+}
+
+.laporan-print-btn:hover {
+    background: #1d4ed8;
+    box-shadow: 0 5px 12px rgba(37, 99, 235, 0.22);
+    transform: translateY(-1px);
+}
+
+.laporan-print-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .page-heading {
+        align-items: flex-start;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .laporan-print-btn {
+        padding: 10px 15px;
+    }
+}
+
+/* STRUK DIGITAL PELANGGAN */
+.digital-receipt {
+    margin-top: 24px;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid #e5eaf1;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+.receipt-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e5eaf1;
+}
+
+.receipt-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    border-radius: 10px;
+    font-size: 21px;
+}
+
+.receipt-heading h2 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #263449;
+}
+
+.receipt-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.receipt-brand {
+    text-align: center;
+    padding: 22px 0 16px;
+}
+
+.receipt-brand h2 {
+    margin: 0 0 5px;
+    color: #2563eb;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+.receipt-brand p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.receipt-divider {
+    border-top: 1px dashed #cbd5e1;
+    margin: 15px 0;
+}
+
+.receipt-info {
+    display: grid;
+    gap: 13px;
+}
+
+.receipt-info div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.receipt-info span,
+.receipt-item small {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.receipt-info strong {
+    color: #263449;
+    font-size: 13px;
+    text-align: right;
+}
+
+.digital-receipt h3 {
+    margin: 18px 0 14px;
+    color: #263449;
+    font-size: 15px;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.receipt-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.receipt-item strong {
+    color: #263449;
+    font-size: 13px;
+}
+
+.receipt-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.receipt-total span {
+    color: #263449;
+    font-weight: 600;
+}
+
+.receipt-total strong {
+    color: #2563eb;
+    font-size: 21px;
+}
+
+.receipt-footer {
+    margin-top: 22px;
+    padding: 17px;
+    text-align: center;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.receipt-footer strong {
+    color: #263449;
+    font-size: 14px;
+}
+
+.receipt-footer p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .digital-receipt {
+        padding: 18px;
+    }
+
+    .receipt-info div {
+        gap: 10px;
+    }
+
+    .receipt-total strong {
+        font-size: 18px;
+    }
+}
+
+/* STRUK PESANAN PETUGAS */
+.petugas-receipt-print {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 17px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.petugas-receipt-print:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.petugas-receipt {
+    width: 100%;
+    max-width: 480px;
+    margin: 10px auto 5px;
+    padding: 25px;
+    background: #fff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+}
+
+.petugas-receipt .receipt-brand {
+    padding-top: 5px;
+}
+
+.petugas-receipt .receipt-divider {
+    border-top: 1px dashed #cbd5e1;
+}
+
+/* CETAK STRUK */
+@media print {
+    @page {
+        size: 80mm 297mm;
+        margin: 4mm;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    .petugas-receipt-wrap,
+    .petugas-receipt-wrap * {
+        visibility: visible !important;
+    }
+
+    .petugas-receipt-wrap {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: white !important;
+    }
+
+    .petugas-receipt-wrap .petugas-card-heading,
+    .petugas-receipt-print {
+        display: none !important;
+    }
+
+    .petugas-receipt {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+    }
+
+    .petugas-receipt .receipt-brand h2,
+    .petugas-receipt .receipt-info strong,
+    .petugas-receipt .receipt-item strong,
+    .petugas-receipt .receipt-total span,
+    .petugas-receipt .receipt-footer strong,
+    .petugas-receipt h3 {
+        color: black !important;
+    }
+
+    .petugas-receipt .receipt-total strong {
+        color: black !important;
+    }
+
+    .petugas-receipt .receipt-info span,
+    .petugas-receipt .receipt-item small,
+    .petugas-receipt .receipt-footer p {
+        color: #333 !important;
+    }
+
+    .petugas-receipt .receipt-footer {
+        background: white !important;
+        border-top: 1px dashed #999;
+        border-radius: 0 !important;
+    }
+}
+
+
+/* ===== PENYEMPURNAAN DASHBOARD ADMIN ===== */
+
+.welcome-section {
+    padding: 34px 38px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(23, 105, 210, 0.16);
+}
+
+.welcome-section h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.welcome-section p {
+    line-height: 1.8;
+}
+
+.welcome-icon {
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.dashboard-section {
+    margin-top: 28px;
+}
+
+.section-heading h2 {
+    color: #243247;
+    font-weight: 700;
+}
+
+.dashboard-menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.dashboard-card {
+    min-height: 145px;
+    border: 1px solid #e8edf5;
+    border-radius: 16px;
+    padding: 23px;
+    cursor: pointer;
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    border-color: #b9d5fa;
+    box-shadow: 0 10px 24px rgba(25, 55, 100, 0.10);
+}
+
+.dashboard-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+    font-size: 23px;
+}
+
+.dashboard-card h3 {
+    margin: 3px 0 8px;
+    color: #243247;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.dashboard-card p {
+    margin: 0;
+    color: #8290a4;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.menu-status {
+    margin-top: 12px;
+    padding: 6px 11px;
+    color: #1769d2;
+    background: #edf5ff;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.menu-status:hover {
+    background: #dcecff;
+}
+
+@media (max-width: 600px) {
+    .dashboard-menu {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .welcome-section {
+        padding: 25px 20px;
+    }
+}
+
+
+/* ===== PENYEMPURNAAN ADMIN LAYANAN ===== */
+
+.admin-service-page h2 {
+    color: #243247;
+    font-size: 23px;
+    font-weight: 700;
+    margin: 0 0 20px;
+}
+
+.admin-service-page .panel {
+    padding: 25px;
+    border: 1px solid #e8edf5;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px rgba(25, 55, 100, 0.05);
+    margin-bottom: 28px;
+}
+
+.admin-service-page .panel h3 {
+    color: #243247;
+    font-size: 18px;
+    margin: 0 0 22px;
+}
+
+.admin-service-page .panel label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #344258;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-service-page .panel input,
+.admin-service-page .panel textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #dce3ed;
+    border-radius: 9px;
+    background: #fff;
+    color: #243247;
+    font: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-service-page .panel input:focus,
+.admin-service-page .panel textarea:focus {
+    outline: none;
+    border-color: #438df0;
+    box-shadow: 0 0 0 3px rgba(67, 141, 240, 0.12);
+}
+
+.admin-service-page .panel textarea {
+    resize: vertical;
+    min-height: 75px;
+}
+
+.admin-service-page .panel button {
+    margin-top: 20px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 9px;
+    background: #1769d2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.admin-service-page .panel button:hover {
+    background: #1056b4;
+}
+
+.admin-service-page .tbl-wrap {
+    background: #fff;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    overflow-x: auto;
+    box-shadow: 0 4px 14px rgba(25, 55, 100, 0.04);
+}
+
+.admin-service-page .tbl-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+.admin-service-page .tbl-wrap th {
+    padding: 14px 16px;
+    background: #f4f7fb;
+    color: #344258;
+    font-size: 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.admin-service-page .tbl-wrap td {
+    padding: 14px 16px;
+    border-top: 1px solid #edf0f5;
+    color: #52677f;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.admin-service-page .tbl-wrap tr:hover td {
+    background: #f9fbfe;
+}
+
+.admin-service-page .tbl-wrap td a {
+    color: #1769d2;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-service-page .tbl-wrap td a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .admin-service-page .panel {
+        padding: 18px;
+    }
+
+    .admin-service-page h2 {
+        font-size: 20px;
+    }
+}
+
+
+/* ===== TOMBOL AKSI TABEL LAYANAN ADMIN ===== */
+
+.admin-service-page .tbl-wrap td:last-child {
+    white-space: nowrap;
+}
+
+.admin-service-page .tbl-wrap td a {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 7px;
+    background: #edf5ff;
+    color: #1769d2;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.admin-service-page .tbl-wrap td a:hover {
+    background: #dcecff;
+    color: #1056b4;
+    text-decoration: none;
+}
+
+.admin-service-page .tbl-wrap td form {
+    display: inline-block !important;
+    margin-left: 5px;
+}
+
+.admin-service-page .tbl-wrap td form button {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 7px 13px !important;
+    border: 1px solid #f5d2d2 !important;
+    border-radius: 7px !important;
+    background: #fff1f1 !important;
+    color: #d64545 !important;
+    font-size: 12px !important;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.admin-service-page .tbl-wrap td form button:hover {
+    background: #d64545 !important;
+    border-color: #d64545 !important;
+    color: #ffffff !important;
+}
+
+
+/* ===== PENYEMPURNAAN ADMIN PENGGUNA ===== */
+
+.admin-user-page h2 {
+    margin: 0 0 20px;
+    color: #243247;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.admin-user-page .panel {
+    padding: 24px;
+    margin-bottom: 22px;
+    background: #fff;
+    border: 1px solid #e8edf5;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px rgba(25, 55, 100, 0.05);
+}
+
+.admin-user-page .panel h3 {
+    margin: 0 0 18px;
+    color: #243247;
+    font-size: 17px;
+}
+
+.admin-user-page .panel label {
+    display: block;
+    margin: 14px 0 7px;
+    color: #344258;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-user-page .panel input,
+.admin-user-page .panel textarea,
+.admin-user-page .panel select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    background: #fff;
+    color: #243247;
+    font-size: 13px;
+}
+
+.admin-user-page .panel input:focus,
+.admin-user-page .panel textarea:focus,
+.admin-user-page .panel select:focus {
+    outline: none;
+    border-color: #438df0;
+    box-shadow: 0 0 0 3px rgba(67, 141, 240, 0.12);
+}
+
+.admin-user-page .panel textarea {
+    resize: vertical;
+}
+
+.admin-user-page .panel button {
+    margin-top: 18px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #1769d2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.admin-user-page .panel button:hover {
+    background: #1056b4;
+}
+
+.admin-user-page .panel a {
+    color: #1769d2;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.admin-user-page > p {
+    margin: 22px 0 15px;
+    color: #52677f;
+    font-size: 13px;
+}
+
+.admin-user-page > p a {
+    display: inline-block;
+    margin: 4px 3px;
+    padding: 7px 12px;
+    border-radius: 7px;
+    background: #edf5ff;
+    color: #1769d2;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.admin-user-page > p a:hover {
+    background: #dcecff;
+}
+
+.admin-user-page .tbl-wrap {
+    overflow-x: auto;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(25, 55, 100, 0.04);
+}
+
+.admin-user-page .tbl-wrap table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.admin-user-page .tbl-wrap th {
+    padding: 14px;
+    background: #f4f7fb;
+    color: #344258;
+    font-size: 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.admin-user-page .tbl-wrap td {
+    padding: 13px 14px;
+    border-top: 1px solid #edf0f5;
+    color: #52677f;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.admin-user-page .tbl-wrap tr:hover td {
+    background: #f9fbfe;
+}
+
+.admin-user-page .tbl-wrap td form {
+    margin: 5px 0;
+}
+
+.admin-user-page .tbl-wrap td select,
+.admin-user-page .tbl-wrap td input[type="password"] {
+    padding: 7px 9px;
+    border: 1px solid #dce3ed;
+    border-radius: 7px;
+    font-size: 12px;
+}
+
+.admin-user-page .tbl-wrap td button {
+    width: auto !important;
+    margin: 0 0 0 5px !important;
+    padding: 7px 11px !important;
+    border: none;
+    border-radius: 7px;
+    background: #edf5ff;
+    color: #1769d2;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.admin-user-page .tbl-wrap td button:hover {
+    background: #1769d2;
+    color: #fff;
+}
+
+.admin-user-page .tbl-wrap td a {
+    color: #1769d2;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-user-page .tbl-wrap td a:hover {
+    text-decoration: underline;
+}
+
+.admin-user-page .tbl-wrap td form:last-child button {
+    background: #fff1f1;
+    color: #d64545;
+}
+
+.admin-user-page .tbl-wrap td form:last-child button:hover {
+    background: #d64545;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .admin-user-page .panel {
+        padding: 18px;
+    }
+
+    .admin-user-page h2 {
+        font-size: 20px;
+    }
+}
+
+/* ===== PERAPIAN KOLOM UBAH PERAN DAN AKSI PENGGUNA ===== */
+
+/* Lebar tabel agar kolom aksi tidak terlalu sempit */
+.admin-user-page .tbl-wrap table {
+    min-width: 1050px;
+}
+
+/* Kolom Ubah Peran */
+.admin-user-page .tbl-wrap th:nth-child(5),
+.admin-user-page .tbl-wrap td:nth-child(5) {
+    min-width: 180px;
+}
+
+.admin-user-page .tbl-wrap td:nth-child(5) form {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+}
+
+.admin-user-page .tbl-wrap td:nth-child(5) select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+}
+
+.admin-user-page .tbl-wrap td:nth-child(5) button {
+    flex-shrink: 0;
+    width: auto;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Kolom Aksi */
+.admin-user-page .tbl-wrap th:nth-child(6),
+.admin-user-page .tbl-wrap td:nth-child(6) {
+    min-width: 310px;
+}
+
+.admin-user-page .tbl-wrap td:nth-child(6) {
+    vertical-align: middle;
+}
+
+.admin-user-page .tbl-wrap td:nth-child(6) form {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 7px;
+    margin: 7px 0;
+}
+
+/* Kolom password baru */
+.admin-user-page .tbl-wrap td:nth-child(6) input[type="password"] {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+}
+
+/* Tombol pada kolom aksi */
+.admin-user-page .tbl-wrap td:nth-child(6) button,
+.admin-user-page .tbl-wrap td:nth-child(6) a {
+    flex-shrink: 0;
+    width: auto;
+    white-space: nowrap;
+    margin: 0;
+}
+
+/* Tampilan layar kecil */
+@media (max-width: 768px) {
+    .admin-user-page .tbl-wrap {
+        overflow-x: auto;
+    }
+
+    .admin-user-page .tbl-wrap table {
+        min-width: 1050px;
+    }
+}
+
+
+/* ===== PENYEMPURNAAN MONITORING TRANSAKSI ADMIN ===== */
+
+.admin-transaction-page {
+    width: 100%;
+}
+
+.admin-transaction-page h2 {
+    margin-bottom: 22px;
+    color: #243247;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+/* Filter status */
+.admin-transaction-page > form.panel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    padding: 18px 22px;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+}
+
+.admin-transaction-page > form.panel label {
+    margin: 0;
+    color: #44536a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-transaction-page > form.panel select {
+    width: 220px;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Tabel transaksi */
+.admin-transaction-page .tbl-wrap {
+    overflow-x: auto;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: #fff;
+}
+
+.admin-transaction-page table {
+    width: 100%;
+    min-width: 950px;
+    border-collapse: collapse;
+}
+
+.admin-transaction-page th {
+    padding: 15px 13px;
+    background: #f5f8fc;
+    color: #526176;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.admin-transaction-page td {
+    padding: 14px 13px;
+    border-top: 1px solid #edf0f5;
+    color: #45546a;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.admin-transaction-page tbody tr:hover,
+.admin-transaction-page table tr:hover {
+    background: #fafcff;
+}
+
+.admin-transaction-page td:nth-child(1),
+.admin-transaction-page td:nth-child(6) {
+    white-space: nowrap;
+}
+
+.admin-transaction-page td:nth-child(2) {
+    min-width: 135px;
+    white-space: nowrap;
+}
+
+/* Badge status */
+.admin-transaction-page .badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Informasi pembayaran */
+.admin-transaction-page td small {
+    display: inline-block;
+    margin-left: 4px;
+    color: #718096;
+    font-size: 11px;
+}
+
+.admin-transaction-page td a {
+    display: inline-block;
+    margin-top: 5px;
+    color: #1769d2;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-transaction-page td a:hover {
+    color: #1056b4;
+    text-decoration: underline;
+}
+
+/* Tampilan layar kecil */
+@media (max-width: 768px) {
+    .admin-transaction-page > form.panel {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-transaction-page > form.panel select {
+        width: 100%;
+    }
+
+    .admin-transaction-page .tbl-wrap {
+        overflow-x: auto;
+    }
+}
+
+
+/* ===== PENYEMPURNAAN HALAMAN LAPORAN ADMIN ===== */
+
+.admin-report-page {
+    width: 100%;
+}
+
+.admin-report-page h2 {
+    margin-bottom: 22px;
+    color: #243247;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.admin-report-page h3 {
+    margin: 27px 0 14px;
+    color: #243247;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* Panel filter dan ringkasan */
+.admin-report-page > form.panel,
+.admin-report-page > .panel {
+    padding: 22px 25px;
+    margin-bottom: 22px;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(25, 55, 100, .04);
+}
+
+/* Filter periode */
+.admin-report-page > form.panel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.admin-report-page > form.panel label {
+    margin: 0;
+    color: #526176;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-report-page > form.panel input[type="month"] {
+    width: 220px;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Ringkasan laporan */
+.admin-report-page > .panel p {
+    margin: 0 0 12px;
+    color: #526176;
+    font-size: 14px;
+}
+
+.admin-report-page > .panel p strong {
+    margin-left: 8px;
+    color: #243247;
+    font-size: 17px;
+}
+
+.admin-report-page > .panel p.total {
+    margin-bottom: 20px;
+    color: #1769d2;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+/* Tombol simpan laporan */
+.admin-report-page > .panel button {
+    width: auto;
+    padding: 11px 18px;
+    border-radius: 8px;
+    background: #1769d2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.admin-report-page > .panel button:hover {
+    background: #1056b4;
+}
+
+/* Tabel laporan */
+.admin-report-page .tbl-wrap {
+    overflow-x: auto;
+    margin-bottom: 25px;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: #fff;
+}
+
+.admin-report-page table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+}
+
+.admin-report-page th {
+    padding: 15px;
+    background: #f5f8fc;
+    color: #526176;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.admin-report-page td {
+    padding: 14px 15px;
+    border-top: 1px solid #edf0f5;
+    color: #45546a;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.admin-report-page table tr:hover {
+    background: #fafcff;
+}
+
+/* Tampilan layar kecil */
+@media (max-width: 768px) {
+    .admin-report-page > form.panel {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-report-page > form.panel input[type="month"] {
+        width: 100%;
+    }
+
+    .admin-report-page .tbl-wrap {
+        overflow-x: auto;
+    }
+}
+
+/* ===== INPUT PERIODE BULAN LAPORAN ===== */
+.admin-report-page input[type="month"] {
+    height: 43px;
+    padding: 9px 12px;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    background: #fff;
+    color: #344256;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.admin-report-page input[type="month"]:focus {
+    border-color: #1769d2;
+    box-shadow: 0 0 0 3px rgba(23, 105, 210, .10);
+}
+
+.admin-report-page input[type="month"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: .75;
+}
+
+
+/* ===== FILTER PERIODE LAPORAN ===== */
+.admin-report-page > form.panel select,
+.admin-report-page > form.panel input[type="month"],
+.admin-report-page > form.panel input[type="date"] {
+    height: 43px;
+    width: 200px;
+    max-width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    background: #fff;
+    color: #344256;
+    font-size: 13px;
+    outline: none;
+}
+
+.admin-report-page > form.panel select:focus,
+.admin-report-page > form.panel input:focus {
+    border-color: #1769d2;
+    box-shadow: 0 0 0 3px rgba(23, 105, 210, .10);
+}
+
+.admin-report-page > form.panel button {
+    width: auto;
+    height: 43px;
+    padding: 0 18px;
+    margin: 0;
+    border-radius: 8px;
+    background: #1769d2;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-report-page > form.panel button:hover {
+    background: #1056b4;
+}
+
+@media (max-width: 768px) {
+    .admin-report-page > form.panel select,
+    .admin-report-page > form.panel input[type="month"],
+    .admin-report-page > form.panel input[type="date"],
+    .admin-report-page > form.panel button {
+        width: 100%;
+    }
+}

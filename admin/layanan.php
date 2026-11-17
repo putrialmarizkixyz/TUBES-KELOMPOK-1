@@ -48,6 +48,7 @@ if (isset($_GET['edit'])) {
 $daftar = mysqli_query($conn, 'SELECT * FROM tb_layanan ORDER BY id_layanan');
 require __DIR__ . '/_header.php';
 ?>
+<div class="admin-service-page">
 <h2>Layanan &amp; Harga</h2>
 <?php if (($_GET['msg'] ?? '') === 'tersimpan'): ?><div class="alert ok">Layanan berhasil disimpan.</div><?php endif; ?>
 <?php if (($_GET['msg'] ?? '') === 'dihapus'): ?><div class="alert ok">Layanan dihapus.</div><?php endif; ?>
@@ -89,5 +90,6 @@ require __DIR__ . '/_header.php';
   </tr>
   <?php endwhile; ?>
 </table>
+</div>
 </div>
 <?php require __DIR__ . '/_footer.php'; ?>

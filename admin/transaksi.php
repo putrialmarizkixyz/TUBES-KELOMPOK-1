@@ -23,8 +23,10 @@ if (in_array($filter, $tahap, true)) {
 }
 require __DIR__ . '/_header.php';
 ?>
-<h2>Monitoring Transaksi</h2>
-<form method="get" class="panel">
+<div class="admin-transaction-page">
+    <h2>Monitoring Transaksi</h2>
+
+    <form method="get" class="panel">
   <label>Filter status pesanan</label>
   <select name="status" onchange="this.form.submit()">
     <option value="">Semua</option>

@@ -74,21 +74,21 @@ $ringkas = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
         </a>
 
         <a href="pembayaran.php" class="dashboard-card">
-            <div class="dashboard-icon blue">💳</div>
-            <div>
+            <div class="dashboard-icon blue-icon">💳</div>
+            <div class="dashboard-card-content">
                 <h3>Pembayaran</h3>
                 <p>Lihat tagihan dan riwayat pembayaran.</p>
             </div>
-            <span class="dashboard-arrow">→</span>
+            <span class="card-arrow">→</span>
         </a>
 
         <a href="profil.php" class="dashboard-card">
-            <div class="dashboard-icon purple">👤</div>
-            <div>
+            <div class="dashboard-icon purple-icon">👤</div>
+            <div class="dashboard-card-content">
                 <h3>Profil</h3>
                 <p>Lihat informasi akun dan data pribadi Anda.</p>
             </div>
-            <span class="dashboard-arrow">→</span>
+            <span class="card-arrow">→</span>
         </a>
 
     </div>

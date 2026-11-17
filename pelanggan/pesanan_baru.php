@@ -42,10 +42,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_execute($ins);
             $id_pesanan = mysqli_insert_id($conn);
 
-            $det = mysqli_prepare($conn, 'INSERT INTO tb_detail_laundry (id_pesanan, id_layanan, berat_perkiraan, subtotal, catatan) VALUES (?, ?, ?, ?, ?)');
+            $det = mysqli_prepare($conn, '
+                INSERT INTO tb_detail_laundry
+                (id_pesanan, id_layanan, harga_per_kg, berat_perkiraan, subtotal, catatan)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ');
+
             foreach ($pilih as $idl => [$b, $c]) {
-                $sub = $b * $layanan[$idl]['harga_per_kg'];
-                mysqli_stmt_bind_param($det, 'iidds', $id_pesanan, $idl, $b, $sub, $c);
+                $harga = (float)$layanan[$idl]['harga_per_kg'];
+                $sub = $b * $harga;
+
+                mysqli_stmt_bind_param(
+                    $det,
+                    'iiddds',
+                    $id_pesanan,
+                    $idl,
+                    $harga,
+                    $b,
+                    $sub,
+                    $c
+                );
+
                 mysqli_stmt_execute($det);
             }
 
@@ -164,7 +181,7 @@ require __DIR__ . '/_header.php';
                 <p>Ditentukan oleh jenis layanan yang dipilih, tidak dipengaruhi berat cucian.</p>
             </div>
 
-            <button type="submit" class="order-submit">
+            <button type="submit" class="order-submit" id="tombolKirim" disabled>
                 Kirim Pesanan <span>→</span>
             </button>
         </div>
@@ -181,32 +198,50 @@ require __DIR__ . '/_header.php';
 
 <script>
 const inputs = document.querySelectorAll('input[data-harga]');
+const tombolKirim = document.getElementById('tombolKirim');
 
 function hitung() {
     let t = 0;
     let jam = 0;
+    let adaPesanan = false;
+    let inputValid = true;
 
     inputs.forEach(i => {
-        const b = parseFloat(String(i.value).replace(',', '.'));
+        const nilai = i.value.trim();
 
-        if (b > 0) {
-            t += b * parseFloat(i.dataset.harga);
-            jam = Math.max(jam, parseInt(i.dataset.jam, 10));
+        if (nilai === '') return;
+
+        const b = parseFloat(nilai);
+
+        if (!Number.isFinite(b) || b <= 0 || b > 100) {
+            inputValid = false;
+            return;
         }
+
+        adaPesanan = true;
+        t += b * parseFloat(i.dataset.harga);
+        jam = Math.max(jam, parseInt(i.dataset.jam, 10));
     });
 
     document.getElementById('total').textContent =
         'Rp ' + Math.round(t).toLocaleString('id-ID');
 
     let teks = '-';
+
     if (jam > 0) {
         teks = jam + ' jam';
+
         if (jam >= 24) {
             const hari = Math.round(jam / 24 * 10) / 10;
-            teks += ' (\u2248 ' + String(hari).replace('.', ',') + ' hari)';
+            teks += ' (≈ ' + String(hari).replace('.', ',') + ' hari)';
         }
     }
+
     document.getElementById('estimasi').textContent = teks;
+
+    // Tombol aktif jika minimal satu layanan diisi
+    // dan semua berat yang diisi sudah valid.
+    tombolKirim.disabled = !(adaPesanan && inputValid);
 }
 
 inputs.forEach(i => i.addEventListener('input', hitung));

@@ -65,9 +65,9 @@ $pesanan_selesai = 0;
             $ada = true;
             $total_pesanan++;
 
-            if (in_array($p['status'], ['selesai', 'siap_diambil'])) {
+            if ($p['status'] === 'selesai' || $p['status'] === 'siap_diambil') {
                 $pesanan_selesai++;
-            } elseif ($p['status'] !== 'ditolak') {
+            } elseif (!in_array($p['status'], ['ditolak'])) {
                 $pesanan_aktif++;
             }
         ?>
@@ -79,9 +79,18 @@ $pesanan_selesai = 0;
                     <h3>#<?= (int)$p['id_pesanan'] ?></h3>
                 </div>
 
-                <span class="badge <?= e($p['status']) ?>">
-                    <?= e(label_status($p['status'])) ?>
-                </span>
+                <div class="history-status">
+                    <span class="badge <?= e($p['status']) ?>">
+                        <?= e(label_status($p['status'])) ?>
+                    </span>
+
+                    <?php if ($p['status'] === 'ditolak' && !empty($p['alasan_penolakan'])): ?>
+                        <p class="alasan-penolakan">
+                            <strong>Alasan penolakan:</strong>
+                            <?= e($p['alasan_penolakan']) ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="history-card-info">

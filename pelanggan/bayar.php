@@ -6,7 +6,14 @@ $judul = 'Pembayaran';
 $id_pesanan = (int)($_GET['id'] ?? $_POST['id_pesanan'] ?? 0);
 $idp = (int)$_SESSION['id_pengguna'];
 
-$q = mysqli_prepare($conn, 'SELECT * FROM tb_pesanan WHERE id_pesanan = ? AND id_pengguna = ?');
+$q = mysqli_prepare($conn, "
+    SELECT *
+    FROM tb_pesanan
+    WHERE id_pesanan = ?
+    AND id_pengguna = ?
+    AND status != 'ditolak'
+");
+
 mysqli_stmt_bind_param($q, 'ii', $id_pesanan, $idp);
 mysqli_stmt_execute($q);
 $p = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
@@ -62,57 +69,300 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && $sudah_timbang && $p['st
         $ins = mysqli_prepare($conn, "INSERT INTO tb_pembayaran (id_pesanan, metode_bayar, jumlah_bayar, status_bayar, tanggal_bayar, bukti_bayar) VALUES (?, ?, ?, 'lunas', ?, ?)");
         mysqli_stmt_bind_param($ins, 'isdss', $id_pesanan, $metode, $jumlah, $now, $path);
         mysqli_stmt_execute($ins);
-        header('Location: bayar.php?id=' . $id_pesanan . '&ok=1');
-        exit;
+
+        if (mysqli_stmt_affected_rows($ins) > 0) {
+
+            $judul_notif = 'Pembayaran Berhasil';
+            $pesan_notif = 'Pembayaran pesanan #' . $id_pesanan .
+                ' telah berhasil dicatat. Terima kasih telah menggunakan LaundryKu.';
+
+            $n = mysqli_prepare($conn, "
+                INSERT INTO tb_notifikasi
+                    (id_pengguna, id_pesanan, judul, pesan)
+                VALUES (?, ?, ?, ?)
+            ");
+
+            mysqli_stmt_bind_param(
+                $n,
+                'iiss',
+                $idp,
+                $id_pesanan,
+                $judul_notif,
+                $pesan_notif
+            );
+
+            mysqli_stmt_execute($n);
+
+            header('Location: bayar.php?id=' . $id_pesanan . '&ok=1');
+            exit;
+
+        } else {
+            $error = 'Pembayaran gagal disimpan. Silakan coba kembali.';
+        }
     }
 }
 
 require __DIR__ . '/_header.php';
 ?>
-<h2>Pembayaran Pesanan #<?= $id_pesanan ?></h2>
-<?php if ($p['status'] === 'ditolak'): ?>
-  <div class="alert">Pesanan ini telah ditolak petugas, sehingga tidak perlu dibayar.</div>
-  <p><a href="pesanan_detail.php?id=<?= $id_pesanan ?>">&larr; Kembali ke detail pesanan</a></p>
-<?php require __DIR__ . '/_footer.php'; exit; endif; ?>
-<?php if (!empty($_GET['ok'])): ?><div class="alert ok">Pembayaran berhasil dicatat. Terima kasih!</div><?php endif; ?>
-<?php if ($error): ?><div class="alert"><?= e($error) ?></div><?php endif; ?>
 
-<div class="panel">
-  <p>Status pesanan: <span class="badge <?= e($p['status']) ?>"><?= e(label_status($p['status'])) ?></span></p>
-  <p class="total"><?= $sudah_timbang ? 'Harga pasti' : 'Perkiraan total' ?>: <?= rupiah($p['total_harga']) ?></p>
-</div>
+<style>
+/* Penyesuaian judul pembayaran */
+.payment-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin: 8px 0;
+}
 
-<?php if ($lunas): ?>
-  <div class="panel">
-    <p><span class="badge lunas">Lunas</span></p>
-    <p>Metode: <?= e($bayar['metode_bayar']) ?><br>
-       Jumlah: <?= rupiah($bayar['jumlah_bayar']) ?><br>
-       Tanggal: <?= e(date('d/m/Y H:i', strtotime($bayar['tanggal_bayar']))) ?></p>
-    <?php if ($bayar['bukti_bayar']): ?><p><a href="<?= BASE_URL . '/' . e($bayar['bukti_bayar']) ?>" target="_blank">Lihat bukti pembayaran</a></p><?php endif; ?>
-  </div>
-<?php elseif (!$sudah_timbang): ?>
-  <div class="alert">Harga pasti belum tersedia. Pembayaran dapat dilakukan setelah petugas menimbang cucian Anda.</div>
-<?php else: ?>
-  <form method="post" enctype="multipart/form-data" class="panel">
-    <input type="hidden" name="id_pesanan" value="<?= $id_pesanan ?>">
-    <label>Metode pembayaran</label>
-    <select name="metode" id="metode" required>
-      <option value="">- Pilih -</option>
-      <option>Transfer Bank</option>
-      <option>E-Wallet</option>
-      <option>Tunai</option>
-    </select>
-    <div id="boxBukti">
-      <label>Bukti pembayaran (JPG/PNG/PDF, maks. 2 MB)</label>
-      <input type="file" name="bukti" accept=".jpg,.jpeg,.png,.pdf">
+.payment-title h2 {
+    margin: 0;
+    line-height: 1.3;
+}
+
+.payment-title span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.payment-select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 42px 12px 14px;
+    background-position: right 16px center;
+    cursor: pointer;
+}
+</style>
+
+<section class="payment-page">
+
+    <!-- Judul halaman -->
+    <div class="payment-heading">
+        <div>
+            <span class="detail-label">TRANSAKSI PEMBAYARAN</span>
+
+            <div class="payment-title">
+                <h2>Pembayaran Pesanan</h2>
+                <span>#<?= $id_pesanan ?></span>
+            </div>
+
+            <p>Selesaikan pembayaran laundry Anda dengan mudah dan aman.</p>
+        </div>
+
+        <div class="payment-heading-icon">💳</div>
     </div>
-    <button type="submit">Konfirmasi Pembayaran <?= rupiah($p['total_harga']) ?></button>
-  </form>
-  <script>
-    const m = document.getElementById('metode'), b = document.getElementById('boxBukti');
-    function tampil() { b.style.display = (m.value === 'Tunai') ? 'none' : 'block'; }
-    m.addEventListener('change', tampil); tampil();
-  </script>
-<?php endif; ?>
-<p><a href="pesanan_detail.php?id=<?= $id_pesanan ?>">&larr; Kembali ke detail pesanan</a></p>
+
+    <!-- Pesan pembayaran -->
+    <?php if (!empty($_GET['ok'])): ?>
+        <div class="payment-alert success">
+            <span>✓</span>
+            <div>
+                <strong>Pembayaran Berhasil!</strong>
+                <p>Pembayaran Anda berhasil dicatat. Terima kasih telah menggunakan LaundryKu.</p>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($error): ?>
+        <div class="payment-alert error">
+            <span>!</span>
+            <div>
+                <strong>Pembayaran Belum Berhasil</strong>
+                <p><?= e($error) ?></p>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($p['status'] === 'ditolak'): ?>
+
+        <div class="payment-panel">
+            <div class="payment-rejected">
+                <div class="payment-status-icon">✕</div>
+                <h2>Pesanan Ditolak</h2>
+                <p>Pesanan ini telah ditolak oleh petugas sehingga tidak perlu melakukan pembayaran.</p>
+            </div>
+        </div>
+
+    <?php else: ?>
+
+        <!-- Informasi pesanan -->
+        <div class="payment-panel">
+            <div class="payment-section-heading">
+                <div>
+                    <h2>Informasi Pesanan</h2>
+                    <p>Ringkasan status dan biaya pesanan Anda.</p>
+                </div>
+                <span class="badge <?= e($p['status']) ?>">
+                    <?= e(label_status($p['status'])) ?>
+                </span>
+            </div>
+
+            <div class="payment-info">
+                <div>
+                    <small>Nomor Pesanan</small>
+                    <strong>#<?= $id_pesanan ?></strong>
+                </div>
+
+                <div>
+                    <small>Status Pembayaran</small>
+                    <strong>
+                        <?php if ($lunas): ?>
+                            <span class="badge lunas">Lunas</span>
+                        <?php else: ?>
+                            <span class="badge belum_bayar">Belum Dibayar</span>
+                        <?php endif; ?>
+                    </strong>
+                </div>
+            </div>
+
+            <div class="payment-total">
+                <div>
+                    <small><?= $sudah_timbang ? 'TOTAL HARGA PASTI' : 'PERKIRAAN TOTAL' ?></small>
+                    <h2><?= rupiah($p['total_harga']) ?></h2>
+                    <p>
+                        <?= $sudah_timbang
+                            ? 'Berat aktual cucian sudah dicatat oleh petugas.'
+                            : 'Harga pasti akan tersedia setelah petugas menimbang cucian Anda.' ?>
+                    </p>
+                </div>
+                <div class="payment-total-icon">💰</div>
+            </div>
+        </div>
+
+        <!-- Kondisi pembayaran -->
+        <?php if ($lunas): ?>
+
+            <div class="payment-panel">
+                <div class="payment-section-heading">
+                    <div>
+                        <h2>Detail Pembayaran</h2>
+                        <p>Pembayaran untuk pesanan ini sudah tercatat.</p>
+                    </div>
+                    <span class="badge lunas">Lunas</span>
+                </div>
+
+                <div class="payment-info payment-info-detail">
+                    <div>
+                        <small>Metode Pembayaran</small>
+                        <strong><?= e($bayar['metode_bayar']) ?></strong>
+                    </div>
+
+                    <div>
+                        <small>Jumlah Dibayar</small>
+                        <strong><?= rupiah($bayar['jumlah_bayar']) ?></strong>
+                    </div>
+
+                    <div>
+                        <small>Tanggal Pembayaran</small>
+                        <strong><?= e(date('d/m/Y H:i', strtotime($bayar['tanggal_bayar']))) ?></strong>
+                    </div>
+                </div>
+
+                <?php if ($bayar['bukti_bayar']): ?>
+                    <a
+                        href="<?= BASE_URL . '/' . e($bayar['bukti_bayar']) ?>"
+                        target="_blank"
+                        class="payment-proof-link"
+                    >
+                        Lihat Bukti Pembayaran →
+                    </a>
+                <?php endif; ?>
+            </div>
+
+        <?php elseif (!$sudah_timbang): ?>
+
+            <div class="payment-alert info">
+                <span>i</span>
+                <div>
+                    <strong>Pembayaran Belum Tersedia</strong>
+                    <p>
+                        Harga pasti belum tersedia. Anda dapat melakukan pembayaran
+                        setelah petugas menimbang seluruh cucian dan mencatat berat aktualnya.
+                    </p>
+                </div>
+            </div>
+
+        <?php else: ?>
+
+            <!-- Formulir pembayaran -->
+            <div class="payment-panel">
+                <div class="payment-section-heading">
+                    <div>
+                        <h2>Metode Pembayaran</h2>
+                        <p>Pilih metode pembayaran yang ingin Anda gunakan.</p>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="payment-form">
+
+                    <input type="hidden" name="id_pesanan" value="<?= $id_pesanan ?>">
+
+                    <div class="payment-field">
+                        <label for="metode">Pilih Metode Pembayaran</label>
+                        <select name="metode" id="metode" class="payment-select" required>
+                            <option value="">-- Pilih Metode Pembayaran --</option>
+                            <option value="Transfer Bank">Transfer Bank</option>
+                            <option value="E-Wallet">E-Wallet</option>
+                            <option value="Tunai">Tunai</option>
+                        </select>
+                    </div>
+
+                    <div class="payment-field" id="boxBukti">
+                         <label for="bukti">Bukti pembayaran (JPG/PNG/PDF, maks. 2 MB)</label>
+                          <input
+                              type="file"
+                              name="bukti"
+                              id="bukti"
+                              accept=".jpg,.jpeg,.png,.pdf"
+                          >
+                    </div>
+
+                    <div class="payment-confirmation">
+                        <div>
+                            <small>Total yang harus dibayar</small>
+                            <strong><?= rupiah($p['total_harga']) ?></strong>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="payment-submit">
+                        Konfirmasi Pembayaran
+                        <span>→</span>
+                    </button>
+                </form>
+            </div>
+            
+            <script>
+                const m = document.getElementById('metode');
+                const b = document.getElementById('boxBukti');
+                const f = document.getElementById('bukti');
+
+                function tampil() {
+                    const tunai = m.value === 'Tunai';
+
+                    b.style.display = tunai ? 'none' : 'block';
+                    f.required = !tunai;
+                }
+
+                m.addEventListener('change', tampil);
+                tampil();
+            </script>
+
+        <?php endif; ?>
+
+    <?php endif; ?>
+
+    <a href="pesanan_detail.php?id=<?= $id_pesanan ?>" class="payment-back">
+        ← Kembali ke Detail Pesanan
+    </a>
+
+</section>
+
 <?php require __DIR__ . '/_footer.php'; ?>

@@ -15,3 +15,7 @@ function label_status($s) {
           'disetrika'=>'Disetrika','selesai'=>'Selesai','siap_diambil'=>'Siap Diambil'];
     return $m[$s] ?? $s;
 }
+function hitung_estimasi_jam($jam_dasar, $berat_kg) {
+    $tambahan = max(0, ceil(($berat_kg - 5) / 5));
+    return (int)$jam_dasar + (int)($tambahan * 6);
+}

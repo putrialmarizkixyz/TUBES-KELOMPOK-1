@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $total = 0; $jam_max = 0;
             foreach ($pilih as $idl => [$b, $c]) {
                 $total += $b * $layanan[$idl]['harga_per_kg'];   
-                $jam_max = max($jam_max, (int)$layanan[$idl]['estimasi_selesai']);
+                $jam_max = max($jam_max, hitung_estimasi_jam($layanan[$idl]['estimasi_selesai'], $b));
             }
             $estimasi = date('Y-m-d H:i:s', strtotime("+$jam_max hours"));
             $now = date('Y-m-d H:i:s');

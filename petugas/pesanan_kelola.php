@@ -14,7 +14,7 @@ function ambil_pesanan($conn, $id_pesanan, $idpt) {
     return mysqli_fetch_assoc(mysqli_stmt_get_result($q));
 }
 function ambil_detail($conn, $id_pesanan) {
-    $q = mysqli_prepare($conn, 'SELECT d.*, l.nama_layanan, l.harga_per_kg FROM tb_detail_laundry d JOIN tb_layanan l ON l.id_layanan = d.id_layanan WHERE d.id_pesanan = ?');
+    $q = mysqli_prepare($conn, 'SELECT d.*, l.nama_layanan, l.harga_per_kg, l.estimasi_selesai AS jam_dasar FROM tb_detail_laundry d JOIN tb_layanan l ON l.id_layanan = d.id_layanan WHERE d.id_pesanan = ?');
     mysqli_stmt_bind_param($q, 'i', $id_pesanan);
     mysqli_stmt_execute($q);
     return mysqli_fetch_all(mysqli_stmt_get_result($q), MYSQLI_ASSOC);
@@ -47,20 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$error) {
                 try {
                     mysqli_begin_transaction($conn);
-                    $total = 0;
+                    $total = 0; $jam_max = 0;
                     $u = mysqli_prepare($conn, 'UPDATE tb_detail_laundry SET berat_aktual = ?, subtotal = ? WHERE id_detail = ? AND id_pesanan = ?');
                     foreach ($detail as $d) {
                         $b = $baru[$d['id_detail']];
                         $sub = $b * $d['harga_per_kg'];          // harga pasti = berat aktual x harga per kg
                         $total += $sub;
+                        $jam_max = max($jam_max, hitung_estimasi_jam($d['jam_dasar'], $b)); // estimasi otomatis
                         mysqli_stmt_bind_param($u, 'ddii', $b, $sub, $d['id_detail'], $id_pesanan);
                         mysqli_stmt_execute($u);
                     }
-                    $t = mysqli_prepare($conn, 'UPDATE tb_pesanan SET total_harga = ? WHERE id_pesanan = ?');
-                    mysqli_stmt_bind_param($t, 'di', $total, $id_pesanan);
+                    $estimasi = date('Y-m-d H:i:s', strtotime($p['tanggal_pesan'] . " +$jam_max hours"));
+                    $t = mysqli_prepare($conn, 'UPDATE tb_pesanan SET total_harga = ?, estimasi_selesai = ? WHERE id_pesanan = ?');
+                    mysqli_stmt_bind_param($t, 'dsi', $total, $estimasi, $id_pesanan);
                     mysqli_stmt_execute($t);
                     mysqli_commit($conn);
-                    $ok = 'Berat aktual tersimpan. Harga pasti: ' . rupiah($total) . '.';
+                    $ok = 'Berat aktual tersimpan. Harga pasti: ' . rupiah($total) . '. Estimasi selesai: ' . date('d/m/Y H:i', strtotime($estimasi)) . '.';
                 } catch (Throwable $ex) {
                     mysqli_rollback($conn);
                     $error = 'Gagal menyimpan berat. Silakan coba lagi.';
@@ -109,7 +111,8 @@ require __DIR__ . '/_header.php';
     <?php endforeach; ?>
   </div>
   <p>Pelanggan: <strong><?= e($p['nama']) ?></strong> (<?= e($p['no_telepon']) ?>)<br>
-     Dipesan: <?= e(date('d/m/Y H:i', strtotime($p['tanggal_pesan']))) ?></p>
+     Dipesan: <?= e(date('d/m/Y H:i', strtotime($p['tanggal_pesan']))) ?><br>
+     Estimasi selesai: <?= $p['estimasi_selesai'] ? e(date('d/m/Y H:i', strtotime($p['estimasi_selesai']))) : '-' ?></p>
 </div>
 
 <form method="post">

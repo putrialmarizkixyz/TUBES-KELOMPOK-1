@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS db_laundry CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE db_laundry;
 
-DROP TABLE IF EXISTS tb_laporan, tb_pembayaran, tb_detail_laundry, tb_pesanan, tb_layanan, tb_pengguna;
+DROP TABLE IF EXISTS tb_notifikasi, tb_laporan, tb_pembayaran, tb_detail_laundry, tb_pesanan, tb_layanan, tb_pengguna;
 
 CREATE TABLE tb_pengguna (
   id_pengguna INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -27,12 +27,24 @@ CREATE TABLE tb_pesanan (
   id_pengguna INT(11) NOT NULL,
   id_petugas INT(11) NULL,
   tanggal_pesan DATETIME DEFAULT CURRENT_TIMESTAMP,
-  status ENUM('menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil','ditolak') NOT NULL DEFAULT 'menunggu',
+  status ENUM('menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil','diambil','ditolak') NOT NULL DEFAULT 'menunggu',
   alasan_penolakan VARCHAR(255) NULL,
   estimasi_selesai DATETIME NULL,
   total_harga DECIMAL(10,2) NOT NULL DEFAULT 0,
   FOREIGN KEY (id_pengguna) REFERENCES tb_pengguna(id_pengguna),
   FOREIGN KEY (id_petugas) REFERENCES tb_pengguna(id_pengguna)
+);
+
+CREATE TABLE tb_notifikasi (
+  id_notifikasi INT(11) AUTO_INCREMENT PRIMARY KEY,
+  id_pengguna INT(11) NOT NULL,
+  id_pesanan INT(11) NULL,
+  judul VARCHAR(100) NOT NULL,
+  pesan TEXT NOT NULL,
+  status_baca ENUM('belum_dibaca','sudah_dibaca') NOT NULL DEFAULT 'belum_dibaca',
+  tanggal_dibuat DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_pengguna) REFERENCES tb_pengguna(id_pengguna) ON DELETE CASCADE,
+  FOREIGN KEY (id_pesanan) REFERENCES tb_pesanan(id_pesanan) ON DELETE CASCADE
 );
 
 CREATE TABLE tb_detail_laundry (

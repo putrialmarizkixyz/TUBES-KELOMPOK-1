@@ -278,7 +278,7 @@ $posisi = array_search($p['status'], $tahap, true);
                 <span>Status Pembayaran</span>
                 <strong>
                     <?= $bayar
-                        ? e($bayar['status_bayar'] === 'lunas' ? 'Lunas' : 'Belum Dibayar')
+                        ? e(label_bayar($bayar['status_bayar']))
                         : 'Belum Dibayar' ?>
                 </strong>
             </div>
@@ -299,17 +299,6 @@ $posisi = array_search($p['status'], $tahap, true);
         </div>
 
     </div>
-
-        <?php
-    $sudah_lunas = ($bayar && $bayar['status_bayar'] === 'lunas');
-    if ($sudah_timbang && !$sudah_lunas && !$ditolak):
-    ?>
-        <p style="margin:16px 0;text-align:center">
-            <a href="bayar.php?id=<?= (int)$id_pesanan ?>" class="btn-bayar">
-                💳 Bayar Sekarang
-            </a>
-        </p>
-    <?php endif; ?>
 
     <a href="pesanan_saya.php" class="detail-back">
         ← Kembali ke Pesanan Saya

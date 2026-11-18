@@ -34,9 +34,10 @@ function ambil_bayar($conn, $id_pesanan) {
 }
 $bayar = ambil_bayar($conn, $id_pesanan);
 $lunas = ($bayar && $bayar['status_bayar'] === 'lunas');
+$menunggu = ($bayar && $bayar['status_bayar'] === 'menunggu_verifikasi');
 
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && $sudah_timbang && $p['status'] !== 'ditolak') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && !$menunggu && $sudah_timbang && $p['status'] !== 'ditolak') {
     $metode = $_POST['metode'] ?? '';
     $path = null;
 
@@ -66,15 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$lunas && $sudah_timbang && $p['st
     if (!$error) {
         $now = date('Y-m-d H:i:s');
         $jumlah = (float)$p['total_harga'];
-        $ins = mysqli_prepare($conn, "INSERT INTO tb_pembayaran (id_pesanan, metode_bayar, jumlah_bayar, status_bayar, tanggal_bayar, bukti_bayar) VALUES (?, ?, ?, 'lunas', ?, ?)");
+        $ins = mysqli_prepare($conn, "INSERT INTO tb_pembayaran (id_pesanan, metode_bayar, jumlah_bayar, status_bayar, tanggal_bayar, bukti_bayar) VALUES (?, ?, ?, 'menunggu_verifikasi', ?, ?)");
         mysqli_stmt_bind_param($ins, 'isdss', $id_pesanan, $metode, $jumlah, $now, $path);
         mysqli_stmt_execute($ins);
 
         if (mysqli_stmt_affected_rows($ins) > 0) {
 
-            $judul_notif = 'Pembayaran Berhasil';
+            $judul_notif = 'Bukti Pembayaran Terkirim';
             $pesan_notif = 'Pembayaran pesanan #' . $id_pesanan .
-                ' telah berhasil dicatat. Terima kasih telah menggunakan LaundryKu.';
+                ' telah dikirim dan menunggu verifikasi petugas.';
 
             $n = mysqli_prepare($conn, "
                 INSERT INTO tb_notifikasi
@@ -165,8 +166,8 @@ require __DIR__ . '/_header.php';
         <div class="payment-alert success">
             <span>✓</span>
             <div>
-                <strong>Pembayaran Berhasil!</strong>
-                <p>Pembayaran Anda berhasil dicatat. Terima kasih telah menggunakan LaundryKu.</p>
+                <strong>Bukti Pembayaran Terkirim!</strong>
+                <p>Pembayaran Anda menunggu verifikasi petugas. Pesanan dinyatakan lunas setelah petugas menyetujuinya.</p>
             </div>
         </div>
     <?php endif; ?>
@@ -214,11 +215,9 @@ require __DIR__ . '/_header.php';
                 <div>
                     <small>Status Pembayaran</small>
                     <strong>
-                        <?php if ($lunas): ?>
-                            <span class="badge lunas">Lunas</span>
-                        <?php else: ?>
-                            <span class="badge belum_bayar">Belum Dibayar</span>
-                        <?php endif; ?>
+                        <span class="badge <?= e($bayar['status_bayar'] ?? 'belum_bayar') ?>">
+                            <?= e(label_bayar($bayar['status_bayar'] ?? 'belum_bayar')) ?>
+                        </span>
                     </strong>
                 </div>
             </div>
@@ -238,15 +237,17 @@ require __DIR__ . '/_header.php';
         </div>
 
         <!-- Kondisi pembayaran -->
-        <?php if ($lunas): ?>
+        <?php if ($lunas || $menunggu): ?>
 
             <div class="payment-panel">
                 <div class="payment-section-heading">
                     <div>
                         <h2>Detail Pembayaran</h2>
-                        <p>Pembayaran untuk pesanan ini sudah tercatat.</p>
+                        <p><?= $menunggu
+                            ? 'Bukti pembayaran Anda sedang diperiksa petugas. Pesanan baru dapat diambil setelah pembayaran diverifikasi.'
+                            : 'Pembayaran untuk pesanan ini sudah diverifikasi dan tercatat.' ?></p>
                     </div>
-                    <span class="badge lunas">Lunas</span>
+                    <span class="badge <?= e($bayar['status_bayar']) ?>"><?= e(label_bayar($bayar['status_bayar'])) ?></span>
                 </div>
 
                 <div class="payment-info payment-info-detail">
@@ -291,6 +292,16 @@ require __DIR__ . '/_header.php';
             </div>
 
         <?php else: ?>
+
+            <?php if ($bayar && $bayar['status_bayar'] === 'ditolak'): ?>
+                <div class="payment-alert error">
+                    <span>!</span>
+                    <div>
+                        <strong>Pembayaran Sebelumnya Ditolak</strong>
+                        <p><?= e($bayar['catatan_verifikasi'] ?: 'Bukti pembayaran tidak dapat diverifikasi.') ?> Silakan kirim ulang bukti pembayaran.</p>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <!-- Formulir pembayaran -->
             <div class="payment-panel">

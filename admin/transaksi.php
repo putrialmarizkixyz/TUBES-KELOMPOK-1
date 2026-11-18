@@ -48,7 +48,7 @@ require __DIR__ . '/_header.php';
       <?php if ($p['status_bayar'] === 'lunas'): ?>
         <span class="badge lunas">Lunas</span> <small><?= e($p['metode_bayar']) ?></small>
         <?php if ($p['bukti_bayar']): ?><br><a href="<?= BASE_URL . '/' . e($p['bukti_bayar']) ?>" target="_blank">Bukti</a><?php endif; ?>
-      <?php else: ?><span class="badge belum_bayar">Belum bayar</span><?php endif; ?>
+      <?php else: $sb = $p['status_bayar'] ?: 'belum_bayar'; ?><span class="badge <?= e($sb) ?>"><?= e(label_bayar($sb)) ?></span><?php endif; ?>
     </td>
   </tr>
   <?php endwhile; ?>

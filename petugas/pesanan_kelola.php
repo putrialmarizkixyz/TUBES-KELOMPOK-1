@@ -163,6 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($p['status'] !== 'siap_diambil') {
             $error = 'Pesanan belum siap diambil atau sudah dikonfirmasi sebelumnya.';
+        } elseif (!sudah_lunas($conn, $id_pesanan)) {
+            $error = 'Pesanan belum dapat diserahkan karena pembayaran belum diverifikasi lunas.';
         } else {
             $status_baru = 'diambil';
 
@@ -521,7 +523,7 @@ require __DIR__ . '/_header.php';
                 <span>Status Pembayaran</span>
                 <strong>
                     <?= $bayar
-                        ? e($bayar['status_bayar'] === 'lunas' ? 'Lunas' : 'Belum Dibayar')
+                        ? e(label_bayar($bayar['status_bayar']))
                         : 'Belum Dibayar' ?>
                 </strong>
             </div>

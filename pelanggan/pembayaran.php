@@ -62,7 +62,7 @@ $hasil = mysqli_stmt_get_result($q);
 
                     <?php if ($b['id_pembayaran']): ?>
                         <span class="payment-status <?= e($b['status_bayar']) ?>">
-                            <?= $b['status_bayar'] === 'lunas' ? 'Lunas' : 'Belum Bayar' ?>
+                            <?= e(label_bayar($b['status_bayar'])) ?>
                         </span>
                     <?php else: ?>
                         <span class="payment-status belum_bayar">
@@ -115,7 +115,7 @@ $hasil = mysqli_stmt_get_result($q);
                 <div class="payment-card-action">
                     <?php if (
                         !$b['id_pembayaran'] ||
-                        $b['status_bayar'] !== 'lunas'
+                        in_array($b['status_bayar'], ['belum_bayar', 'ditolak'], true)
                     ): ?>
                         <a href="bayar.php?id=<?= (int)$b['id_pesanan'] ?>"
                         class="btn-bayar">
@@ -123,7 +123,7 @@ $hasil = mysqli_stmt_get_result($q);
                         </a>
                     <?php else: ?>
                         <span class="payment-paid">
-                            ✓ Pembayaran Lunas
+                            <?= $b['status_bayar'] === 'lunas' ? '✓ Pembayaran Lunas' : '⏳ Menunggu Verifikasi Petugas' ?>
                         </span>
                     <?php endif; ?>
                 </div>

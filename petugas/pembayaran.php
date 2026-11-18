@@ -15,7 +15,7 @@ $q = mysqli_prepare($conn, "
     JOIN tb_pesanan p ON p.id_pesanan = b.id_pesanan
     JOIN tb_pengguna u ON u.id_pengguna = p.id_pengguna
     WHERE p.id_petugas = ?
-    ORDER BY b.tanggal_bayar DESC, b.id_pembayaran DESC
+    ORDER BY (b.status_bayar = 'menunggu_verifikasi') DESC, b.tanggal_bayar DESC, b.id_pembayaran DESC
 ");
 
 mysqli_stmt_bind_param($q, 'i', $idpt);
@@ -78,9 +78,7 @@ require __DIR__ . '/_header.php';
 
                             <td>
                                 <span class="badge <?= e($b['status_bayar']) ?>">
-                                    <?= e($b['status_bayar'] === 'lunas'
-                                        ? 'Lunas'
-                                        : 'Belum Dibayar') ?>
+                                    <?= e(label_bayar($b['status_bayar'])) ?>
                                 </span>
                             </td>
 

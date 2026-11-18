@@ -158,9 +158,7 @@ require __DIR__ . '/_header.php';
 
                             <td>
                                 <span class="badge <?= e($b['status_bayar']) ?>">
-                                    <?= e($b['status_bayar'] === 'lunas'
-                                        ? 'Lunas'
-                                        : 'Belum Dibayar') ?>
+                                    <?= e(label_bayar($b['status_bayar'])) ?>
                                 </span>
                             </td>
 

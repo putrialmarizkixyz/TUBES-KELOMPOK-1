@@ -35,6 +35,47 @@ if (!$b) {
     die('Data pembayaran tidak ditemukan atau bukan pesanan Anda.');
 }
 
+// ===== VERIFIKASI PEMBAYARAN OLEH PETUGAS =====
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $b['status_bayar'] === 'menunggu_verifikasi') {
+    $aksi = $_POST['aksi'] ?? '';
+    $id_psn = (int)$b['id_pesanan'];
+    $hasil_msg = '';
+
+    if ($aksi === 'acc') {
+        $u = mysqli_prepare($conn, "UPDATE tb_pembayaran SET status_bayar = 'lunas', catatan_verifikasi = NULL WHERE id_pembayaran = ? AND status_bayar = 'menunggu_verifikasi'");
+        mysqli_stmt_bind_param($u, 'i', $id_pembayaran);
+        mysqli_stmt_execute($u);
+        if (mysqli_stmt_affected_rows($u) > 0) {
+            $judul_notif = 'Pembayaran Diverifikasi';
+            $pesan_notif = 'Pembayaran pesanan #' . $id_psn . ' telah diverifikasi petugas dan dinyatakan lunas.';
+            $hasil_msg = 'acc';
+        }
+    } elseif ($aksi === 'tolak') {
+        $alasan = trim($_POST['alasan'] ?? '');
+        if ($alasan === '') {
+            header('Location: pembayaran_detail.php?id=' . $id_pembayaran . '&msg=alasan');
+            exit;
+        }
+        $alasan = mb_substr($alasan, 0, 255);
+        $u = mysqli_prepare($conn, "UPDATE tb_pembayaran SET status_bayar = 'ditolak', catatan_verifikasi = ? WHERE id_pembayaran = ? AND status_bayar = 'menunggu_verifikasi'");
+        mysqli_stmt_bind_param($u, 'si', $alasan, $id_pembayaran);
+        mysqli_stmt_execute($u);
+        if (mysqli_stmt_affected_rows($u) > 0) {
+            $judul_notif = 'Pembayaran Ditolak';
+            $pesan_notif = 'Pembayaran pesanan #' . $id_psn . ' ditolak petugas. Alasan: ' . $alasan . '. Silakan kirim ulang bukti pembayaran.';
+            $hasil_msg = 'tolak';
+        }
+    }
+
+    if ($hasil_msg !== '') {
+        $n = mysqli_prepare($conn, "INSERT INTO tb_notifikasi (id_pengguna, id_pesanan, judul, pesan) SELECT id_pengguna, id_pesanan, ?, ? FROM tb_pesanan WHERE id_pesanan = ?");
+        mysqli_stmt_bind_param($n, 'ssi', $judul_notif, $pesan_notif, $id_psn);
+        mysqli_stmt_execute($n);
+    }
+    header('Location: pembayaran_detail.php?id=' . $id_pembayaran . '&msg=' . ($hasil_msg ?: 'gagal'));
+    exit;
+}
+
 require __DIR__ . '/_header.php';
 ?>
 
@@ -59,9 +100,7 @@ require __DIR__ . '/_header.php';
         </div>
 
         <span class="badge <?= e($b['status_bayar']) ?>">
-            <?= e($b['status_bayar'] === 'lunas'
-                ? 'Lunas'
-                : 'Belum Dibayar') ?>
+            <?= e(label_bayar($b['status_bayar'])) ?>
         </span>
     </div>
 
@@ -163,6 +202,41 @@ require __DIR__ . '/_header.php';
             Hal ini dapat terjadi pada pembayaran tunai.
         </div>
 
+    <?php endif; ?>
+
+</div>
+
+<!-- VERIFIKASI PEMBAYARAN -->
+<div class="petugas-content-card">
+
+    <div class="petugas-card-heading">
+        <div>
+            <h3>Verifikasi Pembayaran</h3>
+            <p>Periksa bukti pembayaran, lalu terima atau tolak.</p>
+        </div>
+    </div>
+
+    <?php $msg = $_GET['msg'] ?? ''; ?>
+    <?php if ($msg === 'acc'): ?><div class="alert ok">Pembayaran diverifikasi dan dinyatakan lunas.</div><?php endif; ?>
+    <?php if ($msg === 'tolak'): ?><div class="alert">Pembayaran ditolak. Pelanggan diminta mengirim ulang bukti.</div><?php endif; ?>
+    <?php if ($msg === 'alasan'): ?><div class="alert">Alasan penolakan wajib diisi.</div><?php endif; ?>
+    <?php if ($msg === 'gagal'): ?><div class="alert">Status pembayaran sudah berubah sebelumnya.</div><?php endif; ?>
+
+    <?php if ($b['status_bayar'] === 'menunggu_verifikasi'): ?>
+        <form method="post" style="margin-bottom:14px">
+            <input type="hidden" name="aksi" value="acc">
+            <button type="submit" onclick="return confirm('Terima pembayaran ini sebagai LUNAS?')">&#10003; Terima (ACC) Pembayaran</button>
+        </form>
+        <form method="post">
+            <input type="hidden" name="aksi" value="tolak">
+            <label>Alasan penolakan</label>
+            <input name="alasan" maxlength="255" placeholder="Contoh: nominal tidak sesuai / bukti tidak jelas">
+            <button type="submit" onclick="return confirm('Tolak pembayaran ini?')">&#10005; Tolak Pembayaran</button>
+        </form>
+    <?php elseif ($b['status_bayar'] === 'lunas'): ?>
+        <p>Pembayaran ini sudah diverifikasi dan dinyatakan <strong>lunas</strong>.</p>
+    <?php elseif ($b['status_bayar'] === 'ditolak'): ?>
+        <p>Pembayaran ini <strong>ditolak</strong>. Alasan: <?= e($b['catatan_verifikasi'] ?? '-') ?></p>
     <?php endif; ?>
 
 </div>

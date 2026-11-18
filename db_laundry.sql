@@ -64,9 +64,10 @@ CREATE TABLE tb_pembayaran (
   id_pesanan INT(11) NOT NULL,
   metode_bayar VARCHAR(50) NOT NULL,
   jumlah_bayar DECIMAL(10,2) NOT NULL,
-  status_bayar ENUM('belum_bayar','lunas') NOT NULL DEFAULT 'belum_bayar',
+  status_bayar ENUM('belum_bayar','menunggu_verifikasi','lunas','ditolak') NOT NULL DEFAULT 'belum_bayar',
   tanggal_bayar DATETIME NULL,
   bukti_bayar VARCHAR(255) NULL,
+  catatan_verifikasi VARCHAR(255) NULL,
   FOREIGN KEY (id_pesanan) REFERENCES tb_pesanan(id_pesanan) ON DELETE CASCADE
 );
 

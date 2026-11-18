@@ -29,3 +29,14 @@ function hitung_estimasi_jam($jam_dasar, $berat_kg) {
     $tambahan = max(0, ceil(($berat_kg - 5) / 5));
     return (int)$jam_dasar + (int)($tambahan * 6);
 }
+
+// Label status pembayaran (pelanggan mengirim bukti -> petugas memverifikasi)
+function label_bayar($s) {
+    $m = [
+        'belum_bayar' => 'Belum Dibayar',
+        'menunggu_verifikasi' => 'Menunggu Verifikasi',
+        'lunas' => 'Lunas',
+        'ditolak' => 'Pembayaran Ditolak'
+    ];
+    return $m[$s] ?? 'Belum Dibayar';
+}

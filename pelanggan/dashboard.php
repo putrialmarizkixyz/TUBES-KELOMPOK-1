@@ -64,6 +64,15 @@ $ringkas = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
             <span class="card-arrow">→</span>
         </a>
 
+        <a href="cari_laundry.php" class="dashboard-card">
+            <div class="dashboard-icon blue-icon">🗺️</div>
+            <div class="dashboard-card-content">
+                <h3>Cari Laundry</h3>
+                <p>Temukan laundry terdekat di peta.</p>
+            </div>
+            <span class="card-arrow">→</span>
+        </a>
+
         <a href="pesanan_saya.php" class="dashboard-card">
             <div class="dashboard-icon orange-icon">📦</div>
             <div class="dashboard-card-content">

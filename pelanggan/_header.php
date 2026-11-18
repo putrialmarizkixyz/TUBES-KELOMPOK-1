@@ -52,6 +52,11 @@ $jumlah_notifikasi = mysqli_fetch_assoc(
         class="<?= $halaman_aktif === 'pesanan_baru.php' ? 'active' : '' ?>">
             Buat Pesanan
         </a>
+
+        <a href="<?= BASE_URL ?>/pelanggan/cari_laundry.php"
+        class="<?= $halaman_aktif === 'cari_laundry.php' ? 'active' : '' ?>">
+            Cari Laundry
+        </a>
     </nav>
 
     <div class="app-user">

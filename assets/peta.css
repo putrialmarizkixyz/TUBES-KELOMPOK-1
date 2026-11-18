@@ -1,0 +1,62 @@
+/* Fitur Cari & Peta Laundry (pelanggan/cari_laundry.php) */
+.lp-filter { background:#fff; border:1px solid #e3e9f3; border-radius:16px; padding:18px; margin-bottom:18px; box-shadow:0 4px 14px rgba(23,105,210,.06); }
+.lp-filter-row { display:flex; gap:10px; flex-wrap:wrap; }
+.lp-input { flex:1 1 280px; padding:11px 14px; border:1px solid #cfd9ea; border-radius:10px; font:inherit; background:#fff; }
+.lp-input:focus { outline:2px solid #438df0; outline-offset:0; border-color:#438df0; }
+.lp-select { flex:0 1 190px; }
+.lp-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:10px 16px; border-radius:10px; border:1px solid transparent; font:inherit; font-weight:600; cursor:pointer; text-decoration:none; }
+.lp-btn[disabled] { opacity:.6; cursor:wait; }
+.lp-btn-outline { background:#fff; border-color:#1769d2; color:#1769d2; }
+.lp-btn-outline:hover { background:#eef4fe; }
+.lp-btn-hijau { background:#1f9d55; color:#fff; }
+.lp-btn-hijau:hover { background:#188046; }
+.lp-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.lp-chip { padding:7px 13px; border-radius:999px; border:1px solid #cfd9ea; background:#f6f9ff; font:inherit; font-size:.9rem; cursor:pointer; }
+.lp-chip:hover { border-color:#438df0; }
+.lp-chip.aktif { background:#1769d2; border-color:#1769d2; color:#fff; }
+.lp-status { margin:12px 2px 0; font-size:.9rem; color:#5b6b85; }
+
+.lp-layout { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:18px; align-items:start; }
+.lp-map-wrap { position:relative; }
+.lp-map { height:620px; border-radius:16px; border:1px solid #e3e9f3; z-index:0; }
+.lp-map-gagal { background:#eef2f9; }
+.lp-map-note { position:absolute; left:12px; right:12px; top:12px; z-index:500; pointer-events:none; margin:0; padding:10px 14px; border-radius:10px; background:#fff3cd; border:1px solid #f0d98a; color:#7a5b00; font-size:.9rem; text-align:center; }
+.lp-map-note[hidden] { display:none; }
+.lp-list-wrap { background:#fff; border:1px solid #e3e9f3; border-radius:16px; padding:16px; }
+.lp-list-wrap h2 { margin:0 0 12px; font-size:1.15rem; }
+.lp-list-wrap h2 span { color:#5b6b85; font-weight:400; }
+.lp-list { display:flex; flex-direction:column; gap:8px; max-height:560px; overflow-y:auto; padding-right:4px; }
+.lp-item { text-align:left; width:100%; background:#fff; border:1px solid #e3e9f3; border-radius:12px; padding:11px 13px; font:inherit; cursor:pointer; display:flex; flex-direction:column; gap:3px; }
+.lp-item:hover { border-color:#438df0; background:#f6f9ff; }
+.lp-item.aktif { border-color:#1769d2; box-shadow:0 0 0 2px rgba(23,105,210,.18); }
+.lp-item-alamat { font-size:.85rem; color:#5b6b85; }
+.lp-item-meta { display:flex; flex-wrap:wrap; gap:6px; }
+.lp-item-meta em { font-style:normal; font-size:.78rem; background:#eef4fe; color:#1769d2; padding:2px 8px; border-radius:999px; }
+.lp-kosong { padding:20px 10px; text-align:center; color:#5b6b85; }
+
+.lp-pin { width:34px; height:34px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); background:#1769d2; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; }
+.lp-pin span { transform:rotate(45deg); font-size:16px; line-height:1; }
+.lp-pin-aktif { background:#e8590c; }
+
+.lp-modal { position:fixed; inset:0; background:rgba(15,25,45,.55); z-index:2000; display:flex; align-items:center; justify-content:center; padding:18px; }
+.lp-modal[hidden] { display:none; }
+.lp-modal-box { background:#fff; border-radius:18px; width:100%; max-width:640px; max-height:90vh; overflow-y:auto; padding:24px; }
+.lp-modal-box h2 { margin:6px 0 4px; font-size:1.5rem; }
+.lp-modal-box h3 { margin:16px 0 6px; font-size:1rem; }
+.lp-modal-box p { margin:0; }
+.lp-foto { display:block; width:100%; height:260px; object-fit:cover; border-radius:12px; margin-bottom:12px; background:#eef2f9; }
+.lp-badges { display:flex; gap:8px; flex-wrap:wrap; }
+.lp-badge { background:#e7f6ee; color:#1a7a45; padding:4px 11px; border-radius:999px; font-size:.82rem; font-weight:600; }
+.lp-badge-biru { background:#eef4fe; color:#1769d2; }
+.lp-detail-alamat { color:#44546f; }
+.lp-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.lp-tags span { background:#eef4fe; color:#1f4f99; padding:4px 11px; border-radius:999px; font-size:.85rem; }
+.lp-muted { color:#8a97ad; }
+.lp-pre { white-space:pre-line; }
+.lp-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+
+@media (max-width: 900px) {
+    .lp-layout { grid-template-columns:1fr; }
+    .lp-map { height:420px; }
+    .lp-list { max-height:420px; }
+}

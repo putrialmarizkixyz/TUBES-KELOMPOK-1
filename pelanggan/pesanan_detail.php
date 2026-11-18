@@ -300,6 +300,17 @@ $posisi = array_search($p['status'], $tahap, true);
 
     </div>
 
+        <?php
+    $boleh_bayar = (!$bayar || in_array($bayar['status_bayar'], ['belum_bayar', 'ditolak'], true));
+    if ($sudah_timbang && $boleh_bayar && !$ditolak):
+    ?>
+        <p style="margin:16px 0;text-align:center">
+            <a href="bayar.php?id=<?= (int)$id_pesanan ?>" class="btn-bayar">
+                💳 Bayar Sekarang
+            </a>
+        </p>
+    <?php endif; ?>
+
     <a href="pesanan_saya.php" class="detail-back">
         ← Kembali ke Pesanan Saya
     </a>

@@ -51,6 +51,7 @@ CREATE TABLE tb_detail_laundry (
   id_detail INT(11) AUTO_INCREMENT PRIMARY KEY,
   id_pesanan INT(11) NOT NULL,
   id_layanan INT(11) NOT NULL,
+  harga_per_kg DECIMAL(10,2) NOT NULL DEFAULT 0 COMMENT 'harga layanan saat pesanan dibuat',
   berat_perkiraan DECIMAL(6,2) NOT NULL,
   berat_aktual DECIMAL(6,2) NULL,
   subtotal DECIMAL(10,2) NOT NULL DEFAULT 0,
@@ -87,6 +88,6 @@ INSERT INTO tb_pengguna (nama,email,password,no_telepon,alamat,role) VALUES
 ('Pelanggan Satu','pelanggan@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081200000003','Palu','pelanggan');
 
 INSERT INTO tb_layanan (nama_layanan,harga_per_kg,estimasi_selesai,keterangan) VALUES
-('Cuci Reguler',6000,48,'Cuci + kering, selesai 2 hari'),
-('Cuci Kilat',10000,12,'Cuci + kering, selesai 12 jam'),
-('Cuci Setrika',8000,48,'Cuci + kering + setrika');
+('Cuci Reguler',6000,48,'Cuci + kering'),
+('Cuci Kilat',10000,12,'Cuci + kering'),
+('Cuci Setrika',8000,72,'Cuci + kering + setrika');

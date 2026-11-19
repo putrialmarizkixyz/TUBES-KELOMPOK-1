@@ -22,7 +22,6 @@ $pesanan_selesai = 0;
 ?>
 
 <?php
-// Data pesanan akan dihitung saat ditampilkan di bawah.
 ?>
 
 <div class="history-summary">

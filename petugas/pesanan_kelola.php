@@ -209,7 +209,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_execute($u);
             if (mysqli_stmt_affected_rows($u) > 0) {
 
-                // Buat notifikasi untuk pelanggan
                 buat_notifikasi_status($conn, $id_pesanan, $berikut);
 
                 $ok = 'Status diperbarui menjadi: ' . label_status($berikut) . '.';
@@ -220,7 +219,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // muat ulang data setelah perubahan
     $p = ambil_pesanan($conn, $id_pesanan, $idpt);
     $detail = ambil_detail($conn, $id_pesanan);
 }
@@ -234,7 +232,6 @@ $sudah_timbang = true;
 foreach ($detail as $d) if ($d['berat_aktual'] === null) $sudah_timbang = false;
 $bisa_timbang = ($p['status'] === 'diterima' && !sudah_lunas($conn, $id_pesanan));
 
-// Mengambil informasi pembayaran terakhir
 $q_bayar = mysqli_prepare($conn, "
     SELECT metode_bayar, jumlah_bayar, status_bayar, tanggal_bayar
     FROM tb_pembayaran
@@ -274,7 +271,6 @@ require __DIR__ . '/_header.php';
     </div>
 <?php endif; ?>
 
-<!-- INFORMASI PESANAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -315,7 +311,6 @@ require __DIR__ . '/_header.php';
     </div>
 </div>
 
-<!-- PROGRESS PENGERJAAN -->
 <div class="petugas-content-card">
     <div class="petugas-card-heading">
         <div>
@@ -336,7 +331,6 @@ require __DIR__ . '/_header.php';
     </div>
 </div>
 
-<!-- DETAIL LAYANAN DAN BERAT -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -420,8 +414,6 @@ require __DIR__ . '/_header.php';
     </form>
 </div>
 
-
-<!-- STRUK PESANAN PETUGAS -->
 <div class="petugas-content-card petugas-receipt-wrap">
 
     <div class="petugas-card-heading">
@@ -546,7 +538,6 @@ require __DIR__ . '/_header.php';
     </div>
 </div>
 
-<!-- TOMBOL PERUBAHAN STATUS -->
 <?php if ($p['status'] === 'siap_diambil'): ?>
 
     <div class="petugas-next-box">

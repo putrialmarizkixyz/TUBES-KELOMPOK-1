@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['petugas']);
 $judul = 'Layanan & Harga';
-$idl = laundry_petugas($conn); // laundry tempat petugas bertugas
+$idl = laundry_petugas($conn); 
 
 function jalankan($stmt) { try { return mysqli_stmt_execute($stmt); } catch (Throwable $e) { return false; } }
 

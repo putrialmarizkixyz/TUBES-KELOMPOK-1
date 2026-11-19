@@ -2,10 +2,7 @@
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['petugas']);
 $judul = 'Pesanan Masuk';
-$idl = laundry_petugas($conn); // laundry tempat petugas bertugas
-
-// Konfirmasi pesanan: menunggu -> diterima, sekaligus mencatat petugas yang menangani
-// Tolak pesanan: menunggu -> ditolak (dengan alasan opsional)
+$idl = laundry_petugas($conn); 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_pesanan = (int)($_POST['id_pesanan'] ?? 0);
     $idpt = (int)$_SESSION['id_pengguna'];

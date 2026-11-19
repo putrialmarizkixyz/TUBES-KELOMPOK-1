@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['petugas']);
@@ -8,7 +7,6 @@ $judul = 'Detail Riwayat Pesanan';
 $id_pesanan = (int)($_GET['id'] ?? 0);
 $idpt = (int)$_SESSION['id_pengguna'];
 
-// Ambil informasi pesanan milik petugas yang sedang login
 $q = mysqli_prepare($conn, "
     SELECT p.*, u.nama, u.no_telepon
     FROM tb_pesanan p
@@ -28,7 +26,6 @@ if (!$p) {
     die('Riwayat pesanan tidak ditemukan atau bukan pesanan Anda.');
 }
 
-// Ambil detail layanan pesanan
 $q_detail = mysqli_prepare($conn, "
     SELECT d.*, l.nama_layanan, l.harga_per_kg
     FROM tb_detail_laundry d
@@ -44,7 +41,6 @@ $detail = mysqli_fetch_all(
     MYSQLI_ASSOC
 );
 
-// Tahapan untuk menampilkan progres
 $tahap = [
     'menunggu',
     'diterima',
@@ -72,7 +68,6 @@ require __DIR__ . '/_header.php';
     </a>
 </div>
 
-<!-- INFORMASI PESANAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -122,7 +117,6 @@ require __DIR__ . '/_header.php';
     </div>
 </div>
 
-<!-- PROGRES PENGERJAAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -150,7 +144,6 @@ require __DIR__ . '/_header.php';
 
 </div>
 
-<!-- DETAIL LAYANAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -233,7 +226,6 @@ require __DIR__ . '/_header.php';
 
 </div>
 
-<!-- KETERANGAN STATUS -->
 <?php if ($p['status'] === 'diambil'): ?>
 
     <div class="petugas-alert alert-success">

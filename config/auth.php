@@ -8,8 +8,6 @@ function wajib_login(array $roles = []) {
         exit;
     }
 
-    // Peran dicek ulang ke database di setiap permintaan, sehingga perubahan peran
-    // atau penghapusan akun oleh admin langsung berlaku tanpa menunggu pengguna logout.
     $id = (int)$_SESSION['id_pengguna'];
     $q = mysqli_prepare($conn, 'SELECT nama, role FROM tb_pengguna WHERE id_pengguna = ?');
     mysqli_stmt_bind_param($q, 'i', $id);

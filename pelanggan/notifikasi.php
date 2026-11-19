@@ -4,7 +4,6 @@ wajib_login(['pelanggan']);
 
 $id = (int)$_SESSION['id_pengguna'];
 
-// Tandai semua notifikasi sebagai sudah dibaca
 if (isset($_POST['tandai_semua'])) {
 
     $q_semua = mysqli_prepare($conn, "
@@ -21,7 +20,6 @@ if (isset($_POST['tandai_semua'])) {
     exit;
 }
 
-// Tandai notifikasi sebagai sudah dibaca ketika dibuka
 if (isset($_GET['baca'])) {
     $id_notifikasi = (int)$_GET['baca'];
 

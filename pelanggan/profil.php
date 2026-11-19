@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (!preg_match('/^[0-9+\-\s()]{8,15}$/', $telepon))) {
             $error = 'Nomor telepon harus 8–15 karakter.';
         } else {
-            // Periksa apakah email sudah digunakan akun lain.
             $cek = mysqli_prepare($conn, '
                 SELECT id_pengguna FROM tb_pengguna
                 WHERE email = ? AND id_pengguna <> ?
@@ -45,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($email_ada) {
                 $error = 'Email sudah digunakan oleh akun lain.';
             } else {
-                // Ambil foto lama.
                 $qfoto = mysqli_prepare($conn, '
                     SELECT foto_profil FROM tb_pengguna
                     WHERE id_pengguna = ?
@@ -58,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $foto_simpan = $data_lama['foto_profil'] ?? null;
                 $foto_baru = null;
 
-                // Proses unggahan foto jika ada.
                 if (isset($_FILES['foto_profil']) &&
                     $_FILES['foto_profil']['error'] !== UPLOAD_ERR_NO_FILE) {
 
@@ -119,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (mysqli_stmt_execute($update)) {
                         $_SESSION['nama'] = $nama;
 
-                        // Hapus foto lama hanya setelah update berhasil.
                         if ($foto_baru && !empty($data_lama['foto_profil'])) {
                             $foto_lama = $data_lama['foto_profil'];
                             if (strpos($foto_lama, 'uploads/profil/') === 0) {
@@ -145,7 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Ambil data profil terbaru.
 $q = mysqli_prepare($conn, '
     SELECT nama, email, no_telepon, alamat, created_at, foto_profil
     FROM tb_pengguna
@@ -186,7 +181,6 @@ require __DIR__ . '/_header.php';
 
     <?php if (!$mode_edit): ?>
 
-        <!-- TAMPILAN INFORMASI PROFIL -->
         <div class="profile-card profile-view">
 
             <div class="profile-photo">
@@ -244,7 +238,6 @@ require __DIR__ . '/_header.php';
 
     <?php else: ?>
 
-        <!-- TAMPILAN FORM EDIT PROFIL -->
         <div class="profile-card profile-edit-card">
 
             <div class="edit-profile-heading">

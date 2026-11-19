@@ -4,9 +4,6 @@ require_once __DIR__ . '/../config/auth.php';
 wajib_login(['admin']);
 $judul = 'Laporan';
 
-/* ==============================
-   PENGATURAN PERIODE
-============================== */
 
 $jenis = $_GET['jenis'] ?? $_POST['jenis'] ?? 'bulanan';
 
@@ -65,10 +62,6 @@ if ($jenis === 'harian') {
     $periode_label = 'Bulanan - ' . $bulan_input;
 }
 
-/* ==============================
-   FUNGSI REKAP
-============================== */
-
 function rekap($conn, $mulai, $akhir) {
     $q = mysqli_prepare($conn, "
         SELECT
@@ -85,10 +78,6 @@ function rekap($conn, $mulai, $akhir) {
 
     return mysqli_fetch_assoc(mysqli_stmt_get_result($q));
 }
-
-/* ==============================
-   SIMPAN / PERBARUI LAPORAN
-============================== */
 
 $ok = '';
 $error = '';
@@ -148,10 +137,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ok = 'Laporan ' . $periode_label . ' berhasil disimpan.';
     }
 }
-
-/* ==============================
-   DATA LAPORAN
-============================== */
 
 $rekap = rekap($conn, $mulai, $akhir);
 

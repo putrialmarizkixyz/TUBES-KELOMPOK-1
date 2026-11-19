@@ -19,7 +19,6 @@ mysqli_stmt_execute($q);
 $p = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
 if (!$p) { http_response_code(404); die('Pesanan tidak ditemukan.'); }
 
-// Harga pasti tersedia jika semua item sudah ditimbang petugas
 $q = mysqli_prepare($conn, 'SELECT COUNT(*) AS total, COALESCE(SUM(berat_aktual IS NULL),0) AS belum FROM tb_detail_laundry WHERE id_pesanan = ?');
 mysqli_stmt_bind_param($q, 'i', $id_pesanan);
 mysqli_stmt_execute($q);

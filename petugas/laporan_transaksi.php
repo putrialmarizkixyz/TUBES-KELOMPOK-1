@@ -5,7 +5,6 @@ wajib_login(['petugas']);
 $judul = 'Laporan Transaksi';
 $idpt = (int)$_SESSION['id_pengguna'];
 
-// Mengambil seluruh data transaksi petugas.
 $q = mysqli_prepare($conn, "
     SELECT
         b.*,
@@ -24,7 +23,6 @@ mysqli_stmt_bind_param($q, 'i', $idpt);
 mysqli_stmt_execute($q);
 $hasil = mysqli_stmt_get_result($q);
 
-// Menghitung jumlah transaksi dan total pembayaran lunas.
 $q_ringkasan = mysqli_prepare($conn, "
     SELECT
         COUNT(*) AS jumlah_transaksi,
@@ -59,7 +57,6 @@ require __DIR__ . '/_header.php';
     </button>
 </div>
 
-<!-- IDENTITAS CETAK -->
 <div class="laporan-print-header">
     <h1>LAUNDRYKU</h1>
     <h2>LAPORAN TRANSAKSI PEMBAYARAN</h2>
@@ -71,7 +68,6 @@ require __DIR__ . '/_header.php';
     </div>
 </div>
 
-<!-- RINGKASAN TRANSAKSI -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -101,7 +97,6 @@ require __DIR__ . '/_header.php';
     </div>
 </div>
 
-<!-- DAFTAR LAPORAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">

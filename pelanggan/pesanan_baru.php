@@ -5,7 +5,6 @@ $judul = 'Buat Pesanan';
 
 $error = '';
 
-// Pesanan harus ditujukan ke satu laundry yang dipilih dari halaman Cari Laundry.
 $id_laundry = (int)($_POST['id_laundry'] ?? $_GET['laundry'] ?? 0);
 $laundry = null;
 if ($id_laundry > 0) {
@@ -276,8 +275,6 @@ function hitung() {
 
     document.getElementById('estimasi').textContent = teks;
 
-    // Tombol aktif jika minimal satu layanan diisi
-    // dan semua berat yang diisi sudah valid.
     tombolKirim.disabled = !(adaPesanan && inputValid);
 }
 

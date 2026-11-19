@@ -23,7 +23,6 @@ if (!$p) {
 
 $ditolak = ($p['status'] === 'ditolak');
 
-// Mengambil rincian layanan
 $q = mysqli_prepare($conn, '
     SELECT d.*, l.nama_layanan
     FROM tb_detail_laundry d
@@ -49,7 +48,6 @@ if (count($rincian) === 0) {
     $sudah_timbang = false;
 }
 
-// Mengambil informasi pembayaran
 $q_bayar = mysqli_prepare($conn, '
     SELECT metode_bayar, jumlah_bayar, status_bayar, tanggal_bayar
     FROM tb_pembayaran

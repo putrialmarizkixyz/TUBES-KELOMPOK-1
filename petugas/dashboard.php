@@ -6,7 +6,6 @@ wajib_login(['petugas']);
 $judul = 'Beranda';
 $idpt = (int)$_SESSION['id_pengguna'];
 
-// Menghitung pesanan masuk.
 $idl = (int)laundry_petugas($conn);
 $q_masuk = mysqli_prepare($conn, "
     SELECT COUNT(*) AS jumlah
@@ -17,7 +16,6 @@ mysqli_stmt_bind_param($q_masuk, 'i', $idl);
 mysqli_stmt_execute($q_masuk);
 $jumlah_masuk = mysqli_fetch_assoc(mysqli_stmt_get_result($q_masuk))['jumlah'];
 
-// Menghitung pesanan aktif milik petugas.
 $q_aktif = mysqli_prepare($conn, "
     SELECT COUNT(*) AS jumlah
     FROM tb_pesanan
@@ -30,7 +28,6 @@ $jumlah_aktif = mysqli_fetch_assoc(
     mysqli_stmt_get_result($q_aktif)
 )['jumlah'];
 
-// Menghitung pesanan selesai milik petugas.
 $q_selesai = mysqli_prepare($conn, "
     SELECT COUNT(*) AS jumlah
     FROM tb_pesanan
@@ -43,7 +40,6 @@ $jumlah_selesai = mysqli_fetch_assoc(
     mysqli_stmt_get_result($q_selesai)
 )['jumlah'];
 
-// Menghitung jumlah transaksi pembayaran.
 $q_bayar = mysqli_prepare($conn, "
     SELECT COUNT(*) AS jumlah
     FROM tb_pembayaran b
@@ -68,7 +64,6 @@ require __DIR__ . '/_header.php';
     <div class="welcome-icon">👨‍🔧</div>
 </section>
 
-<!-- RINGKASAN PESANAN -->
 <section class="dashboard-section">
     <div class="section-heading">
         <h2>Ringkasan Aktivitas</h2>
@@ -116,7 +111,6 @@ require __DIR__ . '/_header.php';
     </div>
 </section>
 
-<!-- MENU PENGELOLAAN -->
 <section class="dashboard-section">
     <div class="section-heading">
         <h2>Menu Pengelolaan</h2>

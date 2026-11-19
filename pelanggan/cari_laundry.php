@@ -136,7 +136,6 @@ function initPeta() {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    // pesan gagal hanya muncul jika belum ada satu pun tile yang berhasil dimuat
     let tileOk = false;
     const note = document.getElementById('lpMapNote');
     tiles.on('tileload', () => { tileOk = true; note.hidden = true; });
@@ -180,7 +179,6 @@ function renderList(hasil) {
             ? 'Menampilkan semua ' + DATA.length + ' laundry.'
             : 'Ditemukan ' + hasil.length + ' dari ' + DATA.length + ' laundry.';
 
-    // daftar
     const list = document.getElementById('lpList');
     if (!hasil.length) {
         list.innerHTML = '<div class="lp-kosong">Tidak ada laundry yang cocok. Coba kata kunci lain atau hapus filter.</div>';
@@ -225,7 +223,6 @@ function setAktif(id) {
     });
 }
 
-// geser/zoom peta ke titik laundry (tanpa membuka detail)
 function fokusPeta(d) {
     setAktif(d.id);
     if (!map) return;

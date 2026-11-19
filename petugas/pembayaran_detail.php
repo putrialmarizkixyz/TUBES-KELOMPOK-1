@@ -8,7 +8,6 @@ $judul = 'Detail Pembayaran';
 $id_pembayaran = (int)($_GET['id'] ?? 0);
 $idpt = (int)$_SESSION['id_pengguna'];
 
-// Ambil pembayaran berdasarkan pesanan yang ditangani petugas
 $q = mysqli_prepare($conn, "
     SELECT
         b.*,
@@ -35,7 +34,6 @@ if (!$b) {
     die('Data pembayaran tidak ditemukan atau bukan pesanan Anda.');
 }
 
-// ===== VERIFIKASI PEMBAYARAN OLEH PETUGAS =====
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $b['status_bayar'] === 'menunggu_verifikasi') {
     $aksi = $_POST['aksi'] ?? '';
     $id_psn = (int)$b['id_pesanan'];
@@ -90,7 +88,6 @@ require __DIR__ . '/_header.php';
     </a>
 </div>
 
-<!-- INFORMASI PEMBAYARAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -165,7 +162,6 @@ require __DIR__ . '/_header.php';
 
 </div>
 
-<!-- BUKTI PEMBAYARAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
@@ -206,8 +202,6 @@ require __DIR__ . '/_header.php';
 
 </div>
 
-
-<!-- VERIFIKASI PEMBAYARAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">

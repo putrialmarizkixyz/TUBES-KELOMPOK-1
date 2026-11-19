@@ -25,7 +25,6 @@ function label_status($s) {
 
     return $m[$s] ?? $s;
 }
-// id laundry tempat petugas yang sedang login bertugas (null jika belum ditautkan admin)
 function laundry_petugas($conn) {
     $id = (int)($_SESSION['id_pengguna'] ?? 0);
     $q = mysqli_prepare($conn, "SELECT id_laundry FROM tb_pengguna WHERE id_pengguna = ? AND role = 'petugas'");
@@ -39,7 +38,6 @@ function hitung_estimasi_jam($jam_dasar, $berat_kg) {
     return (int)$jam_dasar + (int)($tambahan * 6);
 }
 
-// Label status pembayaran (pelanggan mengirim bukti -> petugas memverifikasi)
 function label_bayar($s) {
     $m = [
         'belum_bayar' => 'Belum Dibayar',

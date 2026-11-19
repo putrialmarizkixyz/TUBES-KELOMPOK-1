@@ -5254,3 +5254,197 @@ a.dashboard-card:hover {
         width: 100%;
     }
 }
+
+
+/* ===== VERIFIKASI PEMBAYARAN ===== */
+
+.verifikasi-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px 17px;
+    margin-bottom: 22px;
+    background: #f5f8fc;
+    border: 1px solid #e5ebf3;
+    border-radius: 12px;
+}
+
+.verifikasi-info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #e3ebf8;
+    color: #41658f;
+    font-weight: 700;
+}
+
+.verifikasi-info strong {
+    display: block;
+    color: #344256;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.verifikasi-info p {
+    margin: 0;
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.verifikasi-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-verifikasi-acc,
+.form-verifikasi-tolak {
+    margin: 0;
+}
+
+.btn-verifikasi-acc,
+.btn-verifikasi-tolak {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 11px 19px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.btn-verifikasi-acc {
+    color: #ffffff;
+    background: #239b69;
+}
+
+.btn-verifikasi-acc:hover {
+    background: #198357;
+    transform: translateY(-1px);
+}
+
+.btn-verifikasi-tolak {
+    color: #ffffff;
+    background: #dc5b5b;
+}
+
+.btn-verifikasi-tolak:hover {
+    background: #c84646;
+    transform: translateY(-1px);
+}
+
+.btn-verifikasi-icon {
+    font-size: 15px;
+    line-height: 1;
+}
+
+.form-verifikasi-tolak {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.form-verifikasi-tolak label {
+    color: #344256;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-verifikasi-tolak input {
+    width: 100%;
+    max-width: 430px;
+    min-height: 43px;
+    padding: 10px 13px;
+    border: 1px solid #dce3ec;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #344256;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.form-verifikasi-tolak input:focus {
+    border-color: #829fc4;
+    box-shadow: 0 0 0 3px rgba(80, 120, 170, 0.10);
+}
+
+.form-verifikasi-tolak input::placeholder {
+    color: #a0aaba;
+}
+
+.verifikasi-status-selesai,
+.verifikasi-status-ditolak {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 11px;
+}
+
+.verifikasi-status-selesai {
+    background: #edf8f2;
+    border: 1px solid #d4eddf;
+}
+
+.verifikasi-status-ditolak {
+    flex-direction: column;
+    gap: 6px;
+    background: #fff2f1;
+    border: 1px solid #f5d8d5;
+}
+
+.verifikasi-status-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #d5efe0;
+    color: #218653;
+    font-weight: 700;
+}
+
+.verifikasi-status-selesai strong,
+.verifikasi-status-ditolak strong {
+    color: #344256;
+    font-size: 14px;
+}
+
+.verifikasi-status-selesai p,
+.verifikasi-status-ditolak p {
+    margin: 5px 0 0;
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .btn-verifikasi-acc,
+    .btn-verifikasi-tolak {
+        width: 100%;
+    }
+
+    .form-verifikasi-tolak {
+        width: 100%;
+    }
+}

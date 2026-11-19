@@ -206,37 +206,107 @@ require __DIR__ . '/_header.php';
 
 </div>
 
+
 <!-- VERIFIKASI PEMBAYARAN -->
 <div class="petugas-content-card">
 
     <div class="petugas-card-heading">
         <div>
             <h3>Verifikasi Pembayaran</h3>
-            <p>Periksa bukti pembayaran, lalu terima atau tolak.</p>
+            <p>Periksa bukti pembayaran, lalu tentukan status transaksi.</p>
         </div>
     </div>
 
     <?php $msg = $_GET['msg'] ?? ''; ?>
-    <?php if ($msg === 'acc'): ?><div class="alert ok">Pembayaran diverifikasi dan dinyatakan lunas.</div><?php endif; ?>
-    <?php if ($msg === 'tolak'): ?><div class="alert">Pembayaran ditolak. Pelanggan diminta mengirim ulang bukti.</div><?php endif; ?>
-    <?php if ($msg === 'alasan'): ?><div class="alert">Alasan penolakan wajib diisi.</div><?php endif; ?>
-    <?php if ($msg === 'gagal'): ?><div class="alert">Status pembayaran sudah berubah sebelumnya.</div><?php endif; ?>
+
+    <?php if ($msg === 'acc'): ?>
+        <div class="alert ok">
+            Pembayaran berhasil diverifikasi dan dinyatakan lunas.
+        </div>
+    <?php elseif ($msg === 'tolak'): ?>
+        <div class="alert">
+            Pembayaran ditolak. Pelanggan diminta mengirim ulang bukti.
+        </div>
+    <?php elseif ($msg === 'alasan'): ?>
+        <div class="alert">
+            Alasan penolakan wajib diisi.
+        </div>
+    <?php elseif ($msg === 'gagal'): ?>
+        <div class="alert">
+            Status pembayaran sudah berubah sebelumnya.
+        </div>
+    <?php endif; ?>
 
     <?php if ($b['status_bayar'] === 'menunggu_verifikasi'): ?>
-        <form method="post" style="margin-bottom:14px">
-            <input type="hidden" name="aksi" value="acc">
-            <button type="submit" onclick="return confirm('Terima pembayaran ini sebagai LUNAS?')">&#10003; Terima (ACC) Pembayaran</button>
-        </form>
-        <form method="post">
-            <input type="hidden" name="aksi" value="tolak">
-            <label>Alasan penolakan</label>
-            <input name="alasan" maxlength="255" placeholder="Contoh: nominal tidak sesuai / bukti tidak jelas">
-            <button type="submit" onclick="return confirm('Tolak pembayaran ini?')">&#10005; Tolak Pembayaran</button>
-        </form>
+
+        <div class="verifikasi-info">
+            <span class="verifikasi-info-icon">!</span>
+            <div>
+                <strong>Menunggu Verifikasi</strong>
+                <p>Pastikan nominal dan bukti pembayaran sudah sesuai sebelum mengambil keputusan.</p>
+            </div>
+        </div>
+
+        <div class="verifikasi-actions">
+
+            <form method="post" class="form-verifikasi-acc">
+                <input type="hidden" name="aksi" value="acc">
+
+                <button
+                    type="submit"
+                    class="btn-verifikasi-acc"
+                    onclick="return confirm('Terima pembayaran ini sebagai LUNAS?')"
+                >
+                    <span class="btn-verifikasi-icon">&#10003;</span>
+                    <span>Terima Pembayaran</span>
+                </button>
+            </form>
+
+            <form method="post" class="form-verifikasi-tolak">
+
+                <label for="alasan-penolakan">
+                    Alasan Penolakan
+                </label>
+
+                <input
+                    type="text"
+                    id="alasan-penolakan"
+                    name="alasan"
+                    maxlength="255"
+                    placeholder="Contoh: Nominal tidak sesuai"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn-verifikasi-tolak"
+                    onclick="return confirm('Tolak pembayaran ini?')"
+                >
+                    <span class="btn-verifikasi-icon">&#10005;</span>
+                    <span>Tolak Pembayaran</span>
+                </button>
+
+            </form>
+
+        </div>
+
     <?php elseif ($b['status_bayar'] === 'lunas'): ?>
-        <p>Pembayaran ini sudah diverifikasi dan dinyatakan <strong>lunas</strong>.</p>
+
+        <div class="verifikasi-status-selesai">
+            <span class="verifikasi-status-icon">&#10003;</span>
+            <div>
+                <strong>Pembayaran Telah Diverifikasi</strong>
+                <p>Pembayaran ini sudah dinyatakan lunas.</p>
+            </div>
+        </div>
+
     <?php elseif ($b['status_bayar'] === 'ditolak'): ?>
-        <p>Pembayaran ini <strong>ditolak</strong>. Alasan: <?= e($b['catatan_verifikasi'] ?? '-') ?></p>
+
+        <div class="verifikasi-status-ditolak">
+            <strong>Pembayaran Ditolak</strong>
+            <p>Alasan: <?= e($b['catatan_verifikasi'] ?? '-') ?></p>
+        </div>
+
     <?php endif; ?>
 
 </div>

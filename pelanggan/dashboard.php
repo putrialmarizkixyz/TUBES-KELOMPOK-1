@@ -40,35 +40,17 @@ $ringkas = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
     <div class="section-heading">
         <div>
             <h2>Menu Utama</h2>
-            <p>Pilih layanan yang ingin Anda gunakan.</p>
+            <p>Pilih menu yang ingin Anda gunakan.</p>
         </div>
     </div>
 
     <div class="dashboard-menu">
 
-        <a href="layanan.php" class="dashboard-card">
-            <div class="dashboard-icon blue-icon">🧼</div>
-            <div class="dashboard-card-content">
-                <h3>Layanan &amp; Harga</h3>
-                <p>Lihat pilihan layanan dan harga laundry.</p>
-            </div>
-            <span class="card-arrow">→</span>
-        </a>
-
-        <a href="cari_laundry.php?pilih=1" class="dashboard-card">
+        <a href="cari_laundry.php" class="dashboard-card">
             <div class="dashboard-icon green-icon">🛍️</div>
             <div class="dashboard-card-content">
                 <h3>Buat Pesanan</h3>
-                <p>Pilih laundry, lalu pesan sesuai kebutuhan.</p>
-            </div>
-            <span class="card-arrow">→</span>
-        </a>
-
-        <a href="cari_laundry.php" class="dashboard-card">
-            <div class="dashboard-icon blue-icon">🗺️</div>
-            <div class="dashboard-card-content">
-                <h3>Cari Laundry</h3>
-                <p>Temukan laundry terdekat di peta.</p>
+                <p>Temukan laundry di peta, lalu pesan sesuai kebutuhan.</p>
             </div>
             <span class="card-arrow">→</span>
         </a>

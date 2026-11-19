@@ -48,14 +48,9 @@ $jumlah_notifikasi = mysqli_fetch_assoc(
             Pesanan Saya
         </a>
 
-        <a href="<?= BASE_URL ?>/pelanggan/cari_laundry.php?pilih=1"
-        class="<?= $halaman_aktif === 'pesanan_baru.php' ? 'active' : '' ?>">
-            Buat Pesanan
-        </a>
-
         <a href="<?= BASE_URL ?>/pelanggan/cari_laundry.php"
-        class="<?= $halaman_aktif === 'cari_laundry.php' ? 'active' : '' ?>">
-            Cari Laundry
+        class="<?= in_array($halaman_aktif, ['cari_laundry.php', 'pesanan_baru.php'], true) ? 'active' : '' ?>">
+            Buat Pesanan
         </a>
     </nav>
 

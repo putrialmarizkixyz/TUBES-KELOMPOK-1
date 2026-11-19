@@ -28,11 +28,6 @@ $halaman_aktif = basename($_SERVER['PHP_SELF']);
             Beranda
         </a>
 
-        <a href="<?= BASE_URL ?>/admin/layanan.php"
-        class="<?= $halaman_aktif === 'layanan.php' ? 'active' : '' ?>">
-            Layanan
-        </a>
-
         <a href="<?= BASE_URL ?>/admin/pengguna.php"
         class="<?= $halaman_aktif === 'pengguna.php' ? 'active' : '' ?>">
             Pengguna

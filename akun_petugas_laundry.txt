@@ -1,0 +1,38 @@
+AKUN PETUGAS PER LAUNDRY  (password semua akun: password)
+======================================================================
+ID  Laundry                         Email                                 Layanan
+------------------------------------------------------------------------------------------
+1   Nanda Laundry                   petugas.nanda@laundry.test            5
+2   Tondo Laundry                   petugas.tondo@laundry.test            5
+3   Berkah Laundry                  petugas.berkah@laundry.test           6
+4   Meltry Laundry                  petugas.meltry@laundry.test           0
+5   Home Al-AzharLaundry            petugas.homealazhar@laundry.test      6
+6   Laundry Gen-Z                   petugas.genz@laundry.test             0
+7   Moba Laundry                    petugas.moba@laundry.test             0
+8   Rahma Laundry                   petugas.rahma@laundry.test            7
+9   Mega Laundry                    petugas.mega@laundry.test             14
+10  Joss Laundry                    petugas.joss@laundry.test             5
+11  Rania Laundry                   petugas.rania@laundry.test            10
+12  Raffasya Laundry Express        petugas.raffasyaexpress@laundry.test  4
+13  Roehma Laundry                  petugas.roehma@laundry.test           3
+14  Kesya Laundry                   petugas.kesya@laundry.test            4
+15  Laundry Satuan dan kiloan       petugas.satuandankiloan@laundry.test  6
+16  Enas Laundry                    petugas@laundry.test                  11
+17  Madam Laundry                   petugas.madam@laundry.test            4
+18  Laundry-Q                       petugas.q@laundry.test                6
+19  Nura Laundry                    petugas.nura@laundry.test             4
+20  Safira Laundry                  petugas.safira@laundry.test           4
+21  Siti Laundry                    petugas.siti@laundry.test             7
+22  Widhya Laundry                  petugas.widhya@laundry.test           9
+23  Ranah Laundry                   petugas.ranah@laundry.test            4
+24  Omang Laundry                   petugas.omang@laundry.test            4
+25  Alula Laundry                   petugas.alula@laundry.test            7
+26  Laundry Bunda Hasna             petugas.bundahasna@laundry.test       2
+27  Wangi Mama Laundry              petugas.wangimama@laundry.test        0
+28  Razka Laundry                   petugas.razka@laundry.test            4
+29  Pondok Laundry                  petugas.pondok@laundry.test           5
+30  Alfatih Laundry                 petugas.alfatih@laundry.test          0
+31  Syahrul Laundry                 petugas.syahrul@laundry.test          0
+
+Laundry dengan 0 layanan: data peta belum mencantumkan layanannya (Belum terverifikasi).
+Petugasnya perlu mengisi layanan lewat menu Layanan sebelum laundry itu bisa menerima pesanan.

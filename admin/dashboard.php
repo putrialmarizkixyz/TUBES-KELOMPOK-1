@@ -21,10 +21,6 @@ $pend  = (float)mysqli_fetch_row(mysqli_query($conn, "SELECT COALESCE(SUM(jumlah
         <p>Pilih aktivitas yang ingin Anda lakukan.</p>
     </div>
     <div class="dashboard-menu">
-        <div class="dashboard-card" style="cursor:pointer" onclick="location.href='layanan.php'">
-            <div class="dashboard-icon blue">🧺</div>
-            <div><h3>Layanan &amp; Harga</h3><p>Tambah, ubah, dan hapus jenis layanan.</p><a class="menu-status" href="layanan.php">Buka &rarr;</a></div>
-        </div>
         <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pengguna.php'">
             <div class="dashboard-icon purple">👥</div>
             <div><h3>Pengguna &amp; Hak Akses</h3><p>Kelola pelanggan, petugas, dan peran akun.</p><a class="menu-status" href="pengguna.php">Buka &rarr;</a></div>

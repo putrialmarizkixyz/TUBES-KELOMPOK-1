@@ -40,6 +40,11 @@ $halaman_aktif = basename($_SERVER['PHP_SELF']);
             Pesanan Aktif
         </a>
 
+        <a href="<?= BASE_URL ?>/petugas/layanan.php"
+        class="<?= $halaman_aktif === 'layanan.php' ? 'active' : '' ?>">
+            Layanan
+        </a>
+
         <a href="<?= BASE_URL ?>/petugas/riwayat_pesanan.php"
         class="<?= $halaman_aktif === 'riwayat_pesanan.php' ? 'active' : '' ?>">
             Riwayat Pesanan

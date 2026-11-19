@@ -1,4 +1,3 @@
--- Jalankan sekali pada database db_laundry yang SUDAH ada (tanpa import ulang db_laundry.sql)
 USE db_laundry;
 ALTER TABLE tb_pesanan
   MODIFY status ENUM('menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil','ditolak') NOT NULL DEFAULT 'menunggu',

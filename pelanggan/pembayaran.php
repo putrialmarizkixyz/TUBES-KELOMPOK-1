@@ -136,7 +136,7 @@ $hasil = mysqli_stmt_get_result($q);
                 <div>💳</div>
                 <h3>Belum Ada Tagihan</h3>
                 <p>Tagihan pembayaran akan tampil setelah Anda membuat pesanan.</p>
-                <a href="cari_laundry.php?pilih=1" class="btn">Buat Pesanan</a>
+                <a href="cari_laundry.php" class="btn">Buat Pesanan</a>
             </div>
         <?php endif; ?>
 

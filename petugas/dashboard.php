@@ -134,6 +134,15 @@ require __DIR__ . '/_header.php';
             </div>
         </div>
 
+        <div class="dashboard-card" style="cursor:pointer" onclick="location.href='layanan.php'">
+            <div class="dashboard-icon blue">🧼</div>
+            <div>
+                <h3>Layanan &amp; Harga</h3>
+                <p>Atur layanan dan harga laundry Anda.</p>
+                <a class="menu-status" href="layanan.php">Buka &rarr;</a>
+            </div>
+        </div>
+
         <div class="dashboard-card" style="cursor:pointer" onclick="location.href='pesanan_aktif.php'">
             <div class="dashboard-icon purple">⚖️</div>
             <div>

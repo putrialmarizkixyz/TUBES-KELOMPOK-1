@@ -1,5 +1,3 @@
--- Jalankan SEKALI pada database db_laundry yang SUDAH ada (data tidak hilang).
--- Menambah alur: pelanggan kirim bukti -> menunggu verifikasi petugas -> lunas / ditolak.
 USE db_laundry;
 
 ALTER TABLE tb_pembayaran

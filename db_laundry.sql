@@ -12,11 +12,13 @@ CREATE TABLE tb_pengguna (
   alamat TEXT,
   role ENUM('pelanggan','petugas','admin') NOT NULL DEFAULT 'pelanggan',
   id_laundry INT(11) NULL COMMENT 'khusus petugas: laundry tempat bertugas',
+  foto_profil VARCHAR(255) NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE tb_layanan (
   id_layanan INT(11) AUTO_INCREMENT PRIMARY KEY,
+  id_laundry INT(11) NULL COMMENT 'laundry pemilik layanan (diatur petugas)',
   nama_layanan VARCHAR(100) NOT NULL,
   harga_per_kg DECIMAL(10,2) NOT NULL,
   estimasi_selesai INT(11) NOT NULL COMMENT 'jam',
@@ -89,12 +91,6 @@ INSERT INTO tb_pengguna (nama,email,password,no_telepon,alamat,role) VALUES
 ('Petugas Satu','petugas@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081200000002','Palu','petugas'),
 ('Pelanggan Satu','pelanggan@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081200000003','Palu','pelanggan');
 
-INSERT INTO tb_layanan (nama_layanan,harga_per_kg,estimasi_selesai,keterangan) VALUES
-('Cuci Reguler',6000,48,'Cuci + kering'),
-('Cuci Kilat',10000,12,'Cuci + kering'),
-('Cuci Setrika',8000,72,'Cuci + kering + setrika');
-
--- Data laundry untuk fitur Cari & Peta (sumber: Template_Data_31_Laundry.xlsx)
 CREATE TABLE tb_laundry (
   id_laundry INT(11) AUTO_INCREMENT PRIMARY KEY,
   nama_laundry VARCHAR(100) NOT NULL,
@@ -143,7 +139,6 @@ INSERT INTO tb_laundry (id_laundry,nama_laundry,latitude,longitude,alamat,kontak
 (30,'Alfatih Laundry',-0.877376,119.876702,'Jl. Hang Tuah No.49, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','081340888899',NULL,'08.00-21.00 WITA',NULL,NULL,'Talise'),
 (31,'Syahrul Laundry',-0.876131,119.876991,'Jl. Hang Tuah, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','082188899057',NULL,NULL,NULL,NULL,'Talise');
 
--- Foto laundry (file di uploads/laundry/)
 UPDATE tb_laundry SET foto_laundry='laundry_01.jpg' WHERE id_laundry=1;
 UPDATE tb_laundry SET foto_laundry='laundry_02.jpg' WHERE id_laundry=2;
 UPDATE tb_laundry SET foto_laundry='laundry_03.jpg' WHERE id_laundry=3;
@@ -176,5 +171,208 @@ UPDATE tb_laundry SET foto_laundry='laundry_29.jpg' WHERE id_laundry=29;
 UPDATE tb_laundry SET foto_laundry='laundry_30.jpg' WHERE id_laundry=30;
 UPDATE tb_laundry SET foto_laundry='laundry_31.jpg' WHERE id_laundry=31;
 
--- Petugas demo bertugas di Enas Laundry (id 16); ubah lewat Admin > Pengguna
 UPDATE tb_pengguna SET id_laundry = 16 WHERE email = 'petugas@laundry.test';
+INSERT INTO tb_pengguna (nama,email,password,no_telepon,alamat,role,id_laundry) VALUES
+('Petugas Nanda Laundry','petugas.nanda@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081917992204','JL. R.E Martadinata No.105(TONDO)','petugas',1),
+('Petugas Tondo Laundry','petugas.tondo@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','08114518887','JL. R.E Martadinata (TONDO)','petugas',2),
+('Petugas Berkah Laundry','petugas.berkah@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','08539587008','Jln. Untad 1','petugas',3),
+('Petugas Meltry Laundry','petugas.meltry@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082126947884','Jl. Trans Sulawesi, Tondo, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94148','petugas',4),
+('Petugas Home Al-AzharLaundry','petugas.homealazhar@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','0811460920','Jl. UNTAD 1, Depan Kantor Kelurahan Tondo-Mantikulore,Kota Palu-Sulteng','petugas',5),
+('Petugas Laundry Gen-Z','petugas.genz@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082315661778','Jl. Roviga No.16, Tondo, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94111','petugas',6),
+('Petugas Moba Laundry','petugas.moba@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','085211601158','Jl. Untad I Bawah, Tondo, Kec. Mantikulore, Kota Palu, Sulawesi Tengah 94119','petugas',7),
+('Petugas Rahma Laundry','petugas.rahma@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082213118211','Jl. Sosiologi (Belakang Kampus Untad)','petugas',8),
+('Petugas Mega Laundry','petugas.mega@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082225206397','Jl. Untad I Bumi Roviega, Tondo, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94111','petugas',9),
+('Petugas Joss Laundry','petugas.joss@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',NULL,'Jl. Untad I Bumi Roviega, Tondo, Kec. Mantikulore','petugas',10),
+('Petugas Rania Laundry','petugas.rania@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082261363019','Jln. Untad 1 depan Pustu Roviga','petugas',11),
+('Petugas Raffasya Laundry Express','petugas.raffasyaexpress@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','085230627772','Jl. Untad I Bumi Roviega, Tondo, Kec. Mantikulore, Kota Palu, Sulawesi Tengah 94119','petugas',12),
+('Petugas Roehma Laundry','petugas.roehma@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082271581815','Jl. Untad I BTN Bumi Roviega Blok A2/8','petugas',13),
+('Petugas Kesya Laundry','petugas.kesya@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082260259556','Jl. Tondo Untad 1','petugas',14),
+('Petugas Laundry Satuan dan kiloan','petugas.satuandankiloan@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','085137714097',NULL,'petugas',15),
+('Petugas Madam Laundry','petugas.madam@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082290535306','Perdos','petugas',17),
+('Petugas Laundry-Q','petugas.q@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082192414335','Jl. Untad 1,Tondo','petugas',18),
+('Petugas Nura Laundry','petugas.nura@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','085399499646','Jl. Soekarno Hatta','petugas',19),
+('Petugas Safira Laundry','petugas.safira@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',NULL,'Perumahan Dosen, Blok C2, No.1, Tondo, Kec. Mantikulore, Kota Palu, Sulawesi Tengah 94119','petugas',20),
+('Petugas Siti Laundry','petugas.siti@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082194706873','Jl. Roviga, Tondo','petugas',21),
+('Petugas Widhya Laundry','petugas.widhya@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081340341518','Jl. Roviga, Tondo, Kec. Mantikulore','petugas',22),
+('Petugas Ranah Laundry','petugas.ranah@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',NULL,'Jl. Roviga Depan Kampus STAH','petugas',23),
+('Petugas Omang Laundry','petugas.omang@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082238662867','Jl. Roviga','petugas',24),
+('Petugas Alula Laundry','petugas.alula@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082190905603','Jln. Roviga-Tondo','petugas',25),
+('Petugas Laundry Bunda Hasna','petugas.bundahasna@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','085656117434','Jl. Sosiologi, Tondo, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94111','petugas',26),
+('Petugas Wangi Mama Laundry','petugas.wangimama@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','08114564470','Jl. Hang Tuah, Talise, Kec. Mantikulore, Kota Palu, Sulawesi Tengah 94118','petugas',27),
+('Petugas Razka Laundry','petugas.razka@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','085199084687','Jl. Tombolotutu No.85, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','petugas',28),
+('Petugas Pondok Laundry','petugas.pondok@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082116666171','Jl. Tombolotutu No.119, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','petugas',29),
+('Petugas Alfatih Laundry','petugas.alfatih@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','081340888899','Jl. Hang Tuah No.49, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','petugas',30),
+('Petugas Syahrul Laundry','petugas.syahrul@laundry.test','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi','082188899057','Jl. Hang Tuah, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','petugas',31)
+ON DUPLICATE KEY UPDATE role = 'petugas', id_laundry = VALUES(id_laundry);
+
+UPDATE tb_pengguna SET id_laundry = 16 WHERE email = 'petugas@laundry.test';
+
+CREATE TEMPORARY TABLE tmp_layanan (
+  id_laundry INT NOT NULL,
+  nama_layanan VARCHAR(100) NOT NULL,
+  harga_per_kg DECIMAL(10,2) NOT NULL,
+  estimasi_selesai INT NOT NULL,
+  keterangan TEXT
+);
+
+INSERT INTO tmp_layanan (id_laundry,nama_layanan,harga_per_kg,estimasi_selesai,keterangan) VALUES
+(1,'Cuci Express',10000,12,'Harga estimasi, dapat diubah petugas'),
+(1,'Cuci Basah',6000,48,'Harga estimasi, dapat diubah petugas'),
+(1,'Cuci Regular',6000,48,'Harga estimasi, dapat diubah petugas'),
+(1,'Cuci Kering',6000,48,'Harga estimasi, dapat diubah petugas'),
+(1,'Cuci Setrika dan Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(2,'Cuci Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(2,'Cuci Express',10000,12,'Harga estimasi, dapat diubah petugas'),
+(2,'Bed Cover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(2,'Selimut',6000,48,'Harga estimasi, dapat diubah petugas'),
+(2,'Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(3,'Cuci Komplit',6000,48,'Harga estimasi, dapat diubah petugas'),
+(3,'Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(3,'Sprey',6000,48,'Harga estimasi, dapat diubah petugas'),
+(3,'Gorden',6000,48,'Harga estimasi, dapat diubah petugas'),
+(3,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(3,'Selimut dan Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(5,'Pakaian',6000,48,'Harga estimasi, dapat diubah petugas'),
+(5,'Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(5,'Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(5,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(5,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(5,'Tas',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Satuan dan Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Cuci Baju & Celana',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Cuci Karpet & Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Cuci Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Helm &Tas Cuci Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Gorden',6000,48,'Harga estimasi, dapat diubah petugas'),
+(8,'Cuci Selimut & Seprei',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Experss',10000,12,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Basah',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Kering',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Jas',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Seprei',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Cuci Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Gorden/tirai',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Karpet/tikar',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Bed Cover/selimuta',6000,48,'Harga estimasi, dapat diubah petugas'),
+(9,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(10,'Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(10,'Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(10,'Tas',6000,48,'Harga estimasi, dapat diubah petugas'),
+(10,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(10,'Karpet dan Perlengkapan Bayi',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Cuci Kering',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Komplit',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(11,'Karpet Express',10000,12,'Harga estimasi, dapat diubah petugas'),
+(11,'Sepatu Express',10000,12,'Harga estimasi, dapat diubah petugas'),
+(11,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Selimut',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(11,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(12,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(12,'Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(12,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(12,'Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(13,'Cuci Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(13,'Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(13,'Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(14,'Melayani Kiloan dan Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(14,'Laundry Basah',6000,48,'Harga estimasi, dapat diubah petugas'),
+(14,'Layanan Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(14,'Layanan Express Dry Cleaning',10000,12,'Harga estimasi, dapat diubah petugas'),
+(15,'Satuan dan Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(15,'Pakaian',6000,48,'Harga estimasi, dapat diubah petugas'),
+(15,'Selimut',6000,48,'Harga estimasi, dapat diubah petugas'),
+(15,'Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(15,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(15,'Sprei',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cucian Pakaian',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Jas',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Seprei',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Selimut',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'CuciBed Cover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Tas',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Sepattu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Gorden',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(16,'Cuci Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(17,'Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(17,'Tas',6000,48,'Harga estimasi, dapat diubah petugas'),
+(17,'Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(17,'Boneka & Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(18,'Kiloan dan Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(18,'Cuci Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(18,'Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(18,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(18,'Boneka/Bantal',6000,48,'Harga estimasi, dapat diubah petugas'),
+(18,'Cuci Stroller Box bayi dan Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(19,'Kiloan dan Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(19,'Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(19,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(19,'Tas dan Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(20,'Cuci Kering',6000,48,'Harga estimasi, dapat diubah petugas'),
+(20,'Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(20,'Cuci Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(20,'Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(21,'Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(21,'Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(21,'Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(21,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(21,'Bed Cover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(21,'Seprey',6000,48,'Harga estimasi, dapat diubah petugas'),
+(21,'Gorden',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Komplit',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Express',10000,12,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Bedcover Selimut',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(22,'Cuci Kasur Lantai',6000,48,'Harga estimasi, dapat diubah petugas'),
+(23,'Cuci Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(23,'Cuci Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(23,'Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(23,'Bedcover & Selimut',6000,48,'Harga estimasi, dapat diubah petugas'),
+(24,'Satuan dan Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(24,'Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(24,'Cuci Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(24,'Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(25,'Satuan dan Kiloan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(25,'Cuci Setrika',8000,72,'Harga estimasi, dapat diubah petugas'),
+(25,'Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(25,'Boneka',6000,48,'Harga estimasi, dapat diubah petugas'),
+(25,'Bedcover',6000,48,'Harga estimasi, dapat diubah petugas'),
+(25,'Sprey',6000,48,'Harga estimasi, dapat diubah petugas'),
+(25,'Gorden',6000,48,'Harga estimasi, dapat diubah petugas'),
+(26,'Cuci Saja',6000,48,'Harga estimasi, dapat diubah petugas'),
+(26,'Cuci Basah & Cuci Lipat',6000,48,'Harga estimasi, dapat diubah petugas'),
+(28,'Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(28,'Cuci Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(28,'Cuci Helm',6000,48,'Harga estimasi, dapat diubah petugas'),
+(28,'Cuci Karpet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(29,'Satuan',6000,48,'Harga estimasi, dapat diubah petugas'),
+(29,'Express',10000,12,'Harga estimasi, dapat diubah petugas'),
+(29,'Cuci Sepatu',6000,48,'Harga estimasi, dapat diubah petugas'),
+(29,'Cuci Tas/Dompet',6000,48,'Harga estimasi, dapat diubah petugas'),
+(29,'boneka dan Helm',6000,48,'Harga estimasi, dapat diubah petugas');
+
+DELETE FROM tb_layanan
+WHERE id_laundry = 16
+  AND nama_layanan IN ('Cuci Reguler','Cuci Kilat','Cuci Setrika')
+  AND id_layanan NOT IN (SELECT id_layanan FROM tb_detail_laundry);
+
+INSERT INTO tb_layanan (id_laundry,nama_layanan,harga_per_kg,estimasi_selesai,keterangan)
+SELECT t.id_laundry,t.nama_layanan,t.harga_per_kg,t.estimasi_selesai,t.keterangan
+FROM tmp_layanan t
+WHERE NOT EXISTS (
+  SELECT 1 FROM tb_layanan l WHERE l.id_laundry = t.id_laundry AND l.nama_layanan = t.nama_layanan
+);
+
+DROP TEMPORARY TABLE tmp_layanan;

@@ -55,7 +55,7 @@ $pesanan_selesai = 0;
             <h2>Daftar Pesanan</h2>
             <p>Informasi seluruh transaksi laundry Anda.</p>
         </div>
-        <a href="cari_laundry.php?pilih=1" class="history-add-button">+ Buat Pesanan</a>
+        <a href="cari_laundry.php" class="history-add-button">+ Buat Pesanan</a>
     </div>
 
     <div class="history-list">
@@ -134,7 +134,7 @@ $pesanan_selesai = 0;
             <div class="empty-icon">📦</div>
             <h3>Belum Ada Pesanan</h3>
             <p>Anda belum memiliki transaksi laundry. Silakan buat pesanan pertama Anda.</p>
-            <a href="cari_laundry.php?pilih=1" class="history-add-button">Buat Pesanan Sekarang</a>
+            <a href="cari_laundry.php" class="history-add-button">Buat Pesanan Sekarang</a>
         </div>
         <?php endif; ?>
     </div>

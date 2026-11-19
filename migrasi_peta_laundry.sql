@@ -1,6 +1,3 @@
--- Jalankan SEKALI pada database db_laundry yang SUDAH ada (data lain tidak hilang).
--- Menambah tabel tb_laundry (31 data laundry beserta koordinat) untuk fitur Cari & Peta Laundry.
--- Aman dijalankan berulang: tabel tb_laundry dibuat ulang dari data Excel.
 USE db_laundry;
 
 DROP TABLE IF EXISTS tb_laundry;
@@ -53,7 +50,6 @@ INSERT INTO tb_laundry (id_laundry,nama_laundry,latitude,longitude,alamat,kontak
 (30,'Alfatih Laundry',-0.877376,119.876702,'Jl. Hang Tuah No.49, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','081340888899',NULL,'08.00-21.00 WITA',NULL,NULL,'Talise'),
 (31,'Syahrul Laundry',-0.876131,119.876991,'Jl. Hang Tuah, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah 94118','082188899057',NULL,NULL,NULL,NULL,'Talise');
 
--- Foto laundry (file di uploads/laundry/)
 UPDATE tb_laundry SET foto_laundry='laundry_01.jpg' WHERE id_laundry=1;
 UPDATE tb_laundry SET foto_laundry='laundry_02.jpg' WHERE id_laundry=2;
 UPDATE tb_laundry SET foto_laundry='laundry_03.jpg' WHERE id_laundry=3;

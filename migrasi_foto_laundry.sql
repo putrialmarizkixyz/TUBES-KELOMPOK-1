@@ -1,5 +1,3 @@
--- Mengisi kolom foto_laundry untuk 31 laundry.
--- Aman dijalankan berulang. File foto ada di folder uploads/laundry/.
 USE db_laundry;
 
 UPDATE tb_laundry SET foto_laundry='laundry_01.jpg' WHERE id_laundry=1;

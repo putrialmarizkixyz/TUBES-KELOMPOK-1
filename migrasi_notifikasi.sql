@@ -1,5 +1,3 @@
--- Jalankan SEKALI pada database db_laundry yang SUDAH ada (tanpa import ulang, data tidak hilang).
--- Aman dijalankan berulang.
 USE db_laundry;
 
 ALTER TABLE tb_pesanan

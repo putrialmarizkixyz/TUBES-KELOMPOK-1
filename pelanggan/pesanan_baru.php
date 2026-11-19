@@ -20,7 +20,10 @@ if (!$laundry) {
 }
 
 $layanan = [];
-$r = mysqli_query($conn, 'SELECT * FROM tb_layanan ORDER BY harga_per_kg');
+$rl = mysqli_prepare($conn, 'SELECT * FROM tb_layanan WHERE id_laundry = ? ORDER BY harga_per_kg');
+mysqli_stmt_bind_param($rl, 'i', $id_laundry);
+mysqli_stmt_execute($rl);
+$r = mysqli_stmt_get_result($rl);
 while ($row = mysqli_fetch_assoc($r)) $layanan[(int)$row['id_layanan']] = $row;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -116,6 +119,15 @@ require __DIR__ . '/_header.php';
 
     <?php if ($error): ?>
         <div class="alert"><?= e($error) ?></div>
+    <?php endif; ?>
+
+    <?php if (!$layanan): ?>
+        <div class="alert">
+            Laundry ini belum mengatur layanan dan harga, sehingga belum bisa menerima pesanan online.
+            Silakan <a href="cari_laundry.php">pilih laundry lain</a> atau hubungi laundry ini langsung.
+        </div>
+    </section>
+    <?php require __DIR__ . '/_footer.php'; exit; ?>
     <?php endif; ?>
 
     <form method="post" class="order-form">

@@ -49,7 +49,7 @@ $hasil = mysqli_query($conn, 'SELECT * FROM tb_layanan ORDER BY harga_per_kg');
                 <?= e(trim(explode(',', $l['keterangan'])[0])) ?>
             </div>
 
-            <a href="cari_laundry.php?pilih=1" class="service-button">
+            <a href="cari_laundry.php" class="service-button">
                 Pilih Layanan <span>→</span>
             </a>
 

@@ -1,5 +1,5 @@
 <?php
-$judul = 'Cari Laundry';
+$judul = 'Buat Pesanan';
 require __DIR__ . '/_header.php';
 
 $data = [];
@@ -30,9 +30,9 @@ $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP 
 <link rel="stylesheet" href="<?= BASE_URL ?>/assets/peta.css">
 
 <section class="page-heading">
-    <span class="welcome-label">TEMUKAN LAUNDRY</span>
-    <h1>Cari Laundry di Peta</h1>
-    <p>Cari laundry terdekat berdasarkan nama, layanan, atau lokasi. Pilih laundry, lalu klik <strong>Pesan di sini</strong> untuk memesan.</p>
+    <span class="welcome-label">PEMESANAN LAUNDRY</span>
+    <h1>Buat Pesanan</h1>
+    <p>Langkah 1: pilih laundry (cari lewat nama, layanan, atau peta). Langkah 2: klik <strong>Pesan di sini</strong> pada laundry pilihan Anda, lalu isi pesanannya.</p>
 </section>
 
 <?php if (!empty($_GET['pilih'])): ?>

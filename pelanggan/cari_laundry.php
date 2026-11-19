@@ -32,8 +32,12 @@ $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP 
 <section class="page-heading">
     <span class="welcome-label">TEMUKAN LAUNDRY</span>
     <h1>Cari Laundry di Peta</h1>
-    <p>Cari laundry terdekat berdasarkan nama, layanan, atau lokasi, lalu lihat posisinya di peta.</p>
+    <p>Cari laundry terdekat berdasarkan nama, layanan, atau lokasi. Pilih laundry, lalu klik <strong>Pesan di sini</strong> untuk memesan.</p>
 </section>
+
+<?php if (!empty($_GET['pilih'])): ?>
+    <div class="alert">Pilih dulu laundry yang ingin Anda gunakan, lalu klik <strong>Pesan di sini</strong> pada informasi laundry tersebut.</div>
+<?php endif; ?>
 
 <section class="lp-filter">
     <div class="lp-filter-row">
@@ -270,6 +274,7 @@ function bukaDetail(d) {
         <p>${d.kontak ? esc(d.kontak) : '<span class="lp-muted">Belum tersedia</span>'}</p>
 
         <div class="lp-actions">
+            <a class="lp-btn lp-btn-biru" href="${esc(BASE_URL)}/pelanggan/pesanan_baru.php?laundry=${d.id}">🧺 Pesan di sini</a>
             ${wa ? `<a class="lp-btn lp-btn-hijau" href="https://wa.me/${wa}" target="_blank" rel="noopener">💬 Hubungi WhatsApp</a>` : ''}
             <button type="button" class="lp-btn lp-btn-outline" id="lpLihatPeta">🗺️ Lihat di peta</button>
             <a class="lp-btn lp-btn-outline" href="${rute}" target="_blank" rel="noopener">🧭 Rute</a>

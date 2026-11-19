@@ -2,12 +2,18 @@
 require_once __DIR__ . '/../config/auth.php';
 wajib_login(['petugas']);
 $judul = 'Pesanan Masuk';
+$idl = laundry_petugas($conn); // laundry tempat petugas bertugas
 
 // Konfirmasi pesanan: menunggu -> diterima, sekaligus mencatat petugas yang menangani
 // Tolak pesanan: menunggu -> ditolak (dengan alasan opsional)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_pesanan = (int)($_POST['id_pesanan'] ?? 0);
     $idpt = (int)$_SESSION['id_pengguna'];
+
+    if ($idl === null) {
+        header('Location: pesanan_masuk.php?msg=gagal');
+        exit;
+    }
 
     if (($_POST['aksi'] ?? '') === 'tolak') {
         $alasan = trim($_POST['alasan'] ?? '');
@@ -16,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
         $alasan = mb_substr($alasan, 0, 255);
-        $t = mysqli_prepare($conn, "UPDATE tb_pesanan SET status = 'ditolak', alasan_penolakan = ? WHERE id_pesanan = ? AND status = 'menunggu'");
-        mysqli_stmt_bind_param($t, 'si', $alasan, $id_pesanan);
+        $t = mysqli_prepare($conn, "UPDATE tb_pesanan SET status = 'ditolak', alasan_penolakan = ? WHERE id_pesanan = ? AND status = 'menunggu' AND id_laundry = ?");
+        mysqli_stmt_bind_param($t, 'sii', $alasan, $id_pesanan, $idl);
         mysqli_stmt_execute($t);
 
         if (mysqli_stmt_affected_rows($t) > 0) {
@@ -40,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $u = mysqli_prepare($conn, "UPDATE tb_pesanan SET status = 'diterima', id_petugas = ? WHERE id_pesanan = ? AND status = 'menunggu'");
-    mysqli_stmt_bind_param($u, 'ii', $idpt, $id_pesanan);
+    $u = mysqli_prepare($conn, "UPDATE tb_pesanan SET status = 'diterima', id_petugas = ? WHERE id_pesanan = ? AND status = 'menunggu' AND id_laundry = ?");
+    mysqli_stmt_bind_param($u, 'iii', $idpt, $id_pesanan, $idl);
     mysqli_stmt_execute($u);
     if (mysqli_stmt_affected_rows($u) > 0) {
         $judul_notif = 'Pesanan Diterima';
@@ -63,7 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$hasil = mysqli_query($conn, "SELECT p.*, u.nama, u.no_telepon FROM tb_pesanan p JOIN tb_pengguna u ON u.id_pengguna = p.id_pengguna WHERE p.status = 'menunggu' ORDER BY p.tanggal_pesan ASC");
+$idl_q = (int)$idl;
+$qh = mysqli_prepare($conn, "SELECT p.*, u.nama, u.no_telepon FROM tb_pesanan p JOIN tb_pengguna u ON u.id_pengguna = p.id_pengguna WHERE p.status = 'menunggu' AND p.id_laundry = ? ORDER BY p.tanggal_pesan ASC");
+mysqli_stmt_bind_param($qh, 'i', $idl_q);
+mysqli_stmt_execute($qh);
+$hasil = mysqli_stmt_get_result($qh);
 require __DIR__ . '/_header.php';
 ?>
 <div class="page-heading">
@@ -72,6 +82,12 @@ require __DIR__ . '/_header.php';
         <p>Kelola dan konfirmasi pesanan laundry dari pelanggan.</p>
     </div>
 </div>
+
+<?php if ($idl === null): ?>
+    <div class="petugas-alert alert-warning">
+        <span>⚠️</span> Akun Anda belum ditautkan ke laundry mana pun, sehingga belum menerima pesanan. Hubungi admin.
+    </div>
+<?php endif; ?>
 
 <?php if (($_GET['msg'] ?? '') === 'alasan_kosong'): ?>
     <div class="petugas-alert alert-warning">

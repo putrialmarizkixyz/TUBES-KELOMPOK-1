@@ -55,11 +55,11 @@ $ringkas = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
             <span class="card-arrow">→</span>
         </a>
 
-        <a href="pesanan_baru.php" class="dashboard-card">
+        <a href="cari_laundry.php?pilih=1" class="dashboard-card">
             <div class="dashboard-icon green-icon">🛍️</div>
             <div class="dashboard-card-content">
                 <h3>Buat Pesanan</h3>
-                <p>Pesan layanan laundry sesuai kebutuhan.</p>
+                <p>Pilih laundry, lalu pesan sesuai kebutuhan.</p>
             </div>
             <span class="card-arrow">→</span>
         </a>

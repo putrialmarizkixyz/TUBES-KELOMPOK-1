@@ -7,8 +7,10 @@ $id_pesanan = (int)($_GET['id'] ?? 0);
 $idp = (int)$_SESSION['id_pengguna'];
 
 $q = mysqli_prepare($conn, '
-    SELECT * FROM tb_pesanan
-    WHERE id_pesanan = ? AND id_pengguna = ?
+    SELECT p.*, l.nama_laundry, l.alamat AS alamat_laundry, l.kontak AS kontak_laundry
+    FROM tb_pesanan p
+    LEFT JOIN tb_laundry l ON l.id_laundry = p.id_laundry
+    WHERE p.id_pesanan = ? AND p.id_pengguna = ?
 ');
 mysqli_stmt_bind_param($q, 'ii', $id_pesanan, $idp);
 mysqli_stmt_execute($q);
@@ -131,6 +133,11 @@ $posisi = array_search($p['status'], $tahap, true);
         <?php endif; ?>
 
         <div class="detail-dates">
+            <div>
+                <small>Laundry</small>
+                <strong><?= e($p['nama_laundry'] ?? '-') ?></strong>
+            </div>
+
             <div>
                 <small>Tanggal pemesanan</small>
                 <strong>

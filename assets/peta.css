@@ -8,6 +8,8 @@
 .lp-btn[disabled] { opacity:.6; cursor:wait; }
 .lp-btn-outline { background:#fff; border-color:#1769d2; color:#1769d2; }
 .lp-btn-outline:hover { background:#eef4fe; }
+.lp-btn-biru { background:#1769d2; color:#fff; }
+.lp-btn-biru:hover { background:#1257ad; }
 .lp-btn-hijau { background:#1f9d55; color:#fff; }
 .lp-btn-hijau:hover { background:#188046; }
 .lp-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }

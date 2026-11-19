@@ -11,6 +11,7 @@ CREATE TABLE tb_pengguna (
   no_telepon VARCHAR(15),
   alamat TEXT,
   role ENUM('pelanggan','petugas','admin') NOT NULL DEFAULT 'pelanggan',
+  id_laundry INT(11) NULL COMMENT 'khusus petugas: laundry tempat bertugas',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -25,6 +26,7 @@ CREATE TABLE tb_layanan (
 CREATE TABLE tb_pesanan (
   id_pesanan INT(11) AUTO_INCREMENT PRIMARY KEY,
   id_pengguna INT(11) NOT NULL,
+  id_laundry INT(11) NULL COMMENT 'laundry tujuan pesanan',
   id_petugas INT(11) NULL,
   tanggal_pesan DATETIME DEFAULT CURRENT_TIMESTAMP,
   status ENUM('menunggu','diterima','dicuci','dikeringkan','disetrika','selesai','siap_diambil','diambil','ditolak') NOT NULL DEFAULT 'menunggu',
@@ -173,3 +175,6 @@ UPDATE tb_laundry SET foto_laundry='laundry_28.jpg' WHERE id_laundry=28;
 UPDATE tb_laundry SET foto_laundry='laundry_29.jpg' WHERE id_laundry=29;
 UPDATE tb_laundry SET foto_laundry='laundry_30.jpg' WHERE id_laundry=30;
 UPDATE tb_laundry SET foto_laundry='laundry_31.jpg' WHERE id_laundry=31;
+
+-- Petugas demo bertugas di Enas Laundry (id 16); ubah lewat Admin > Pengguna
+UPDATE tb_pengguna SET id_laundry = 16 WHERE email = 'petugas@laundry.test';

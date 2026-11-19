@@ -7,12 +7,15 @@ $judul = 'Beranda';
 $idpt = (int)$_SESSION['id_pengguna'];
 
 // Menghitung pesanan masuk.
-$q_masuk = mysqli_query($conn, "
+$idl = (int)laundry_petugas($conn);
+$q_masuk = mysqli_prepare($conn, "
     SELECT COUNT(*) AS jumlah
     FROM tb_pesanan
-    WHERE status = 'menunggu'
+    WHERE status = 'menunggu' AND id_laundry = ?
 ");
-$jumlah_masuk = mysqli_fetch_assoc($q_masuk)['jumlah'];
+mysqli_stmt_bind_param($q_masuk, 'i', $idl);
+mysqli_stmt_execute($q_masuk);
+$jumlah_masuk = mysqli_fetch_assoc(mysqli_stmt_get_result($q_masuk))['jumlah'];
 
 // Menghitung pesanan aktif milik petugas.
 $q_aktif = mysqli_prepare($conn, "

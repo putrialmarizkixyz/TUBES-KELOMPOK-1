@@ -25,6 +25,15 @@ function label_status($s) {
 
     return $m[$s] ?? $s;
 }
+// id laundry tempat petugas yang sedang login bertugas (null jika belum ditautkan admin)
+function laundry_petugas($conn) {
+    $id = (int)($_SESSION['id_pengguna'] ?? 0);
+    $q = mysqli_prepare($conn, "SELECT id_laundry FROM tb_pengguna WHERE id_pengguna = ? AND role = 'petugas'");
+    mysqli_stmt_bind_param($q, 'i', $id);
+    mysqli_stmt_execute($q);
+    $r = mysqli_fetch_assoc(mysqli_stmt_get_result($q));
+    return ($r && $r['id_laundry'] !== null) ? (int)$r['id_laundry'] : null;
+}
 function hitung_estimasi_jam($jam_dasar, $berat_kg) {
     $tambahan = max(0, ceil(($berat_kg - 5) / 5));
     return (int)$jam_dasar + (int)($tambahan * 6);

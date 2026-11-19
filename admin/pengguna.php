@@ -44,6 +44,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    if ($aksi === 'laundry') {
+        $id = (int)($_POST['id_pengguna'] ?? 0);
+        $idl = (int)($_POST['id_laundry'] ?? 0);
+        if ($idl > 0) {
+            $c = mysqli_prepare($conn, 'SELECT 1 FROM tb_laundry WHERE id_laundry = ?');
+            mysqli_stmt_bind_param($c, 'i', $idl);
+            mysqli_stmt_execute($c);
+            if (!mysqli_fetch_row(mysqli_stmt_get_result($c))) { $error = 'Laundry tidak ditemukan.'; $idl = -1; }
+        }
+        if ($idl >= 0) {
+            $s = mysqli_prepare($conn, "UPDATE tb_pengguna SET id_laundry = NULLIF(?, 0) WHERE id_pengguna = ? AND role = 'petugas'");
+            mysqli_stmt_bind_param($s, 'ii', $idl, $id);
+            mysqli_stmt_execute($s);
+            $ok = 'Laundry tempat bertugas diperbarui.';
+        }
+    }
+
     if ($aksi === 'ubah') {
         $id = (int)($_POST['id_pengguna'] ?? 0);
         $nama = trim($_POST['nama'] ?? ''); $email = trim($_POST['email'] ?? '');
@@ -104,6 +121,8 @@ if (isset($_GET['edit'])) {
     $edit = mysqli_fetch_assoc(mysqli_stmt_get_result($s));
 }
 
+$daftar_laundry = mysqli_fetch_all(mysqli_query($conn, 'SELECT id_laundry, nama_laundry FROM tb_laundry ORDER BY nama_laundry'), MYSQLI_ASSOC);
+
 $filter = $_GET['role'] ?? '';
 if (in_array($filter, $roles, true)) {
     $q = mysqli_prepare($conn, 'SELECT * FROM tb_pengguna WHERE role = ? ORDER BY role, nama');
@@ -153,13 +172,26 @@ require __DIR__ . '/_header.php';
 </p>
 <div class="tbl-wrap">
 <table>
-  <tr><th>Nama</th><th>Email</th><th>Telepon</th><th>Peran</th><th>Ubah peran</th><th>Aksi</th></tr>
+  <tr><th>Nama</th><th>Email</th><th>Telepon</th><th>Peran</th><th>Laundry (petugas)</th><th>Ubah peran</th><th>Aksi</th></tr>
   <?php while ($u = mysqli_fetch_assoc($daftar)): ?>
   <tr>
     <td><?= e($u['nama']) ?></td>
     <td><?= e($u['email']) ?></td>
     <td><?= e($u['no_telepon']) ?></td>
     <td><?= e(ucfirst($u['role'])) ?></td>
+    <td>
+      <?php if ($u['role'] === 'petugas'): ?>
+      <form method="post" style="margin:0">
+        <input type="hidden" name="aksi" value="laundry">
+        <input type="hidden" name="id_pengguna" value="<?= (int)$u['id_pengguna'] ?>">
+        <select name="id_laundry" style="width:auto">
+          <option value="0">- Belum ditautkan -</option>
+          <?php foreach ($daftar_laundry as $lw): ?><option value="<?= (int)$lw['id_laundry'] ?>" <?= (int)$u['id_laundry'] === (int)$lw['id_laundry'] ? 'selected' : '' ?>><?= e($lw['nama_laundry']) ?></option><?php endforeach; ?>
+        </select>
+        <button type="submit" style="width:auto;margin:0 0 0 6px;padding:4px 10px">Simpan</button>
+      </form>
+      <?php else: ?>-<?php endif; ?>
+    </td>
     <td>
       <?php if ((int)$u['id_pengguna'] === $saya): ?>(akun Anda)
       <?php else: ?>

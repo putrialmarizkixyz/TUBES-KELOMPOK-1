@@ -4,6 +4,21 @@ wajib_login(['pelanggan']);
 $judul = 'Buat Pesanan';
 
 $error = '';
+
+// Pesanan harus ditujukan ke satu laundry yang dipilih dari halaman Cari Laundry.
+$id_laundry = (int)($_POST['id_laundry'] ?? $_GET['laundry'] ?? 0);
+$laundry = null;
+if ($id_laundry > 0) {
+    $ql = mysqli_prepare($conn, 'SELECT id_laundry, nama_laundry, alamat, wilayah FROM tb_laundry WHERE id_laundry = ?');
+    mysqli_stmt_bind_param($ql, 'i', $id_laundry);
+    mysqli_stmt_execute($ql);
+    $laundry = mysqli_fetch_assoc(mysqli_stmt_get_result($ql));
+}
+if (!$laundry) {
+    header('Location: cari_laundry.php?pilih=1');
+    exit;
+}
+
 $layanan = [];
 $r = mysqli_query($conn, 'SELECT * FROM tb_layanan ORDER BY harga_per_kg');
 while ($row = mysqli_fetch_assoc($r)) $layanan[(int)$row['id_layanan']] = $row;
@@ -37,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $estimasi = date('Y-m-d H:i:s', strtotime("+$jam_max hours"));
             $now = date('Y-m-d H:i:s');
 
-            $ins = mysqli_prepare($conn, "INSERT INTO tb_pesanan (id_pengguna, tanggal_pesan, status, estimasi_selesai, total_harga) VALUES (?, ?, 'menunggu', ?, ?)");
-            mysqli_stmt_bind_param($ins, 'issd', $idp, $now, $estimasi, $total);
+            $ins = mysqli_prepare($conn, "INSERT INTO tb_pesanan (id_pengguna, id_laundry, tanggal_pesan, status, estimasi_selesai, total_harga) VALUES (?, ?, ?, 'menunggu', ?, ?)");
+            mysqli_stmt_bind_param($ins, 'iissd', $idp, $id_laundry, $now, $estimasi, $total);
             mysqli_stmt_execute($ins);
             $id_pesanan = mysqli_insert_id($conn);
 
@@ -90,11 +105,21 @@ require __DIR__ . '/_header.php';
         <div class="order-heading-icon">🧺</div>
     </div>
 
+    <div class="panel" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+            <small>Memesan di</small><br>
+            <strong>🧺 <?= e($laundry['nama_laundry']) ?></strong>
+            <?php if (!empty($laundry['alamat'])): ?><br><small>📍 <?= e($laundry['alamat']) ?></small><?php endif; ?>
+        </div>
+        <a href="cari_laundry.php">Ganti laundry</a>
+    </div>
+
     <?php if ($error): ?>
         <div class="alert"><?= e($error) ?></div>
     <?php endif; ?>
 
     <form method="post" class="order-form">
+        <input type="hidden" name="id_laundry" value="<?= (int)$laundry['id_laundry'] ?>">
 
         <div class="order-section-title">
             <div>

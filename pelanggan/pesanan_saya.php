@@ -3,7 +3,7 @@ $judul = 'Pesanan Saya';
 require __DIR__ . '/_header.php';
 
 $id = (int)$_SESSION['id_pengguna'];
-$q = mysqli_prepare($conn, 'SELECT * FROM tb_pesanan WHERE id_pengguna = ? ORDER BY tanggal_pesan DESC');
+$q = mysqli_prepare($conn, 'SELECT p.*, l.nama_laundry FROM tb_pesanan p LEFT JOIN tb_laundry l ON l.id_laundry = p.id_laundry WHERE p.id_pengguna = ? ORDER BY p.tanggal_pesan DESC');
 mysqli_stmt_bind_param($q, 'i', $id);
 mysqli_stmt_execute($q);
 $hasil = mysqli_stmt_get_result($q);
@@ -55,7 +55,7 @@ $pesanan_selesai = 0;
             <h2>Daftar Pesanan</h2>
             <p>Informasi seluruh transaksi laundry Anda.</p>
         </div>
-        <a href="pesanan_baru.php" class="history-add-button">+ Buat Pesanan</a>
+        <a href="cari_laundry.php?pilih=1" class="history-add-button">+ Buat Pesanan</a>
     </div>
 
     <div class="history-list">
@@ -100,6 +100,11 @@ $pesanan_selesai = 0;
                 </div>
 
                 <div>
+                    <small>Laundry</small>
+                    <strong><?= e($p['nama_laundry'] ?? '-') ?></strong>
+                </div>
+
+                <div>
                     <small>Estimasi Selesai</small>
                     <strong>
                         <?= $p['estimasi_selesai']
@@ -129,7 +134,7 @@ $pesanan_selesai = 0;
             <div class="empty-icon">📦</div>
             <h3>Belum Ada Pesanan</h3>
             <p>Anda belum memiliki transaksi laundry. Silakan buat pesanan pertama Anda.</p>
-            <a href="pesanan_baru.php" class="history-add-button">Buat Pesanan Sekarang</a>
+            <a href="cari_laundry.php?pilih=1" class="history-add-button">Buat Pesanan Sekarang</a>
         </div>
         <?php endif; ?>
     </div>
